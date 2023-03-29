@@ -1,0 +1,6 @@
+.text-right{
+    text-align: right;
+}
+.page-wrapper.compact-wrapper .nav-right .nav-menus{
+    margin-right: 0 !important;
+}

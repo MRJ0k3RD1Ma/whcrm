@@ -5,29 +5,31 @@ namespace common\models;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
-use yii\db\ActiveRecord;
-use yii\web\IdentityInterface;
 
 /**
- * User model
+ * This is the model class for table "user".
  *
- * @property integer $id
+ * @property int $id
+ * @property string $name
  * @property string $username
- * @property string $password_hash
- * @property string $password_reset_token
- * @property string $verification_token
- * @property string $email
- * @property string $auth_key
- * @property integer $status
- * @property integer $created_at
- * @property integer $updated_at
- * @property string $password write-only password
+ * @property string $password
+ * @property string|null $phone
+ * @property string|null $created
+ * @property string|null $updated
+ * @property int|null $role_id
+ * @property int $status
+ * @property string|null $auth_key
+ * @property string|null $verification_token
+ * @property string|null $password_reset_token
+ *
+ * @property Price[] $prices
+ * @property Role $role
+ * @property WareUser[] $wareUsers
+ * @property Warehouse[] $wares
+ * @property WhProduct[] $whProducts
  */
-class User extends ActiveRecord implements IdentityInterface
+class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
-    const STATUS_DELETED = 0;
-    const STATUS_INACTIVE = 9;
-    const STATUS_ACTIVE = 10;
 
 
     /**
@@ -35,17 +37,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function tableName()
     {
-        return '{{%user}}';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            TimestampBehavior::class,
-        ];
+        return 'user';
     }
 
     /**
@@ -54,10 +46,100 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            ['status', 'default', 'value' => self::STATUS_INACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
+            [['name', 'username', 'password'], 'required'],
+            [['created', 'updated'], 'safe'],
+            [['role_id', 'status'], 'integer'],
+            [['name', 'username', 'phone'], 'string', 'max' => 255],
+            [['password', 'auth_key', 'verification_token', 'password_reset_token'], 'string', 'max' => 500],
+            [['username'], 'unique'],
+            [['role_id'], 'exist', 'skipOnError' => true, 'targetClass' => Role::class, 'targetAttribute' => ['role_id' => 'id']],
         ];
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'name' => 'FIO',
+            'username' => 'Login',
+            'password' => 'Parol',
+            'phone' => 'Telefon',
+            'created' => 'Yaratildi',
+            'updated' => 'O`zgartirildi',
+            'role_id' => 'Huquqi',
+            'status' => 'Status',
+            'auth_key' => 'Auth Key',
+            'verification_token' => 'Verification Token',
+            'password_reset_token' => 'Password Reset Token',
+        ];
+    }
+
+    /**
+     * Gets query for [[Prices]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPrices()
+    {
+        return $this->hasMany(Price::class, ['user_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[Role]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRole()
+    {
+        return $this->hasOne(Role::class, ['id' => 'role_id']);
+    }
+
+    /**
+     * Gets query for [[WareUsers]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getWareUsers()
+    {
+        return $this->hasMany(WareUser::class, ['user_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[Wares]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getWares()
+    {
+        return $this->hasMany(Warehouse::class, ['id' => 'ware_id'])->viaTable('ware_user', ['user_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[WhProducts]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getWhProducts()
+    {
+        return $this->hasMany(WhProduct::class, ['user_id' => 'id']);
+    }
+
+
+    const STATUS_DELETED = -1;
+    const STATUS_INACTIVE = 0;
+    const STATUS_ACTIVE = 1;
+
+
+    /**
+     * {@inheritdoc}
+     */
+
+    /**
+     * {@inheritdoc}
+     */
 
     /**
      * {@inheritdoc}
@@ -147,7 +229,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function getAuthKey()
     {
-        return $this->auth_key;
+        return $this->password;
     }
 
     /**
@@ -166,7 +248,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function validatePassword($password)
     {
-        return Yii::$app->security->validatePassword($password, $this->password_hash);
+        return Yii::$app->security->validatePassword($password, $this->password);
     }
 
     /**
@@ -176,7 +258,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function setPassword($password)
     {
-        $this->password_hash = Yii::$app->security->generatePasswordHash($password);
+        $this->password = Yii::$app->security->generatePasswordHash($password);
     }
 
     /**
@@ -210,4 +292,5 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->password_reset_token = null;
     }
+
 }
