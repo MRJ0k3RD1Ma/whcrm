@@ -4,3 +4,30 @@
 .page-wrapper.compact-wrapper .nav-right .nav-menus{
     margin-right: 0 !important;
 }
+.page-wrapper.compact-wrapper .page-body-wrapper div.sidebar-wrapper .logo-wrapper .back-btn{
+    margin-top: -30px !important;
+}
+
+body.dark-only #sidebar-menu .sidebar-links li .fa{
+    color: rgba(255,255,255,0.6);
+    font-size: 17px;
+    margin-right: 7px;
+}
+body.dark-only #sidebar-menu .sidebar-links li:hover .fa{
+    color: var(--theme-deafult);
+    font-size: 17px;
+    margin-right: 7px;
+}
+#sidebar-menu .sidebar-links li .fa{
+    color: #2c323f;
+    font-size: 17px;
+    margin-right: 7px;
+}
+#sidebar-menu .sidebar-links li:hover .fa{
+    color: var(--theme-deafult);
+    font-size: 17px;
+    margin-right: 7px;
+}
+.form-group{
+    margin-bottom: 10px;
+}

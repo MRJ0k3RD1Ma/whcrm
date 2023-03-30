@@ -20,7 +20,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'serial_num')->textInput() ?>
 
-    <?= $form->field($model, 'price')->textInput() ?>
+    <?= $form->field($model, 'basic_price')->textInput() ?>
+
+    <?= $form->field($model, 'retail_price')->textInput() ?>
+
+    <?= $form->field($model, 'wholesale_price')->textInput() ?>
 
     <?= $form->field($model, 'box')->textInput() ?>
 

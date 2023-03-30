@@ -57,17 +57,17 @@ class WhProduct extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'wh_id' => 'Wh ID',
-            'product_id' => 'Product ID',
-            'count' => 'Count',
-            'price_id' => 'Price ID',
-            'user_id' => 'User ID',
-            'base_price' => 'Base Price',
-            'retail_price' => 'Retail Price',
-            'wholesale_price' => 'Wholesale Price',
-            'expiry_date' => 'Expiry Date',
-            'created' => 'Created',
-            'updated' => 'Updated',
+            'wh_id' => 'Omborxona',
+            'product_id' => 'Mahsulot',
+            'count' => 'Soni',
+            'price_id' => 'Narxi',
+            'user_id' => 'Qabul qildi',
+            'base_price' => 'Kelgan narxi',
+            'retail_price' => 'Sotilish narxi',
+            'wholesale_price' => 'Optom narxi',
+            'expiry_date' => 'Yaroqlilik muddati',
+            'created' => 'Yaratildi',
+            'updated' => 'O`zgartirildi',
         ];
     }
 

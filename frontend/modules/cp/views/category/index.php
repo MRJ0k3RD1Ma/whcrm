@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var common\models\search\CategorySearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Categories';
+$this->title = 'Mahsulot kategoriyalari';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="category-index">
@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="card-body">
 
             <p class="text-right">
-                <?= Html::a('Create Category', ['create'], ['class' => 'btn btn-success']) ?>
+                <?= Html::a('Kategoriya qo`shish', ['create'], ['class' => 'btn btn-success']) ?>
             </p>
 
             <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -28,15 +28,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filterModel' => $searchModel,
                 'columns' => [
                     ['class' => 'yii\grid\SerialColumn'],
-                    'id',
+//                    'id',
                     'name',
                     'code',
                     'icon',
                     [
                         'class' => ActionColumn::className(),
-                        'urlCreator' => function ($action, Category $model, $key, $index, $column) {
-                            return Url::toRoute([$action, 'id' => $model->id]);
-                        }
+                        'template' => '{update} {delete}',
                     ],
                 ],
             ]); ?>

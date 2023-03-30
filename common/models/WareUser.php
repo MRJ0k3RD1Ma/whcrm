@@ -43,8 +43,8 @@ class WareUser extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'user_id' => 'User ID',
-            'ware_id' => 'Ware ID',
+            'user_id' => 'Foydalanuvchi',
+            'ware_id' => 'Omborxona',
         ];
     }
 

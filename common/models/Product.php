@@ -12,7 +12,9 @@ use Yii;
  * @property string $image
  * @property string|null $serial
  * @property int|null $serial_num
- * @property int $price
+ * @property int $basic_price
+ * @property int $retail_price
+ * @property int $wholesale_price
  * @property int $box
  * @property int $cat_id
  * @property string|null $note
@@ -50,8 +52,8 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'price', 'box', 'cat_id', 'code'], 'required'],
-            [['serial_num', 'price', 'box', 'cat_id', 'is_sale', 'is_good', 'expiry_month', 'unit_id'], 'integer'],
+            [['name', 'basic_price', 'retail_price', 'wholesale_price', 'box', 'cat_id', 'code'], 'required'],
+            [['serial_num', 'basic_price', 'retail_price', 'wholesale_price', 'box', 'cat_id', 'is_sale', 'is_good', 'expiry_month', 'unit_id'], 'integer'],
             [['bio'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['name', 'image', 'serial', 'note', 'code'], 'string', 'max' => 255],
@@ -67,22 +69,24 @@ class Product extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'image' => 'Image',
-            'serial' => 'Serial',
-            'serial_num' => 'Serial Num',
-            'price' => 'Price',
-            'box' => 'Box',
-            'cat_id' => 'Cat ID',
-            'note' => 'Note',
+            'name' => 'Nomi',
+            'image' => 'Rasm',
+            'serial' => 'Seriyasi',
+            'serial_num' => 'Seriyasi',
+            'basic_price' => 'Kelgan narxi',
+            'retail_price' => 'Sotilish narxi',
+            'wholesale_price' => 'Optom narx',
+            'box' => 'Blokdagi soni',
+            'cat_id' => 'Kategoriyasi',
+            'note' => 'Izoh',
             'code' => 'Code',
             'bio' => 'Bio',
-            'is_sale' => 'Is Sale',
-            'is_good' => 'Is Good',
-            'expiry_month' => 'Expiry Month',
-            'unit_id' => 'Unit ID',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'is_sale' => 'Sotiladigan mahsulot',
+            'is_good' => 'Granula',
+            'expiry_month' => 'Yaroqlilik muddati(oy)',
+            'unit_id' => 'Birligi',
+            'created_at' => 'Yaratildi',
+            'updated_at' => 'O`zgartirildi',
         ];
     }
 

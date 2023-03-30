@@ -5,8 +5,8 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var common\models\CIndividual $model */
 
-$this->title = 'Create C Individual';
-$this->params['breadcrumbs'][] = ['label' => 'C Individuals', 'url' => ['index']];
+$this->title = 'Jismoniy shaxs qo`shish';
+$this->params['breadcrumbs'][] = ['label' => 'Jismoniy shaxslar', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="cindividual-create">

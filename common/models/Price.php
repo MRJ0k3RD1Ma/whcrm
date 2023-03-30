@@ -51,12 +51,12 @@ class Price extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'product_id' => 'Product ID',
-            'base_price' => 'Base Price',
-            'retail_price' => 'Retail Price',
-            'wholesale_price' => 'Wholesale Price',
-            'date' => 'Date',
-            'user_id' => 'User ID',
+            'product_id' => 'Mahsulot nomi',
+            'base_price' => 'Kelish narxi',
+            'retail_price' => 'Sotilish narxi',
+            'wholesale_price' => 'Optom narxi',
+            'date' => 'O`zgarish sanasi',
+            'user_id' => 'O`zgartirdi',
         ];
     }
 

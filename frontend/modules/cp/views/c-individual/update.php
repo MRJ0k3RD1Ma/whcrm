@@ -5,10 +5,10 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var common\models\CIndividual $model */
 
-$this->title = 'Update C Individual: ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'C Individuals', 'url' => ['index']];
+$this->title = 'O`zgartirish: ' . $model->name;
+$this->params['breadcrumbs'][] = ['label' => 'Jismoniy shaxslar', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'O`zgartirish';
 ?>
 <div class="cindividual-update">
 

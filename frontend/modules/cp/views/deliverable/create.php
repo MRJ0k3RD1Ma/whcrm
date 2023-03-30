@@ -5,8 +5,8 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var common\models\Deliverable $model */
 
-$this->title = 'Create Deliverable';
-$this->params['breadcrumbs'][] = ['label' => 'Deliverables', 'url' => ['index']];
+$this->title = 'Yetkazuvchilarga mahsulot qo`shish';
+$this->params['breadcrumbs'][] = ['label' => 'Mahsulotlar', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="deliverable-create">

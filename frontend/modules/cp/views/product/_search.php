@@ -25,7 +25,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'serial_num') ?>
 
-    <?php // echo $form->field($model, 'price') ?>
+    <?php // echo $form->field($model, 'basic_price') ?>
+
+    <?php // echo $form->field($model, 'retail_price') ?>
+
+    <?php // echo $form->field($model, 'wholesale_price') ?>
 
     <?php // echo $form->field($model, 'box') ?>
 

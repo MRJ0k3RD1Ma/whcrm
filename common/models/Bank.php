@@ -43,8 +43,8 @@ class Bank extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'mfo' => 'Mfo',
-            'name' => 'Name',
+            'mfo' => 'MFO',
+            'name' => 'Bank nomi',
         ];
     }
 

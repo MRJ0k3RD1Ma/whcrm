@@ -5,10 +5,10 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var common\models\CLegal $model */
 
-$this->title = 'Update C Legal: ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'C Legals', 'url' => ['index']];
+$this->title = 'O`zgartirish: ' . $model->name;
+$this->params['breadcrumbs'][] = ['label' => 'Yuridik shaxslar', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'O`zgartirish';
 ?>
 <div class="clegal-update">
 

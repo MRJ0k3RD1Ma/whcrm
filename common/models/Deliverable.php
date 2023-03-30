@@ -48,12 +48,12 @@ class Deliverable extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'product_id' => 'Product ID',
-            'supplier_id' => 'Supplier ID',
-            'retail_price' => 'Retail Price',
-            'wholesale_price' => 'Wholesale Price',
-            'created' => 'Created',
-            'updated' => 'Updated',
+            'product_id' => 'Mahsulot nomi',
+            'supplier_id' => 'Yetkazib beruvchi',
+            'retail_price' => 'Bitta narxi',
+            'wholesale_price' => 'Optom narxi',
+            'created' => 'Yaratildi',
+            'updated' => 'O`zgartirildi',
         ];
     }
 

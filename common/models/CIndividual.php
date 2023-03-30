@@ -49,15 +49,19 @@ class CIndividual extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'pnfl' => 'Pnfl',
-            'inn' => 'Inn',
-            'passport' => 'Passport',
-            'address' => 'Address',
-            'gender' => 'Gender',
-            'phone' => 'Phone',
-            'created' => 'Created',
-            'updated' => 'Updated',
+            'name' => 'FIO',
+            'pnfl' => 'JSHSHIR(PNFL)',
+            'inn' => 'STIR(INN)',
+            'passport' => 'Pasport seriya va raqami',
+            'address' => 'Manzili',
+            'gender' => 'Jinsi',
+            'phone' => 'Telefon raqami',
+            'created' => 'Yaratildi',
+            'updated' => 'O`zgartirildi',
         ];
+    }
+
+    public function getGendertxt(){
+        return Yii::$app->params['gender'][$this->gender];
     }
 }

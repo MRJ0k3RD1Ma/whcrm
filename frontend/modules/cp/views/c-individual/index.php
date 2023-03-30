@@ -1,24 +1,24 @@
 <?php
 
-use common\models\CLegal;
+use common\models\CIndividual;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
 
 /** @var yii\web\View $this */
-/** @var common\models\search\CLegalSearch $searchModel */
+/** @var common\models\search\CIndividualSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'C Legals';
+$this->title = 'Jismoniy shaxslar';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="clegal-index">
+<div class="cindividual-index">
     <div class="card">
         <div class="card-body">
 
     <p class="text-right">
-        <?= Html::a('Create C Legal', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Jismoniy shaxs qo`shish', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -29,24 +29,25 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+//            'id',
             'name',
-            'inn',
-            'bank_id',
+//            'pnfl',
+//            'inn',
+            'passport',
             'address',
-            //'oked',
-            //'account',
-            //'director',
-            //'director_phone',
-            //'bux',
-            //'bux_phone',
-            //'phone',
-            //'phone_name',
-            //'created',
-            //'updated',
+            //'gender',
+            [
+                'attribute'=>'gender',
+                'value'=>function($d){
+                    return $d->gendertxt;
+                }
+            ],
+            'phone',
+//            'created',
+            'updated',
             [
                 'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, CLegal $model, $key, $index, $column) {
+                'urlCreator' => function ($action, CIndividual $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }
             ],

@@ -5,10 +5,9 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var common\models\Bank $model */
 
-$this->title = 'Update Bank: ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Banks', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = 'O`zgartirish: ' . $model->name;
+$this->params['breadcrumbs'][] = ['label' => 'Banklar ro`yhati', 'url' => ['index']];
+$this->params['breadcrumbs'][] = 'O`zgartirish';
 ?>
 <div class="bank-update">
 

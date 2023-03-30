@@ -5,8 +5,8 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var common\models\CLegal $model */
 
-$this->title = 'Create C Legal';
-$this->params['breadcrumbs'][] = ['label' => 'C Legals', 'url' => ['index']];
+$this->title = 'Yuridik shaxs qo`shish';
+$this->params['breadcrumbs'][] = ['label' => 'Yuridik shaxslar', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="clegal-create">

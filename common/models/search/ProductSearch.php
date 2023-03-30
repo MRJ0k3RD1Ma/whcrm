@@ -17,7 +17,7 @@ class ProductSearch extends Product
     public function rules()
     {
         return [
-            [['id', 'serial_num', 'price', 'box', 'cat_id', 'is_sale', 'is_good', 'expiry_month', 'unit_id'], 'integer'],
+            [['id', 'serial_num', 'basic_price', 'retail_price', 'wholesale_price', 'box', 'cat_id', 'is_sale', 'is_good', 'expiry_month', 'unit_id'], 'integer'],
             [['name', 'image', 'serial', 'note', 'code', 'bio', 'created_at', 'updated_at'], 'safe'],
         ];
     }
@@ -60,7 +60,9 @@ class ProductSearch extends Product
         $query->andFilterWhere([
             'id' => $this->id,
             'serial_num' => $this->serial_num,
-            'price' => $this->price,
+            'basic_price' => $this->basic_price,
+            'retail_price' => $this->retail_price,
+            'wholesale_price' => $this->wholesale_price,
             'box' => $this->box,
             'cat_id' => $this->cat_id,
             'is_sale' => $this->is_sale,

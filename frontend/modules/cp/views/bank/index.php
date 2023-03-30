@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="card-body">
 
     <p>
-        <?= Html::a('Create Bank', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Bank qo`shish', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -29,14 +29,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+//            'id',
             'mfo',
             'name',
             [
                 'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Bank $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'id' => $model->id]);
-                 }
+                'template' => '{update} {delete}',
             ],
         ],
     ]); ?>

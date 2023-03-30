@@ -17,10 +17,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="card">
         <div class="card-body">
 
-    <p class="text-right">
-        <?= Html::a('Create Deliverable', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
@@ -29,17 +25,29 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'product_id',
-            'supplier_id',
+//            'product_id',
+            [
+                'attribute'=>'product_id',
+                'value'=>function($model){
+                    return "<a href='".Url::toRoute(['product/view', 'id' => $model->product_id])."'>".$model->product->name."</a>";
+                },
+                'filter'=>\yii\helpers\ArrayHelper::map(\common\models\Product::find()->all(), 'id', 'name')
+            ],
+//            'supplier_id',
+            [
+                 'attribute'=>'supplier_id',
+                    'value'=>function($model){
+                        return "<a href='".Url::toRoute(['c-legal/view', 'id' => $model->supplier_id])."'>".$model->supplier->name."</a>";
+                    },
+                    'filter'=>\yii\helpers\ArrayHelper::map(\common\models\Supplier::find()->all(), 'id', 'name')
+            ],
             'retail_price',
             'wholesale_price',
-            'created',
-            //'updated',
+//            'created',
+            'updated',
             [
                 'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Deliverable $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'product_id' => $model->product_id, 'supplier_id' => $model->supplier_id]);
-                 }
+                'template' => ' {delete}'
             ],
         ],
     ]); ?>
