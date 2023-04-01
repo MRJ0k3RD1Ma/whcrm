@@ -10,16 +10,16 @@ use yii\grid\GridView;
 /** @var common\models\search\BankSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Banks';
+$this->title = 'Banklar ro`yhati';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="bank-index">
     <div class="card">
         <div class="card-body">
 
-    <p>
-        <?= Html::a('Bank qo`shish', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+        <p class="text-right">
+            <?= Html::a('Bank qo`shish', ['create'], ['class' => 'btn btn-success']) ?>
+        </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 

@@ -190,7 +190,12 @@ function toggleFullScreen() {
             $(this).removeClass("is-active");
         });
 
-
+    $('.select2').select2({
+        placeholder: 'Tanlang',
+        allowClear: true,
+        width: '100%',
+        language: 'uz'
+    });
 })(jQuery, window, document);
 
 
@@ -203,4 +208,3 @@ $(".chat-menu-icons .toogle-bar").click(function () {
 
 // Language
 var tnum = 'en';
-

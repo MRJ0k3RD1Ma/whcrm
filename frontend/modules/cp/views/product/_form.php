@@ -12,44 +12,54 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+    <div class="row">
+        <div class="col-md-6">
 
-    <?= $form->field($model, 'image')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'serial')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'serial')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'serial_num')->textInput() ?>
+            <?= $form->field($model, 'basic_price')->textInput() ?>
 
-    <?= $form->field($model, 'basic_price')->textInput() ?>
+            <?= $form->field($model, 'retail_price')->textInput() ?>
 
-    <?= $form->field($model, 'retail_price')->textInput() ?>
+            <?= $form->field($model, 'wholesale_price')->textInput() ?>
 
-    <?= $form->field($model, 'wholesale_price')->textInput() ?>
+            <?= $form->field($model, 'box')->textInput() ?>
 
-    <?= $form->field($model, 'box')->textInput() ?>
+        </div>
+        <div class="col-md-6">
 
-    <?= $form->field($model, 'cat_id')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'is_sale')->dropDownList(Yii::$app->params['is_sale'],['prompt'=>'']) ?>
 
-    <?= $form->field($model, 'note')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'is_good')->dropDownList(Yii::$app->params['is_good'],['prompt'=>'']) ?>
 
-    <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'cat_id')->dropDownList(\yii\helpers\ArrayHelper::map(\common\models\Category::find()->all(),'id','name'),['prompt'=>'']) ?>
 
-    <?= $form->field($model, 'bio')->textarea(['rows' => 6]) ?>
+            <?= $form->field($model, 'note')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'is_sale')->textInput() ?>
+            <?= $form->field($model, 'expiry_month')->textInput() ?>
 
-    <?= $form->field($model, 'is_good')->textInput() ?>
+            <?= $form->field($model, 'unit_id')->dropDownList(\yii\helpers\ArrayHelper::map(\common\models\Unit::find()->all(),'id','name'),['prompt'=>'']) ?>
+        </div>
+        <div class="col-md-12">
+            <br>
+            <?= $form->field($model, 'image')->fileInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'expiry_month')->textInput() ?>
+            <?= $form->field($model, 'bio')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'unit_id')->textInput() ?>
+        </div>
+    </div>
 
-    <?= $form->field($model, 'created_at')->textInput() ?>
 
-    <?= $form->field($model, 'updated_at')->textInput() ?>
+
+
+
+
+
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Saqlash', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

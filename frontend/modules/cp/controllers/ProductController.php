@@ -2,11 +2,14 @@
 
 namespace frontend\modules\cp\controllers;
 
+use common\models\Price;
 use common\models\Product;
 use common\models\search\ProductSearch;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * ProductController implements the CRUD actions for Product model.
@@ -70,11 +73,55 @@ class ProductController extends Controller
         $model = new Product();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->load($this->request->post())) {
+                $code = Yii::$app->security->generateRandomString(10);
+                while (Product::find()->where(['code'=>$code])->one()){
+                    $code = Yii::$app->security->generateRandomString(10);
+                }
+                $model->code = $code;
+                if(!$model->serial){
+                    $ser = Product::find()->where(['cat_id'=>$model->cat_id])->max('serial_num');
+                    if(!$ser){
+                        $ser = 0;
+                    }
+                    $model->serial_num = $ser + 1;
+                    $model->serial = $model->cat->code.'-'.$model->serial_num;
+                }
+                if($model->image = UploadedFile::getInstance($model, 'image')){
+                    $name = time().$model->image->baseName.'.'.$model->image->extension;
+
+                    $folderName = date('Y-m'); // Yil-oy formatida papka nomi
+                    $dir = Yii::getAlias('@webroot/uploads/'.$folderName); // Yaratiladigan papka manzili
+                    if (!file_exists($dir)) { // Papka mavjud emasligini tekshirish
+                        mkdir($dir, 0777, true); // Papka yaratish
+                    }
+                    $model->image->saveAs($dir.'/'.$name);
+                    $model->image = $folderName.'/'.$name;
+                }else{
+                    $model->image = 'no-image.png';
+                }
+
+                if($model->save()){
+                    $id = Price::find()->where(['product_id'=>$model->id])->max('id');
+                    if(!$id){
+                        $id = 0;
+                    }
+                    $id++;
+                    $price = new Price();
+                    $price->id = $id;
+                    $price->product_id = $model->id;
+                    $price->base_price = $model->basic_price;
+                    $price->retail_price = $model->retail_price;
+                    $price->wholesale_price = $model->wholesale_price;
+                    $price->date = date('Y-m-d');
+                    $price->user_id = Yii::$app->user->id;
+                    $price->save();
+
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }else{
+                    Yii::$app->session->setFlash('error', 'Mahsulotni saqlashda xatolik');
+                }
             }
-        } else {
-            $model->loadDefaultValues();
         }
 
         return $this->render('create', [
@@ -92,9 +139,75 @@ class ProductController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $serial = $model->serial;
+        $image = $model->image;
+        if ($this->request->isPost && $model->load($this->request->post())) {
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            if(!$model->serial){
+                $ser = Product::find()->where(['cat_id'=>$model->cat_id])->max('serial_num');
+                if(!$ser){
+                    $ser = 0;
+                }
+                $model->serial_num = $ser + 1;
+                $model->serial = $model->cat->code.'-'.$model->serial_num;
+            }else{
+                $model->serial = $serial;
+            }
+            if($model->image = UploadedFile::getInstance($model, 'image')){
+                $name = time().$model->image->baseName.'.'.$model->image->extension;
+
+                $folderName = date('Y-m'); // Yil-oy formatida papka nomi
+                $dir = Yii::getAlias('@webroot/uploads/'.$folderName); // Yaratiladigan papka manzili
+                if (!file_exists($dir)) { // Papka mavjud emasligini tekshirish
+                    mkdir($dir, 0777, true); // Papka yaratish
+                }
+                $model->image->saveAs($dir.'/'.$name);
+                $model->image = $folderName.'/'.$name;
+            }else{
+                $model->image = $image;
+            }
+
+            if($model->save()){
+                if($price = Price::find()->where(['product_id'=>$model->id])->orderBy(['id'=>SORT_DESC])->one()){
+                    if($price->base_price != $model->basic_price or
+                    $price->retail_price != $model->retail_price or
+                    $price->wholesale_price != $model->wholesale_price){
+                        $id = Price::find()->where(['product_id'=>$model->id])->max('id');
+                        if(!$id){
+                            $id = 0;
+                        }
+                        $id++;
+                        $price = new Price();
+                        $price->id = $id;
+                        $price->product_id = $model->id;
+                        $price->base_price = $model->basic_price;
+                        $price->retail_price = $model->retail_price;
+                        $price->wholesale_price = $model->wholesale_price;
+                        $price->date = date('Y-m-d');
+                        $price->user_id = Yii::$app->user->id;
+                        $price->save();
+                    }
+                }else{
+                    $id = Price::find()->where(['product_id'=>$model->id])->max('id');
+                    if(!$id){
+                        $id = 0;
+                    }
+                    $id++;
+                    $price = new Price();
+                    $price->id = $id;
+                    $price->product_id = $model->id;
+                    $price->base_price = $model->basic_price;
+                    $price->retail_price = $model->retail_price;
+                    $price->wholesale_price = $model->wholesale_price;
+                    $price->date = date('Y-m-d');
+                    $price->user_id = Yii::$app->user->id;
+                    $price->save();
+                }
+
+                return $this->redirect(['view', 'id' => $model->id]);
+            }else{
+                Yii::$app->session->setFlash('error', 'Mahsulotni saqlashda xatolik');
+            }
         }
 
         return $this->render('update', [

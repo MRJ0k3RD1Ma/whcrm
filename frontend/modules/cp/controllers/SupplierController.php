@@ -2,12 +2,13 @@
 
 namespace frontend\modules\cp\controllers;
 
+use common\models\Deliverable;
 use common\models\Supplier;
 use common\models\search\SupplierSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use Yii;
 /**
  * SupplierController implements the CRUD actions for Supplier model.
  */
@@ -25,6 +26,7 @@ class SupplierController extends Controller
                     'class' => VerbFilter::className(),
                     'actions' => [
                         'delete' => ['POST'],
+                        'delete-delivery' => ['POST'],
                     ],
                 ],
             ]
@@ -47,16 +49,43 @@ class SupplierController extends Controller
         ]);
     }
 
+    public function actionDeleteDelivery($id,$product_id){
+        if($delivery = Deliverable::findOne(['supplier_id' => $id,'product_id' => $product_id])){
+            if($delivery->delete()){
+                Yii::$app->session->setFlash('success','Muvoffaqiyatli o`chirildi');
+            }else{
+                Yii::$app->session->setFlash('error','Xatolik yuz berdi');
+            }
+        }
+        $this->redirect(['view', 'id' => $id]);
+    }
+
     /**
      * Displays a single Supplier model.
      * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
+    public function actionView($id,$product_id = null)
     {
+        $model = $this->findModel($id);
+        if($product_id){
+            $delivery = Deliverable::findOne(['supplier_id' => $model->id,'product_id' => $product_id]);
+        }else{
+            $delivery = new Deliverable();
+            $delivery->supplier_id = $model->id;
+        }
+        if($this->request->isPost && $delivery->load($this->request->post())){
+            if($delivery->save()){
+                Yii::$app->session->setFlash('success','Muvoffaqiyatli saqlandi');
+            }else{
+                Yii::$app->session->setFlash('error','Bu mahsulot allaqachon ro`yxatdan o`tgan');
+            }
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'delivery' => $delivery,
         ]);
     }
 

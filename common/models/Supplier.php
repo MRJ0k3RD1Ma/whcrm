@@ -43,6 +43,7 @@ class Supplier extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['name','inn',],'required'],
             [['bank_id'], 'integer'],
             [['created', 'updated'], 'safe'],
             [['name', 'inn', 'address', 'oked', 'account', 'director', 'director_phone', 'bux', 'bux_phone', 'phone', 'phone_name'], 'string', 'max' => 255],

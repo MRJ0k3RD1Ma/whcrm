@@ -52,7 +52,7 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'basic_price', 'retail_price', 'wholesale_price', 'box', 'cat_id', 'code'], 'required'],
+            [['name', 'basic_price', 'retail_price', 'wholesale_price', 'box', 'cat_id','unit_id','is_sale','is_good','serial'], 'required'],
             [['serial_num', 'basic_price', 'retail_price', 'wholesale_price', 'box', 'cat_id', 'is_sale', 'is_good', 'expiry_month', 'unit_id'], 'integer'],
             [['bio'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
@@ -82,7 +82,7 @@ class Product extends \yii\db\ActiveRecord
             'code' => 'Code',
             'bio' => 'Bio',
             'is_sale' => 'Sotiladigan mahsulot',
-            'is_good' => 'Granula',
+            'is_good' => 'Mahsulot turi',
             'expiry_month' => 'Yaroqlilik muddati(oy)',
             'unit_id' => 'Birligi',
             'created_at' => 'Yaratildi',

@@ -47,14 +47,14 @@
 
                 <li class="profile-nav onhover-dropdown p-0 me-0">
                     <div class="media profile-media"><img class="b-r-10" src="/cuba/assets/images/dashboard/profile.jpg" alt="">
-                        <div class="media-body"><span>Emay Walter</span>
-                            <p class="mb-0 font-roboto">Admin <i class="middle fa fa-angle-down"></i></p>
+                        <div class="media-body"><span><?= Yii::$app->user->identity->name?></span>
+                            <p class="mb-0 font-roboto"><?= Yii::$app->user->identity->role->name ?> <i class="middle fa fa-angle-down"></i></p>
                         </div>
                     </div>
                     <ul class="profile-dropdown onhover-show-div">
                         <li><a href="#"><i data-feather="user"></i><span>Akkount </span></a></li>
                         <li><a href="#"><i data-feather="settings"></i><span>Sozlamalar</span></a></li>
-                        <li><a href="#"><i data-feather="log-in"> </i><span>Chiqish</span></a></li>
+                        <li><a href="<?= Yii::$app->urlManager->createUrl(['/site/logout'])?>" data-method="post"><i data-feather="log-in"> </i><span>Chiqish</span></a></li>
                     </ul>
                 </li>
             </ul>

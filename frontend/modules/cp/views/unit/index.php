@@ -10,16 +10,16 @@ use yii\grid\GridView;
 /** @var common\models\search\UnitSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Units';
+$this->title = 'Birliklar';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="unit-index">
     <div class="card">
         <div class="card-body">
 
-    <p class="text-right">
-        <?= Html::a('Create Unit', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+        <p class="text-right">
+            <?= Html::a('Birlik qo`shish', ['create'], ['class' => 'btn btn-success']) ?>
+        </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
@@ -29,13 +29,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+//            'id',
             'name',
             [
                 'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Unit $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'id' => $model->id]);
-                 }
+                'template' => '{update} {delete}',
             ],
         ],
     ]); ?>

@@ -2,8 +2,11 @@
 
 namespace frontend\modules\cp\controllers;
 
+use common\models\ProductUser;
 use common\models\User;
 use common\models\search\UserSearch;
+use common\models\WareUser;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -53,11 +56,60 @@ class UserController extends Controller
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
+    public function actionView($id,$ware_id=null,$product_id = null)
     {
+        $model = $this->findModel($id);
+        if($ware_id){
+            $wareuser = WareUser::findOne(['user_id'=>$id,'ware_id'=>$ware_id]);
+        }else{
+            $wareuser = new WareUser();
+            $wareuser->user_id = $id;
+        }
+
+        if ($this->request->isPost && $wareuser->load($this->request->post())) {
+            if( $wareuser->save()){
+                Yii::$app->session->setFlash('success', 'Muvoffaqiyatli Saqlandi');
+            }else{
+                Yii::$app->session->setFlash('error', 'Bu foydalanuvchiga allaqachon bu ombor biriktirilgan yoki ombor biriktirishda xatolik yuz berdi');
+            }
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+
+        if($product_id){
+            $productuser = ProductUser::findOne(['user_id'=>$id,'ware_id'=>$ware_id]);
+        }else{
+            $productuser = new ProductUser();
+            $productuser->user_id = $id;
+        }
+
+        if ($this->request->isPost && $productuser->load($this->request->post())) {
+            if( $productuser->save()){
+                Yii::$app->session->setFlash('success', 'Muvoffaqiyatli Saqlandi');
+            }else{
+                Yii::$app->session->setFlash('error', 'Bu foydalanuvchiga allaqachon bu mahsulot biriktirilgan yoki mahsulotni biriktirishda xatolik yuz berdi');
+            }
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'wareuser' => $wareuser,
+            'productuser' => $productuser,
         ]);
+    }
+
+    public function actionDeleteWare($id,$ware_id)
+    {
+        $wareuser = WareUser::findOne(['user_id'=>$id,'ware_id'=>$ware_id]);
+        $wareuser->delete();
+        return $this->redirect(['view', 'id' => $id]);
+    }
+
+    public function actionDeleteProduct($id,$product_id)
+    {
+        $productuser = ProductUser::findOne(['user_id'=>$id,'product_id'=>$product_id]);
+        $productuser->delete();
+        return $this->redirect(['view', 'id' => $id]);
     }
 
     /**

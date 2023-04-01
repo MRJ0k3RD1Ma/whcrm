@@ -31,3 +31,60 @@ body.dark-only #sidebar-menu .sidebar-links li:hover .fa{
 .form-group{
     margin-bottom: 10px;
 }
+/* Maydonlarning zarur bo'lgan holati */
+.has-error.required,
+.has-error.required:after {
+    color: #a94442;
+}
+.has-error.form-control,
+.has-error.form-control:focus {
+    border-color: #a94442;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+/* Zarur maydonlarning to'g'ri qiymati kiritilgan holati */
+.has-success,
+.has-success:after {
+    color: #3c763d;
+}
+.has-success.form-control,
+.has-success.form-control:focus {
+    border-color: #3c763d;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+.pagination,.pagination li {
+    display: inline-block;
+    margin-top:10px;
+}
+.pagination a, .pagination span {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+body.dark-only .pagination a, body.dark-only .pagination span {
+    color: #fff !important;
+}
+
+
+.pagination li.active a {
+    background-color: #7366ff;
+    color: white;
+}
+
+.pagination a:hover:not(.active) {
+    background-color: #7366ff;
+}
+
+.pagination a {
+    border-radius: 5px;
+}
+
+.pagination a.active {
+    border-radius: 5px;
+}
+
+.pagination a {
+    transition: background-color .3s;
+}

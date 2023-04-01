@@ -40,11 +40,30 @@
                         </ul>
                     </li>
 
+                    <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#">
+                            <i data-feather="shopping-cart"></i><span class="lan-6">Buyurtmalar</span></a>
+                        <ul class="sidebar-submenu">
+                            <li><a href="#">Buyurtmalar</a></li>
+                            <li><a href="#">Qarzdorlik</a></li>
+                            <li><a href="#">To`lovlar</a></li>
+                        </ul>
+                    </li>
+
+
+                    <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#">
+                            <i data-feather="dollar-sign"></i><span class="lan-6">Xarajatlar</span></a>
+                        <ul class="sidebar-submenu">
+                            <li><a href="#">Mahsulot xarajatnomasi</a></li>
+                            <li><a href="#">Oylik maoshlar</a></li>
+                            <li><a href="#">Boshqa xarajatlar</a></li>
+                            <li><a href="#">Kirim/chiqim statistikasi</a></li>
+                        </ul>
+                    </li>
+
+
                     <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="<?= Yii::$app->urlManager->createUrl(['/cp/warehouse'])?>"><i data-feather="archive"> </i><span>Omborxona</span></a></li>
 
                     <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="<?= Yii::$app->urlManager->createUrl(['/cp/bank'])?>"><i class="fa fa-bank"> </i><span>Banklar</span></a></li>
-
-                    <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="#"><i data-feather="shopping-cart"> </i><span>Buyurtmalar</span></a></li>
 
                     <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="<?= Yii::$app->urlManager->createUrl(['/cp/user'])?>"><i data-feather="users"> </i><span>Foydalanuvchilar</span></a></li>
 

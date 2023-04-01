@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var common\models\search\UserSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Users';
+$this->title = 'Foydalanuvchilar';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index">
@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="card-body">
 
     <p class="text-right">
-        <?= Html::a('Create User', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Foydalanuvchi qo`shish', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -29,15 +29,29 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+//            'id',
             'name',
             'username',
-            'password',
+//            'password',
             'phone',
             //'created',
             //'updated',
             //'role_id',
+            [
+                'attribute' => 'role_id',
+                'value' => function (User $model) {
+                    return $model->role->name;
+                },
+                'filter' => \yii\helpers\ArrayHelper::map(\common\models\Role::find()->all(), 'id', 'name')
+            ],
             //'status',
+            [
+                'attribute' => 'status',
+                'value' => function (User $model) {
+                    return Yii::$app->params['status'][$model->status];
+                },
+                'filter' => Yii::$app->params['status']
+            ],
             //'auth_key',
             //'verification_token',
             //'password_reset_token',

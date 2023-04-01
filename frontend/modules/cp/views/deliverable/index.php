@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var common\models\search\DeliverableSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Deliverables';
+$this->title = 'Mahsulot yetkazuvchilar';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="deliverable-index">
@@ -31,7 +31,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value'=>function($model){
                     return "<a href='".Url::toRoute(['product/view', 'id' => $model->product_id])."'>".$model->product->name."</a>";
                 },
-                'filter'=>\yii\helpers\ArrayHelper::map(\common\models\Product::find()->all(), 'id', 'name')
+                'filter'=>\yii\helpers\ArrayHelper::map(\common\models\Product::find()->all(), 'id', 'name'),
+                'format'=>'raw'
             ],
 //            'supplier_id',
             [
@@ -39,10 +40,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     'value'=>function($model){
                         return "<a href='".Url::toRoute(['c-legal/view', 'id' => $model->supplier_id])."'>".$model->supplier->name."</a>";
                     },
-                    'filter'=>\yii\helpers\ArrayHelper::map(\common\models\Supplier::find()->all(), 'id', 'name')
+                    'filter'=>\yii\helpers\ArrayHelper::map(\common\models\Supplier::find()->all(), 'id', 'name'),
+                    'format'=>'raw'
             ],
             'retail_price',
             'wholesale_price',
+            'dtime',
+            'dcondition',
 //            'created',
             'updated',
             [

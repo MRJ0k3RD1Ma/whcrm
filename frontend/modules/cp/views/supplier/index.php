@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var common\models\search\SupplierSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Suppliers';
+$this->title = 'Mahsulot yetkazuvchilar';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="supplier-index">
@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="card-body">
 
     <p class="text-right">
-        <?= Html::a('Create Supplier', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Mahsulot yetkazuvchi qo`shish', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -29,19 +29,19 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+//            'id',
             'name',
             'inn',
-            'bank_id',
+//            'bank_id',
             'address',
             //'oked',
             //'account',
-            //'director',
-            //'director_phone',
-            //'bux',
+            'director',
+//            'director_phone',
+            'bux',
             //'bux_phone',
-            //'phone',
-            //'phone_name',
+            'phone',
+            'phone_name',
             //'created',
             //'updated',
             [

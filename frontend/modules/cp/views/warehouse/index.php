@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var common\models\search\WarehouseSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Warehouses';
+$this->title = 'Omborxonalar';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="warehouse-index">
@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="card-body">
 
     <p class="text-right">
-        <?= Html::a('Create Warehouse', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Omborxona qo`shish', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+//            'id',
             'name',
             [
                 'class' => ActionColumn::className(),

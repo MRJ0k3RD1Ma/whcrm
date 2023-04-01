@@ -13,6 +13,8 @@ use Yii;
  * @property int|null $wholesale_price
  * @property string|null $created
  * @property string|null $updated
+ * @property string|null $dtime
+ * @property string|null $dcondition
  *
  * @property Product $product
  * @property Supplier $supplier
@@ -36,6 +38,8 @@ class Deliverable extends \yii\db\ActiveRecord
             [['product_id', 'supplier_id'], 'required'],
             [['product_id', 'supplier_id', 'retail_price', 'wholesale_price'], 'integer'],
             [['created', 'updated'], 'safe'],
+            [['dtime',],'string','max'=>255],
+            [['dcondition',],'string','max'=>500],
             [['product_id', 'supplier_id'], 'unique', 'targetAttribute' => ['product_id', 'supplier_id']],
             [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::class, 'targetAttribute' => ['product_id' => 'id']],
             [['supplier_id'], 'exist', 'skipOnError' => true, 'targetClass' => Supplier::class, 'targetAttribute' => ['supplier_id' => 'id']],
@@ -52,6 +56,8 @@ class Deliverable extends \yii\db\ActiveRecord
             'supplier_id' => 'Yetkazib beruvchi',
             'retail_price' => 'Bitta narxi',
             'wholesale_price' => 'Optom narxi',
+            'dtime' => 'Muddat',
+            'dcondition' => 'Sharoiti',
             'created' => 'Yaratildi',
             'updated' => 'O`zgartirildi',
         ];
