@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /** @var common\models\Come $model */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Comes', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Киримлар', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
@@ -18,8 +18,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
             <p>
-                <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-                <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+                <?= Html::a('Ўзгартириш', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+                <?= Html::a('Ўчириш', ['delete', 'id' => $model->id], [
                     'class' => 'btn btn-danger',
                     'data' => [
                         'confirm' => 'Are you sure you want to delete this item?',
@@ -33,10 +33,28 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'date',
-            'supplier_id',
+//            'supplier_id',
+            [
+                'attribute' => 'supplier_id',
+                'value' => function ($model) {
+                    return $model->supplier->name;
+                },
+            ],
             'note',
-            'creator_id',
-            'status',
+//            'creator_id',
+            [
+                'attribute' => 'creator_id',
+                'value' => function ($model) {
+                    return $model->creator->name;
+                },
+            ],
+//            'status',
+            [
+                'attribute' => 'status',
+                'value' => function ($model) {
+                    return Yii::$app->params['status.come'][$model->status];
+                },
+            ],
             'created',
             'updated',
         ],

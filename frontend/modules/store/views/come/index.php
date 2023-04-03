@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var common\models\search\ComeSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Comes';
+$this->title = 'Киримлар';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="come-index">
@@ -46,6 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $model->supplier->name;
                 },
                 'filter' => \common\models\Supplier::getSuppliers(),
+
             ],
             'note',
 //            'creator_id',

@@ -5,8 +5,8 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var common\models\Come $model */
 
-$this->title = 'Create Come';
-$this->params['breadcrumbs'][] = ['label' => 'Comes', 'url' => ['index']];
+$this->title = 'Кирим қилиш';
+$this->params['breadcrumbs'][] = ['label' => 'Киримлар', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="come-create">
