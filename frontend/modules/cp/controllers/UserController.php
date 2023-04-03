@@ -120,6 +120,7 @@ class UserController extends Controller
     public function actionCreate()
     {
         $model = new User();
+        $model->scenario = "create";
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
@@ -157,7 +158,7 @@ class UserController extends Controller
             $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         }
-
+        $model->password = "";
         return $this->render('update', [
             'model' => $model,
         ]);

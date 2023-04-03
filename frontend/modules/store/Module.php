@@ -1,18 +1,19 @@
 <?php
 
-namespace frontend\modules\cp;
+namespace frontend\modules\store;
 use Yii;
 use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 
 /**
- * cp module definition class
+ * store module definition class
  */
 class Module extends \yii\base\Module
 {
     /**
      * {@inheritdoc}
      */
-    public $controllerNamespace = 'frontend\modules\cp\controllers';
+    public $controllerNamespace = 'frontend\modules\store\controllers';
     public function behaviors()
     {
         return [
@@ -23,10 +24,10 @@ class Module extends \yii\base\Module
                         'allow' => true,
                         'roles' => ['@'],
                         'matchCallback' => function ($rule, $action) {
-                            if(Yii::$app->user->identity->role_id == 5){
+                            if(Yii::$app->user->identity->role_id == 2){
                                 return true;
                             }else{
-                                return $this->redirect([Yii::$app->user->identity->role->url]);
+                                return Yii::$app->response->redirect([Yii::$app->user->identity->role->url]);
                             }
                         }
                     ],
@@ -40,7 +41,8 @@ class Module extends \yii\base\Module
     public function init()
     {
         parent::init();
-        Yii::$app->viewPath = '@frontend/modules/cp/views';
+        Yii::$app->viewPath = '@frontend/modules/store/views';
+
         // custom initialization code goes here
     }
 }
