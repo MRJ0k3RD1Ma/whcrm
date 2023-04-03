@@ -15,11 +15,11 @@
                     </li>
 
 
-                    <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="<?= Yii::$app->urlManager->createUrl(['/store/default/warehouse'])?>"><i data-feather="archive"> </i><span>Omborxonalar</span></a></li>
+                    <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="<?= Yii::$app->urlManager->createUrl(['/store/default/warehouse'])?>"><i data-feather="archive"> </i><span>Омборхоналар</span></a></li>
 
-                    <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="<?= Yii::$app->urlManager->createUrl(['/store/default/warehouse'])?>"><i data-feather="archive"> </i><span>Kirim</span></a></li>
+                    <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="<?= Yii::$app->urlManager->createUrl(['/store/default/warehouse'])?>"><i class="fa fa-book"> </i><span>Кирим</span></a></li>
 
-                    <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="<?= Yii::$app->urlManager->createUrl(['/store/default/warehouse'])?>"><i data-feather="archive"> </i><span>Chiqim</span></a></li>
+                    <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="<?= Yii::$app->urlManager->createUrl(['/store/default/warehouse'])?>"><i class="fa fa-folder-open-o"> </i><span>Чиқим</span></a></li>
 
                 </ul>
             </div>
