@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "supplier".
@@ -83,6 +84,10 @@ class Supplier extends \yii\db\ActiveRecord
     public function getBank()
     {
         return $this->hasOne(Bank::class, ['id' => 'bank_id']);
+    }
+
+    public function getSuppliers(){
+        return ArrayHelper::map(Supplier::find()->all(),'id','name');
     }
 
     /**
