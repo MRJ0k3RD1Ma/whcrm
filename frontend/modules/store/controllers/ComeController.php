@@ -3,6 +3,7 @@
 namespace frontend\modules\store\controllers;
 
 use common\models\Come;
+use common\models\Product;
 use common\models\search\ComeSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -80,6 +81,13 @@ class ComeController extends Controller
         return $this->render('create', [
             'model' => $model,
         ]);
+    }
+
+    public function actionGetPrice(){
+        $id = $this->request->post('product_id');
+        $model = Product::findOne($id);
+
+        return $model->basic_price;
     }
 
     /**

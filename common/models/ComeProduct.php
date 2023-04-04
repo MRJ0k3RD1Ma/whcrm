@@ -13,6 +13,9 @@ use Yii;
  * @property float|null $price
  * @property int|null $box
  * @property float|null $cnt_price
+ *
+ * @property Come $come
+ * @property Product $product
  */
 class ComeProduct extends \yii\db\ActiveRecord
 {
@@ -34,6 +37,8 @@ class ComeProduct extends \yii\db\ActiveRecord
             [['come_id', 'product_id', 'box'], 'integer'],
             [['cnt', 'price', 'cnt_price'], 'number'],
             [['come_id', 'product_id'], 'unique', 'targetAttribute' => ['come_id', 'product_id']],
+            [['come_id'], 'exist', 'skipOnError' => true, 'targetClass' => Come::class, 'targetAttribute' => ['come_id' => 'id']],
+            [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::class, 'targetAttribute' => ['product_id' => 'id']],
         ];
     }
 
@@ -43,12 +48,32 @@ class ComeProduct extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'come_id' => 'Партия',
-            'product_id' => 'Маҳсулот',
-            'cnt' => 'Сони',
-            'price' => 'Нархи',
-            'box' => 'Каробкалар сони',
-            'cnt_price' => 'Умумий нархи',
+            'come_id' => 'Come ID',
+            'product_id' => 'Product ID',
+            'cnt' => 'Cnt',
+            'price' => 'Price',
+            'box' => 'Box',
+            'cnt_price' => 'Cnt Price',
         ];
+    }
+
+    /**
+     * Gets query for [[Come]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCome()
+    {
+        return $this->hasOne(Come::class, ['id' => 'come_id']);
+    }
+
+    /**
+     * Gets query for [[Product]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProduct()
+    {
+        return $this->hasOne(Product::class, ['id' => 'product_id']);
     }
 }
