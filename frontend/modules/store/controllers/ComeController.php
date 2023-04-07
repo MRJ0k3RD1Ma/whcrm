@@ -69,7 +69,7 @@ class ComeController extends Controller
     public function actionCreate()
     {
         $model = new Come();
-
+        $model->date = date('Y-m-d');
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
@@ -88,6 +88,21 @@ class ComeController extends Controller
         $model = Product::findOne($id);
 
         return $model->basic_price;
+    }
+
+    public function actionGetFullprice($product_id,$cnt=0,$box=0,$price=0){
+        $model = Product::findOne($product_id);
+        if(!$box){
+            $box = 0;
+        }
+        if(!$cnt){
+            $cnt = 0;
+        }
+        if(!$price){
+            $price = 0;
+        }
+        $full_price = $price * $cnt + $box * $model->box * $price;
+        return $full_price;
     }
 
     /**

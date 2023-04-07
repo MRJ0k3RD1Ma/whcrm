@@ -26,7 +26,7 @@ class Module extends \yii\base\Module
                             if(Yii::$app->user->identity->role_id == 5){
                                 return true;
                             }else{
-                                return $this->redirect([Yii::$app->user->identity->role->url]);
+                                return Yii::$app->response->redirect([Yii::$app->user->identity->role->url]);
                             }
                         }
                     ],
