@@ -25,7 +25,7 @@ use Yii;
  */
 class Come extends \yii\db\ActiveRecord
 {
-    public $c_name,$c_phone,$pro;
+    public $c_name,$c_phone,$pro,$c_id;
     /**
      * {@inheritdoc}
      */
@@ -43,7 +43,7 @@ class Come extends \yii\db\ActiveRecord
             [['date', 'created', 'updated','pro'], 'safe'],
             [['date','ware_id',],'required'],
             [['c_name',],'required','on'=>'insert'],
-            [['supplier_id', 'creator_id', 'status', 'ware_id'], 'integer'],
+            [['supplier_id', 'creator_id','c_id', 'status', 'ware_id'], 'integer'],
             [['note','c_name','c_phone'], 'string', 'max' => 255],
             [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['creator_id' => 'id']],
             [['supplier_id'], 'exist', 'skipOnError' => true, 'targetClass' => Supplier::class, 'targetAttribute' => ['supplier_id' => 'id']],
@@ -68,6 +68,7 @@ class Come extends \yii\db\ActiveRecord
             'ware_id' => 'Омборхона',
             'c_name' => 'Етказиб берувчи',
             'c_phone' => 'Телефон',
+            'c_id'=>'Ташкилот ид'
         ];
     }
 

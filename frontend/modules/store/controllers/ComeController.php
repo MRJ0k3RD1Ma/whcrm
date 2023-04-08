@@ -5,6 +5,7 @@ namespace frontend\modules\store\controllers;
 use common\models\Come;
 use common\models\Product;
 use common\models\search\ComeSearch;
+use common\models\Supplier;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -71,7 +72,10 @@ class ComeController extends Controller
         $model = new Come();
         $model->date = date('Y-m-d');
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
+            if ($model->load($this->request->post())) {
+                echo "<pre>";
+                var_dump($model);
+                exit;
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
@@ -83,6 +87,19 @@ class ComeController extends Controller
         ]);
     }
 
+    public function actionCompany($name){
+        $model = Supplier::find()->where(['like','name',$name])
+            ->orWhere(['like','phone',$name])
+            ->all();
+        $res = "";
+        foreach ($model as $item) {
+            $res .= "<li class=\"list-group-item live-link-class\" data-key='{$item->id}'>{$item->name} - {$item->phone}</li>";
+        }
+        return $res;
+    }
+    public function actionFullCompany($id){
+        return json_encode(Supplier::findOne($id)->toArray());
+    }
     public function actionGetPrice(){
         $id = $this->request->post('product_id');
         $model = Product::findOne($id);

@@ -11,8 +11,10 @@ $model->scenario = 'insert';
 
 <div class="come-form">
     <script>
+        var product = [];
         var productchanger = function(){};
         var pricecalc = function(){};
+        var remover = function(){};
     </script>
     <?php $form = ActiveForm::begin(); ?>
 
@@ -31,6 +33,12 @@ $model->scenario = 'insert';
         </div>
         <div class="col-md-6">
             <?= $form->field($model, 'c_phone')->textInput(['maxlength' => true]) ?>
+        </div>
+        <div class="hidden" style="display: none">
+            <?= $form->field($model,'c_id')->textInput(['value'=>-1])?>
+        </div>
+        <div class="col-md-12">
+            <ul class="list-group" id="livesearch"></ul>
         </div>
     </div>
 
@@ -75,13 +83,15 @@ $model->scenario = 'insert';
 
 </div>
 
-
 <?php
+
+$url_full_company = \yii\helpers\Url::to(['come/full-company']);
+$url_company = \yii\helpers\Url::to(['come/company']);
 
 $this->registerJs("
     $('.addbtn').click(function(){
         key = $('#products').data('key');
-        var str = '<div class=\"row\"><div class=\"col-md-3\"><div class=\"form-group field-come-pro-'+key+'-product_id\"><label class=\"control-label\" for=\"come-pro-'+key+'-product_id\">Маҳсулот</label><select id=\"come-pro-'+key+'-product_id\" class=\"form-control\" name=\"Come[pro]['+key+'][product_id]\" onchange=\"productchanger('+key+')\"></select></div></div><div class=\"col-md-2\"><div class=\"form-group field-come-pro-'+key+'-cnt\"><label class=\"control-label\" for=\"come-pro-'+key+'-cnt\">Умумий сони</label><input type=\"text\" id=\"come-pro-'+key+'-cnt\" class=\"form-control\" name=\"Come[pro]['+key+'][cnt]\" onkeyup=\"pricecalc('+key+')\"></div>            </div><div class=\"col-md-2\"><div class=\"form-group field-come-pro-'+key+'-box\"><label class=\"control-label\" for=\"come-pro-'+key+'-box\">Коропкалар сони</label><input type=\"text\" id=\"come-pro-'+key+'-box\" class=\"form-control\" name=\"Come[pro]['+key+'][box]\" onkeyup=\"pricecalc('+key+')\"></div>            </div><div class=\"col-md-2\"><div class=\"form-group field-come-pro-'+key+'-price\"><label class=\"control-label\" for=\"come-pro-'+key+'-price\">Нархи</label><input type=\"text\" id=\"come-pro-'+key+'-price\" class=\"form-control\" name=\"Come[pro]['+key+'][price]\" onkeyup=\"pricecalc('+key+')\"></div>            </div><div class=\"col-md-2\"><div class=\"form-group field-come-pro-'+key+'-cnt_price\"><label class=\"control-label\" for=\"come-pro-'+key+'-cnt_price\">Умумий нархи</label><input type=\"text\" id=\"come-pro-'+key+'-cnt_price\" class=\"form-control\" name=\"Come[pro]['+key+'][cnt_price]\" disabled=\"\"></div>            </div></div>';        
+        var str = '<div class=\"row\"><div class=\"col-md-3\"><div class=\"form-group field-come-pro-'+key+'-product_id\"><label class=\"control-label\" for=\"come-pro-'+key+'-product_id\">Маҳсулот</label><select id=\"come-pro-'+key+'-product_id\" class=\"form-control\" name=\"Come[pro]['+key+'][product_id]\" onchange=\"productchanger('+key+')\"></select></div></div><div class=\"col-md-2\"><div class=\"form-group field-come-pro-'+key+'-cnt\"><label class=\"control-label\" for=\"come-pro-'+key+'-cnt\">Умумий сони</label><input type=\"text\" id=\"come-pro-'+key+'-cnt\" class=\"form-control\" name=\"Come[pro]['+key+'][cnt]\" onkeyup=\"pricecalc('+key+')\"></div>            </div><div class=\"col-md-2\"><div class=\"form-group field-come-pro-'+key+'-box\"><label class=\"control-label\" for=\"come-pro-'+key+'-box\">Коропкалар сони</label><input type=\"text\" id=\"come-pro-'+key+'-box\" class=\"form-control\" name=\"Come[pro]['+key+'][box]\" onkeyup=\"pricecalc('+key+')\"></div>            </div><div class=\"col-md-2\"><div class=\"form-group field-come-pro-'+key+'-price\"><label class=\"control-label\" for=\"come-pro-'+key+'-price\">Нархи</label><input type=\"text\" id=\"come-pro-'+key+'-price\" class=\"form-control\" name=\"Come[pro]['+key+'][price]\" onkeyup=\"pricecalc('+key+')\"></div>            </div><div class=\"col-md-2\"><div class=\"form-group field-come-pro-'+key+'-cnt_price\"><label class=\"control-label\" for=\"come-pro-'+key+'-cnt_price\">Умумий нархи</label><input type=\"text\" id=\"come-pro-'+key+'-cnt_price\" class=\"form-control\" name=\"Come[pro]['+key+'][cnt_price]\" disabled=\"\"></div></div><div class=\"col-md-1\"><button  onclick=\"remover('+key+')\"  type=\"button\" class=\"btn btn-danger remover\"><span class=\"fa fa-trash\"></span></button></div></div>';        
         $('#products').append(str);
         $('#come-pro-'+key+'-product_id').html($('#come-pro-0-product_id').html());
         $('#products').data('key',key+1);
@@ -89,6 +99,13 @@ $this->registerJs("
     
     productchanger = function(key){
         var product_id = $('#come-pro-'+key+'-product_id').val();
+        if(product.includes(product_id)){
+            alert('Бу маҳсулот олдинроқ танланган');
+            $('#come-pro-'+key+'-product_id').val('');
+            return false;
+        }else{
+            product.push(product_id);
+        }
         $.ajax({
             url: '/store/come/get-price',
             type: 'POST',
@@ -114,6 +131,33 @@ $this->registerJs("
         });
     }
     
+    remover = function(key){
+        $('#come-pro-'+key+'-product_id').parent().parent().parent().remove();
+    }
+    
+     $('#come-c_name').keyup(function(){
+            $('#livesearchname').html('');
+            
+            var searchField = $('#come-c_name').val();
+            $('#come-c_id').val(-1);
+            $.get('{$url_company}?name='+searchField).done(function(data){
+                $('#livesearch').empty(data);
+                $('#livesearch').append(data);
+            })
+                            
+        });
+        $('#livesearch').on('click', 'li', function() {
+            var click_text = $(this).text();
+            
+            $('#come-c_name').val($.trim(click_text));
+            $.get('{$url_full_company}?id='+$(this).attr('data-key')).done(function(data){
+                data = JSON.parse(data);
+                $('#come-c_id').val(data.id);
+                $('#come-c_name').val(data.name);
+                $('#come-c_phone').val(data.phone);
+            })
+            $(\"#livesearch\").html('');
+        });
     
 ");
 

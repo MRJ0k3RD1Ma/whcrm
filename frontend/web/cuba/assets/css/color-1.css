@@ -88,3 +88,16 @@ body.dark-only .pagination a, body.dark-only .pagination span {
 .pagination a {
     transition: background-color .3s;
 }
+#livesearch {
+    position: absolute;
+    width: 100%;
+    max-width:870px;
+    cursor: pointer;
+    overflow-y: auto;
+    max-height: 400px;
+    box-sizing: border-box;
+    z-index: 1001;
+}
+#products .remover{
+    margin-top: 30px;
+}
