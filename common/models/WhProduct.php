@@ -15,6 +15,7 @@ use Yii;
  * @property int $base_price
  * @property int $retail_price
  * @property int $wholesale_price
+ * @property int $box
  * @property string|null $expiry_date
  * @property string|null $created
  * @property string|null $updated
@@ -41,8 +42,9 @@ class WhProduct extends \yii\db\ActiveRecord
     {
         return [
             [['wh_id', 'product_id', 'count', 'price_id', 'base_price', 'retail_price', 'wholesale_price'], 'required'],
-            [['wh_id', 'product_id', 'count', 'price_id', 'user_id', 'base_price', 'retail_price', 'wholesale_price'], 'integer'],
+            [['wh_id', 'product_id',  'price_id', 'user_id', 'box'], 'integer'],
             [['expiry_date', 'created', 'updated'], 'safe'],
+            [['base_price', 'retail_price', 'wholesale_price','count',],'number'],
             [['wh_id', 'product_id'], 'unique', 'targetAttribute' => ['wh_id', 'product_id']],
             [['price_id'], 'exist', 'skipOnError' => true, 'targetClass' => Price::class, 'targetAttribute' => ['price_id' => 'id']],
             [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::class, 'targetAttribute' => ['product_id' => 'id']],

@@ -36,7 +36,8 @@ class Deliverable extends \yii\db\ActiveRecord
     {
         return [
             [['product_id', 'supplier_id'], 'required'],
-            [['product_id', 'supplier_id', 'retail_price', 'wholesale_price'], 'integer'],
+            [['product_id', 'supplier_id',], 'integer'],
+            [['retail_price', 'wholesale_price'],'number'],
             [['created', 'updated'], 'safe'],
             [['dtime',],'string','max'=>255],
             [['dcondition',],'string','max'=>500],

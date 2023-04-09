@@ -53,8 +53,9 @@ class Product extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'basic_price', 'retail_price', 'wholesale_price', 'box', 'cat_id','unit_id','is_sale','is_good','serial'], 'required'],
-            [['serial_num', 'basic_price', 'retail_price', 'wholesale_price', 'box', 'cat_id', 'is_sale', 'is_good', 'expiry_month', 'unit_id'], 'integer'],
+            [['serial_num',  'box', 'cat_id', 'is_sale', 'is_good', 'expiry_month', 'unit_id'], 'integer'],
             [['bio'], 'string'],
+            [['basic_price', 'retail_price', 'wholesale_price',], 'number'],
             [['created_at', 'updated_at'], 'safe'],
             [['name', 'image', 'serial', 'note', 'code'], 'string', 'max' => 255],
             [['unit_id'], 'exist', 'skipOnError' => true, 'targetClass' => Unit::class, 'targetAttribute' => ['unit_id' => 'id']],

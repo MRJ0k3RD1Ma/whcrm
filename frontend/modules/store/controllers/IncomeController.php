@@ -21,3 +21,4 @@ class IncomeController extends Controller
         return $this->render('index');
     }
 }
+?>

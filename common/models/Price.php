@@ -36,8 +36,10 @@ class Price extends \yii\db\ActiveRecord
     {
         return [
             [['id', 'product_id', 'base_price', 'retail_price', 'wholesale_price', 'date', 'user_id'], 'required'],
-            [['id', 'product_id', 'base_price', 'retail_price', 'wholesale_price', 'user_id'], 'integer'],
+            [['id', 'product_id',  'user_id'], 'integer'],
             [['date'], 'safe'],
+            [['base_price', 'retail_price', 'wholesale_price',], 'number'],
+            [['id'], 'unique'],
             [['id', 'product_id'], 'unique', 'targetAttribute' => ['id', 'product_id']],
             [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::class, 'targetAttribute' => ['product_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],

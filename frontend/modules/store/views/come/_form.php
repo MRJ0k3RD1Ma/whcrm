@@ -46,6 +46,9 @@ $model->scenario = 'insert';
 
     <div id="products" data-key="1">
         <div class="row">
+            <div style="display: none">
+                <?= $form->field($model,'pro[0][id]')->textInput()?>
+            </div>
             <div class="col-md-3">
                 <?= $form->field($model, 'pro[0][product_id]')->dropDownList(
                         \yii\helpers\ArrayHelper::map(\common\models\Product::find()->all(),'id','name'),
@@ -91,7 +94,7 @@ $url_company = \yii\helpers\Url::to(['come/company']);
 $this->registerJs("
     $('.addbtn').click(function(){
         key = $('#products').data('key');
-        var str = '<div class=\"row\"><div class=\"col-md-3\"><div class=\"form-group field-come-pro-'+key+'-product_id\"><label class=\"control-label\" for=\"come-pro-'+key+'-product_id\">Маҳсулот</label><select id=\"come-pro-'+key+'-product_id\" data-key=\"'+key+'\" class=\"form-control productid\" name=\"Come[pro]['+key+'][product_id]\" onchange=\"productchanger('+key+')\"></select></div></div><div class=\"col-md-2\"><div class=\"form-group field-come-pro-'+key+'-cnt\"><label class=\"control-label\" for=\"come-pro-'+key+'-cnt\">Умумий сони</label><input type=\"text\" id=\"come-pro-'+key+'-cnt\" class=\"form-control\" name=\"Come[pro]['+key+'][cnt]\" onkeyup=\"pricecalc('+key+')\"></div>            </div><div class=\"col-md-2\"><div class=\"form-group field-come-pro-'+key+'-box\"><label class=\"control-label\" for=\"come-pro-'+key+'-box\">Коропкалар сони</label><input type=\"text\" id=\"come-pro-'+key+'-box\" class=\"form-control\" name=\"Come[pro]['+key+'][box]\" onkeyup=\"pricecalc('+key+')\"></div>            </div><div class=\"col-md-2\"><div class=\"form-group field-come-pro-'+key+'-price\"><label class=\"control-label\" for=\"come-pro-'+key+'-price\">Нархи</label><input type=\"text\" id=\"come-pro-'+key+'-price\" class=\"form-control\" name=\"Come[pro]['+key+'][price]\" onkeyup=\"pricecalc('+key+')\"></div>            </div><div class=\"col-md-2\"><div class=\"form-group field-come-pro-'+key+'-cnt_price\"><label class=\"control-label\" for=\"come-pro-'+key+'-cnt_price\">Умумий нархи</label><input type=\"text\" id=\"come-pro-'+key+'-cnt_price\" class=\"form-control\" name=\"Come[pro]['+key+'][cnt_price]\" disabled=\"\"></div></div><div class=\"col-md-1\"><button  onclick=\"remover('+key+')\"  type=\"button\" class=\"btn btn-danger remover\"><span class=\"fa fa-trash\"></span></button></div></div>';        
+        var str = '<div class=\"row\"><div style=\"display: none\"><div class=\"form-group field-come-pro-'+key+'-id\"><input type=\"text\" id=\"come-pro-'+key+'-id\" class=\"form-control\" name=\"Come[pro]['+key+'][id]\"></div></div><div class=\"col-md-3\"><div class=\"form-group field-come-pro-'+key+'-product_id\"><label class=\"control-label\" for=\"come-pro-'+key+'-product_id\">Маҳсулот</label><select id=\"come-pro-'+key+'-product_id\" data-key=\"'+key+'\" class=\"form-control productid\" name=\"Come[pro]['+key+'][product_id]\" onchange=\"productchanger('+key+')\"></select></div></div><div class=\"col-md-2\"><div class=\"form-group field-come-pro-'+key+'-cnt\"><label class=\"control-label\" for=\"come-pro-'+key+'-cnt\">Умумий сони</label><input type=\"text\" id=\"come-pro-'+key+'-cnt\" class=\"form-control\" name=\"Come[pro]['+key+'][cnt]\" onkeyup=\"pricecalc('+key+')\"></div>            </div><div class=\"col-md-2\"><div class=\"form-group field-come-pro-'+key+'-box\"><label class=\"control-label\" for=\"come-pro-'+key+'-box\">Коропкалар сони</label><input type=\"text\" id=\"come-pro-'+key+'-box\" class=\"form-control\" name=\"Come[pro]['+key+'][box]\" onkeyup=\"pricecalc('+key+')\"></div>            </div><div class=\"col-md-2\"><div class=\"form-group field-come-pro-'+key+'-price\"><label class=\"control-label\" for=\"come-pro-'+key+'-price\">Нархи</label><input type=\"text\" id=\"come-pro-'+key+'-price\" class=\"form-control\" name=\"Come[pro]['+key+'][price]\" onkeyup=\"pricecalc('+key+')\"></div>            </div><div class=\"col-md-2\"><div class=\"form-group field-come-pro-'+key+'-cnt_price\"><label class=\"control-label\" for=\"come-pro-'+key+'-cnt_price\">Умумий нархи</label><input type=\"text\" id=\"come-pro-'+key+'-cnt_price\" class=\"form-control\" name=\"Come[pro]['+key+'][cnt_price]\" disabled=\"\"></div></div><div class=\"col-md-1\"><button  onclick=\"remover('+key+')\"  type=\"button\" class=\"btn btn-danger remover\"><span class=\"fa fa-trash\"></span></button></div></div>';        
         $('#products').append(str);
         $('#come-pro-'+key+'-product_id').html($('#come-pro-0-product_id').html());
         $('#products').data('key',key+1);
@@ -147,8 +150,12 @@ $this->registerJs("
             $.get('{$url_company}?name='+searchField).done(function(data){
                 $('#livesearch').empty(data);
                 $('#livesearch').append(data);
-            })
-                            
+            })               
+        });
+        $('#come-c_name').focusout(function(){
+            setTimeout(function(){
+                $('#livesearch').html('');
+            }, 200);
         });
         $('#livesearch').on('click', 'li', function() {
             var click_text = $(this).text();
@@ -171,6 +178,7 @@ $this->registerJs("
 
 
     <div class=\"row\">
+        <div style=\"display: none\"><div class=\"form-group field-come-pro-'+key+'-id\"><input type=\"text\" id=\"come-pro-'+key+'-id\" class=\"form-control\" name=\"Come[pro]['+key+'][id]\"></div></div>
         <div class=\"col-md-4\">
             <div class=\"form-group field-come-pro-'+key+'-product_id\">
             <label class=\"control-label\" for=\"come-pro-'+key+'-product_id\">Маҳсулот</label>

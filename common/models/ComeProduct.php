@@ -7,6 +7,7 @@ use Yii;
 /**
  * This is the model class for table "come_product".
  *
+ * @property int $id
  * @property int $come_id
  * @property int $product_id
  * @property float|null $cnt
@@ -34,7 +35,7 @@ class ComeProduct extends \yii\db\ActiveRecord
     {
         return [
             [['come_id', 'product_id'], 'required'],
-            [['come_id', 'product_id', 'box'], 'integer'],
+            [['come_id', 'product_id', 'box','id'], 'integer'],
             [['cnt', 'price', 'cnt_price'], 'number'],
             [['come_id', 'product_id'], 'unique', 'targetAttribute' => ['come_id', 'product_id']],
             [['come_id'], 'exist', 'skipOnError' => true, 'targetClass' => Come::class, 'targetAttribute' => ['come_id' => 'id']],
