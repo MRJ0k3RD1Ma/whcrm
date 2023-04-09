@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\modules\store\controllers;
+namespace frontend\modules\cp\controllers;
 
 use common\models\Come;
 use common\models\ComeProduct;
@@ -46,7 +46,7 @@ class ComeController extends Controller
     public function actionIndex()
     {
         $searchModel = new ComeSearch();
-        $dataProvider = $searchModel->searchStore($this->request->queryParams);
+        $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -62,18 +62,8 @@ class ComeController extends Controller
      */
     public function actionView($id)
     {
-        $model = $this->findModel($id);
-        $sts = $model->status;
-        if($model->load($this->request->post()) and $model->save()){
-            if($model->status == $sts){
-                Yii::$app->session->setFlash('error', 'Статус таҳрирланмади');
-            }else{
-                Yii::$app->session->setFlash('success', 'Ўзгаришлар сақланди');
-            }
-            $this->refresh();
-        }
         return $this->render('view', [
-            'model' => $model,
+            'model' => $this->findModel($id),
         ]);
     }
 

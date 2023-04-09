@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\modules\cp\controllers;
+namespace frontend\modules\store\controllers;
 
 use common\models\search\ProductSearch;
 use common\models\Warehouse;
@@ -40,7 +40,7 @@ class WarehouseController extends Controller
     public function actionIndex()
     {
         $searchModel = new WarehouseSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+        $dataProvider = $searchModel->searchStore($this->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,

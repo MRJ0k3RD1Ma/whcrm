@@ -17,28 +17,39 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="card">
         <div class="card-body">
 
-    <p class="text-right">
-        <?= Html::a('Omborxona qo`shish', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+            <p class="text-right">
+                <?= Html::a('Omborxona qo`shish', ['create'], ['class' => 'btn btn-success']) ?>
+            </p>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+            <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            <?= GridView::widget([
+                'dataProvider' => $dataProvider,
+                'filterModel' => $searchModel,
+                'columns' => [
+                    ['class' => 'yii\grid\SerialColumn'],
 
 //            'id',
-            'name',
-            [
-                'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Warehouse $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'id' => $model->id]);
-                 }
-            ],
-        ],
-    ]); ?>
+                    [
+                        'attribute' => 'name',
+                        'format' => 'raw',
+                        'value' => function (Warehouse $model) {
+                            return Html::a($model->name, Url::to(['view', 'id' => $model->id]));
+                        },
+                    ],
+                    [
+                        'label'=>'Mas`ullar',
+                        'value'=>function($data){
+                            $users = $data->users;
+                            $userNames = [];
+                            foreach ($users as $user){
+                                $userNames[] = $user->name;
+                            }
+                            return implode(', ', $userNames);
+                        },
+                    ],
+                ],
+            ]); ?>
 
 
         </div>

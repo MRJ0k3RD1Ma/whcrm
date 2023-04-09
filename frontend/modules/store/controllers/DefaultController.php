@@ -20,15 +20,9 @@ class DefaultController extends Controller
         return $this->render('index');
     }
 
-    public function actionWarehouse()
+    public function actionOutlay()
     {
-        $searchModel = new WarehouseSearch();
-        $dataProvider = $searchModel->searchStore($this->request->queryParams);
-
-        return $this->render('warehouse', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+        return $this->render('outlay');
     }
 
     public function actionProfile(){

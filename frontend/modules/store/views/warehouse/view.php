@@ -20,35 +20,24 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="card-body">
 
 
-            <p>
-                <?= Html::a('O`zgartirish', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-                <?= Html::a('O`chirish', ['delete', 'id' => $model->id], [
-                    'class' => 'btn btn-danger',
-                    'data' => [
-                        'confirm' => 'Are you sure you want to delete this item?',
-                        'method' => 'post',
-                    ],
-                ]) ?>
-            </p>
-
-            <?= DetailView::widget([
-                'model' => $model,
-                'attributes' => [
-                    'id',
-                    'name',
-                    [
-                        'label'=>'Mas`ullar',
-                        'value'=>function($data){
-                            $users = $data->users;
-                            $userNames = [];
-                            foreach ($users as $user){
-                                $userNames[] = $user->name;
-                            }
-                            return implode(', ', $userNames);
-                        },
-                    ],
-                ],
-            ]) ?>
+    <?= DetailView::widget([
+        'model' => $model,
+        'attributes' => [
+            'id',
+            'name',
+            [
+                'label'=>'Mas`ullar',
+                'value'=>function($data){
+                    $users = $data->users;
+                    $userNames = [];
+                    foreach ($users as $user){
+                        $userNames[] = $user->name;
+                    }
+                    return implode(', ', $userNames);
+                },
+            ],
+        ],
+    ]) ?>
 
 
             <br>

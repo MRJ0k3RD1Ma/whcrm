@@ -121,6 +121,21 @@ class Product extends \yii\db\ActiveRecord
         return $this->hasMany(Price::class, ['product_id' => 'id']);
     }
 
+    public function getProductCount($wh_id){
+        if($wh_product = WhProduct::find()->where(['wh_id'=>$wh_id,'product_id'=>$this->id])->one()){
+            return $wh_product->count;
+        }else{
+            return 0;
+        }
+    }
+
+    public function getProductBoxCount($wh_id){
+        if($wh_product = WhProduct::find()->where(['wh_id'=>$wh_id,'product_id'=>$this->id])->one()){
+            return $wh_product->box;
+        }else{
+            return 0;
+        }
+    }
     /**
      * Gets query for [[ProductImages]].
      *

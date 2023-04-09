@@ -1,7 +1,6 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
 use yii\widgets\DetailView;
 
 /** @var yii\web\View $this */
@@ -17,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="card">
         <div class="card-body">
 
-            <?php if($model->status != 2){?>
+
             <p>
                 <?= Html::a('Ўзгартириш', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
                 <?= Html::a('Ўчириш', ['delete', 'id' => $model->id], [
@@ -28,13 +27,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                 ]) ?>
             </p>
-
-            <?php $form = ActiveForm::begin()?>
-            <?= $form->field($model, 'status')->dropDownList(Yii::$app->params['status.come'])?>
-            <?= Html::submitButton('Сақлаш', ['class' => 'btn btn-success'])?>
-            <?php ActiveForm::end();?>
-            <br>
-            <?php }?>
 
     <?= DetailView::widget([
         'model' => $model,

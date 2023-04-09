@@ -48,16 +48,16 @@ class CIndividual extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'name' => 'FIO',
-            'pnfl' => 'JSHSHIR(PNFL)',
-            'inn' => 'STIR(INN)',
-            'passport' => 'Pasport seriya va raqami',
-            'address' => 'Manzili',
-            'gender' => 'Jinsi',
-            'phone' => 'Telefon raqami',
-            'created' => 'Yaratildi',
-            'updated' => 'O`zgartirildi',
+            'id' => 'ИД',
+            'name' => 'ФИО',
+            'pnfl' => 'ЖШ ШИР(НПФЛ))',
+            'inn' => 'СТИР(ИНН)',
+            'passport' => 'Паспорт серия рақами',
+            'address' => 'Манзили',
+            'gender' => 'Жинси',
+            'phone' => 'Телефон',
+            'created' => 'Яратилди',
+            'updated' => 'Ўзгартирилди',
         ];
     }
 

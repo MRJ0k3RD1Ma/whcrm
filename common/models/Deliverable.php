@@ -53,14 +53,14 @@ class Deliverable extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'product_id' => 'Mahsulot nomi',
-            'supplier_id' => 'Yetkazib beruvchi',
-            'retail_price' => 'Bitta narxi',
-            'wholesale_price' => 'Optom narxi',
-            'dtime' => 'Muddat',
-            'dcondition' => 'Sharoiti',
-            'created' => 'Yaratildi',
-            'updated' => 'O`zgartirildi',
+            'product_id' => 'Маҳсулот номи',
+            'supplier_id' => 'Етказиб берувчи',
+            'retail_price' => 'Битта нархи',
+            'wholesale_price' => 'Оптом нархи',
+            'dtime' => 'Муддати',
+            'dcondition' => 'Шароити',
+            'created' => 'Яратилди',
+            'updated' => 'Ўзгартирилди',
         ];
     }
 

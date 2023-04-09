@@ -42,9 +42,9 @@ class Bank extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'mfo' => 'MFO',
-            'name' => 'Bank nomi',
+            'id' => 'ИД',
+            'mfo' => 'МФО',
+            'name' => 'Банк номи',
         ];
     }
 

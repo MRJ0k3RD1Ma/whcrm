@@ -23,7 +23,7 @@ $model->scenario = 'insert';
             <?= $form->field($model, 'date')->textInput(['type'=>'date']) ?>
         </div>
         <div class="col-md-6">
-            <?= $form->field($model,'ware_id')->dropDownList(\yii\helpers\ArrayHelper::map(\common\models\Warehouse::find()->where('id in (select ware_id from ware_user where user_id = '.Yii::$app->user->id.')')->all(),'id','name'),['prompt'=>'Омборхонани танланг'])?>
+            <?= $form->field($model,'ware_id')->dropDownList(\yii\helpers\ArrayHelper::map(\common\models\Warehouse::find()->all(),'id','name'),['prompt'=>'Омборхонани танланг'])?>
         </div>
     </div>
 
@@ -133,7 +133,7 @@ $this->registerJs("
         var str = '<div class=\"row\"><div style=\"display: none\"><div class=\"form-group field-come-pro-'+key+'-id\"><input type=\"text\" id=\"come-pro-'+key+'-id\" class=\"form-control\" name=\"Come[pro]['+key+'][id]\"></div></div><div class=\"col-md-3\"><div class=\"form-group field-come-pro-'+key+'-product_id\"><label class=\"control-label\" for=\"come-pro-'+key+'-product_id\">Маҳсулот</label><select id=\"come-pro-'+key+'-product_id\" data-key=\"'+key+'\" class=\"form-control productid\" name=\"Come[pro]['+key+'][product_id]\" onchange=\"productchanger('+key+')\"></select></div></div><div class=\"col-md-2\"><div class=\"form-group field-come-pro-'+key+'-cnt\"><label class=\"control-label\" for=\"come-pro-'+key+'-cnt\">Умумий сони</label><input type=\"text\" id=\"come-pro-'+key+'-cnt\" class=\"form-control\" name=\"Come[pro]['+key+'][cnt]\" onkeyup=\"pricecalc('+key+')\"></div>            </div><div class=\"col-md-2\"><div class=\"form-group field-come-pro-'+key+'-box\"><label class=\"control-label\" for=\"come-pro-'+key+'-box\">Коропкалар сони</label><input type=\"text\" id=\"come-pro-'+key+'-box\" class=\"form-control\" name=\"Come[pro]['+key+'][box]\" onkeyup=\"pricecalc('+key+')\"></div>            </div><div class=\"col-md-2\"><div class=\"form-group field-come-pro-'+key+'-price\"><label class=\"control-label\" for=\"come-pro-'+key+'-price\">Нархи</label><input type=\"text\" id=\"come-pro-'+key+'-price\" class=\"form-control\" name=\"Come[pro]['+key+'][price]\" onkeyup=\"pricecalc('+key+')\"></div>            </div><div class=\"col-md-2\"><div class=\"form-group field-come-pro-'+key+'-cnt_price\"><label class=\"control-label\" for=\"come-pro-'+key+'-cnt_price\">Умумий нархи</label><input type=\"text\" id=\"come-pro-'+key+'-cnt_price\" class=\"form-control\" name=\"Come[pro]['+key+'][cnt_price]\" disabled=\"\"></div></div><div class=\"col-md-1\"><button  onclick=\"remover('+key+')\"  type=\"button\" class=\"btn btn-danger remover\"><span class=\"fa fa-trash\"></span></button></div></div>';        
         $('#products').append(str);
         $.ajax({
-            url: '/store/come/get-product',
+            url: '/cp/come/get-product',
             type: 'POST',
             success: function(data){
                 $('#come-pro-'+key+'-product_id').html(data);
@@ -152,7 +152,7 @@ $this->registerJs("
 //        });
         
         $.ajax({
-            url: '/store/come/get-price',
+            url: '/cp/come/get-price',
             type: 'POST',
             data: {product_id:product_id},
             success: function(data){
@@ -166,7 +166,7 @@ $this->registerJs("
         var box = $('#come-pro-'+key+'-box').val();
         var price = $('#come-pro-'+key+'-price').val();
         
-        $.get('/store/come/get-fullprice',{
+        $.get('/cp/come/get-fullprice',{
             product_id:$('#come-pro-'+key+'-product_id').val(),
             box:box,
             cnt:cnt,

@@ -18,8 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="card-body">
 
     <p class="text-right">
-        <?= Html::a('Kirim', ['create'], ['class' => 'btn btn-success']) ?>
-        <?= Html::a('Chiqim', ['create'], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Omborxona qo`shish', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -31,13 +30,14 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
 //            'id',
-            'name',
             [
-                'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Warehouse $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'id' => $model->id]);
-                 }
+                'attribute' => 'name',
+                'format' => 'raw',
+                'value' => function (Warehouse $model) {
+                    return Html::a($model->name, Url::to(['view', 'id' => $model->id]));
+                },
             ],
+
         ],
     ]); ?>
 

@@ -54,21 +54,21 @@ class CLegal extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'name' => 'Tashkilot nomi',
-            'inn' => 'STIR(INN)',
-            'bank_id' => 'Bank',
-            'address' => 'Manzil',
-            'oked' => 'OKED',
-            'account' => 'Hisob raqami',
-            'director' => 'Direktor',
-            'director_phone' => 'Direktor telefoni',
-            'bux' => 'Buxgalter',
-            'bux_phone' => 'Buxgalter telefoni',
-            'phone' => 'Tashkilot telefoni',
-            'phone_name' => 'Mas`ul hodim',
-            'created' => 'Yaratildi',
-            'updated' => 'O`zgartirildi',
+            'id' => 'ИД',
+            'name' => 'Ташкилот номи',
+            'inn' => 'СТИР(ИНН)',
+            'bank_id' => 'Банк',
+            'address' => 'Манзили',
+            'oked' => 'ОКЕД',
+            'account' => 'Расмий счет',
+            'director' => 'Директор',
+            'director_phone' => 'Директор телефони',
+            'bux' => 'Бухгалтер',
+            'bux_phone' => 'Бухгалтер телефони',
+            'phone' => 'Ташкилот телефони',
+            'phone_name' => 'Маъсул телефони',
+            'created' => 'Яратилди',
+            'updated' => 'Ўзгартирилди',
         ];
     }
 

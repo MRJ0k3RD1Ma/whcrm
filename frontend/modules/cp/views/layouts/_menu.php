@@ -15,57 +15,63 @@
                     </li>
 
                     <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#">
-                            <i data-feather="box"></i><span class="lan-6">Mahsulotlar</span></a>
+                            <i data-feather="box"></i><span class="lan-6">Маҳсулотлар</span></a>
                         <ul class="sidebar-submenu">
-                            <li><a href="<?= Yii::$app->urlManager->createUrl(['/cp/product'])?>">Mahsulotlar</a></li>
-                            <li><a href="<?= Yii::$app->urlManager->createUrl(['/cp/category'])?>">Kategoriyalar</a></li>
-                            <li><a href="<?= Yii::$app->urlManager->createUrl(['/cp/unit'])?>">Birliklar</a></li>
+                            <li><a href="<?= Yii::$app->urlManager->createUrl(['/cp/product'])?>">Маҳсулотлар</a></li>
+                            <li><a href="<?= Yii::$app->urlManager->createUrl(['/cp/category'])?>">Категориялар</a></li>
+                            <li><a href="<?= Yii::$app->urlManager->createUrl(['/cp/unit'])?>">Бирликлар</a></li>
                         </ul>
                     </li>
 
                     <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#">
-                            <i data-feather="layers"></i><span class="lan-6">Mijozlar</span></a>
+                            <i data-feather="layers"></i><span class="lan-6">Мижозлар</span></a>
                         <ul class="sidebar-submenu">
-                            <li><a href="<?= Yii::$app->urlManager->createUrl(['/cp/c-individual'])?>">Jismoniy shaxslar</a></li>
-                            <li><a href="<?= Yii::$app->urlManager->createUrl(['/cp/c-legal'])?>">Yuridik shaxslar</a></li>
-                            <li><a href="#">Lidlar</a></li>
+                            <li><a href="<?= Yii::$app->urlManager->createUrl(['/cp/c-individual'])?>">Жисмоний шахслар</a></li>
+                            <li><a href="<?= Yii::$app->urlManager->createUrl(['/cp/c-legal'])?>">Юридлик шахслар</a></li>
+                            <li><a href="#">Лидлар</a></li>
                         </ul>
                     </li>
 
                     <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#">
-                            <i data-feather="truck"></i><span class="lan-6">Yetkazuvchilar</span></a>
+                            <i data-feather="truck"></i><span class="lan-6">Етказувчилар</span></a>
                         <ul class="sidebar-submenu">
-                            <li><a href="<?= Yii::$app->urlManager->createUrl(['/cp/supplier'])?>">Mahsulot yetkazuvchilar</a></li>
-                            <li><a href="<?= Yii::$app->urlManager->createUrl(['/cp/deliverable'])?>">Mahsulotlar</a></li>
+                            <li><a href="<?= Yii::$app->urlManager->createUrl(['/cp/supplier'])?>">Етказиб берувчилар</a></li>
+                            <li><a href="<?= Yii::$app->urlManager->createUrl(['/cp/deliverable'])?>">Маҳсулотлар</a></li>
                         </ul>
                     </li>
 
                     <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#">
-                            <i data-feather="shopping-cart"></i><span class="lan-6">Buyurtmalar</span></a>
+                            <i data-feather="shopping-cart"></i><span class="lan-6">Буюртмалар</span></a>
                         <ul class="sidebar-submenu">
-                            <li><a href="#">Buyurtmalar</a></li>
-                            <li><a href="#">Qarzdorlik</a></li>
-                            <li><a href="#">To`lovlar</a></li>
+                            <li><a href="#">Буюртмалар</a></li>
+                            <li><a href="#">Қарздорлик</a></li>
+                            <li><a href="#">Тўловлар</a></li>
                         </ul>
                     </li>
 
 
                     <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#">
-                            <i data-feather="dollar-sign"></i><span class="lan-6">Xarajatlar</span></a>
+                            <i data-feather="dollar-sign"></i><span class="lan-6">Харажатлар</span></a>
                         <ul class="sidebar-submenu">
-                            <li><a href="#">Mahsulot xarajatnomasi</a></li>
-                            <li><a href="#">Oylik maoshlar</a></li>
-                            <li><a href="#">Boshqa xarajatlar</a></li>
-                            <li><a href="#">Kirim/chiqim statistikasi</a></li>
+                            <li><a href="#">Маҳсулот харажатномаси</a></li>
+                            <li><a href="#">Ойлик маошлар</a></li>
+                            <li><a href="#">Бошқа харажатлар</a></li>
+                            <li><a href="#">Кирим/чиқим статистикаси</a></li>
                         </ul>
                     </li>
 
+                    <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#">
+                            <i data-feather="archive"></i><span class="lan-6">Omborxona</span></a>
+                        <ul class="sidebar-submenu">
+                            <li><a href="<?= Yii::$app->urlManager->createUrl(['/cp/warehouse'])?>">Омборхоналар</a></li>
+                            <li><a href="<?= Yii::$app->urlManager->createUrl(['/cp/come'])?>">Кирим</a></li>
+                            <li><a href="#">Чиқим</a></li>
+                        </ul>
+                    </li>
 
-                    <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="<?= Yii::$app->urlManager->createUrl(['/cp/warehouse'])?>"><i data-feather="archive"> </i><span>Omborxona</span></a></li>
+                    <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="<?= Yii::$app->urlManager->createUrl(['/cp/bank'])?>"><i class="fa fa-bank"> </i><span>Банклар</span></a></li>
 
-                    <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="<?= Yii::$app->urlManager->createUrl(['/cp/bank'])?>"><i class="fa fa-bank"> </i><span>Banklar</span></a></li>
-
-                    <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="<?= Yii::$app->urlManager->createUrl(['/cp/user'])?>"><i data-feather="users"> </i><span>Foydalanuvchilar</span></a></li>
+                    <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="<?= Yii::$app->urlManager->createUrl(['/cp/user'])?>"><i data-feather="users"> </i><span>Фойдаланувчилар</span></a></li>
 
                 </ul>
             </div>
