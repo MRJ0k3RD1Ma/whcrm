@@ -185,4 +185,8 @@ class Product extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Warehouse::class, ['id' => 'wh_id'])->viaTable('wh_product', ['product_id' => 'id']);
     }
+
+    public function getGranules(){
+        return $this->hasMany(ProductMade::class, ['product_id' => 'id']);
+    }
 }

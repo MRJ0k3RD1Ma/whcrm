@@ -49,6 +49,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             [['name', 'username',], 'required'],
             [['password'],'required','on'=>'create'],
             [['created', 'updated'], 'safe'],
+            ['username', 'match' ,'pattern'=>'/^[A-Za-z0-9_]+$/u', 'message'=>'Логин кичик лотин харфлари ва рақамлардан иборат боўлиши керак'],
             [['role_id', 'status'], 'integer'],
             [['name', 'username', 'phone'], 'string', 'max' => 255],
             [['password', 'auth_key', 'verification_token', 'password_reset_token'], 'string', 'max' => 500],

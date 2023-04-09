@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /** @var yii\web\View $this */
 /** @var common\models\Come $model */
 
-$this->title = $model->id;
+$this->title = $model->date;
 $this->params['breadcrumbs'][] = ['label' => 'Киримлар', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -30,7 +30,10 @@ $this->params['breadcrumbs'][] = $this->title;
             </p>
 
             <?php $form = ActiveForm::begin()?>
+            <?= $form->field($model, 'note')->textInput()?>
+
             <?= $form->field($model, 'status')->dropDownList(Yii::$app->params['status.come'])?>
+
             <?= Html::submitButton('Сақлаш', ['class' => 'btn btn-success'])?>
             <?php ActiveForm::end();?>
             <br>

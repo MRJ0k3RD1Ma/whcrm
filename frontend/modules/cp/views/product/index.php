@@ -59,6 +59,13 @@ $this->params['breadcrumbs'][] = $this->title;
             //'bio:ntext',
             //'is_sale',
             //'is_good',
+            [
+                'attribute'=>'is_good',
+                'value'=>function($model){
+                    return Yii::$app->params['is_good'][$model->is_good];
+                },
+                'filter'=>Yii::$app->params['is_good']
+            ],
             //'expiry_month',
 //            'unit_id',
             [

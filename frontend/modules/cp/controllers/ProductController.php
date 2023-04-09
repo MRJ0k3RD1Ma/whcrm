@@ -4,6 +4,7 @@ namespace frontend\modules\cp\controllers;
 
 use common\models\Price;
 use common\models\Product;
+use common\models\ProductMade;
 use common\models\search\ProductSearch;
 use Yii;
 use yii\web\Controller;
@@ -58,9 +59,32 @@ class ProductController extends Controller
      */
     public function actionView($id)
     {
+        $granule = new ProductMade();
+        $granule->product_id = $id;
+        if($granule->load($this->request->post())){
+            if($granule->save()){
+                Yii::$app->session->setFlash('success', 'Гранула қўшилди');
+            }else{
+                Yii::$app->session->setFlash('error', 'Гранула қўшилмади');
+            }
+
+            return $this->redirect(['view', 'id' => $id]);
+        }
+
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'granule' => $granule,
         ]);
+    }
+
+    public function actionDeleteGranule($id,$granule_id){
+        if($model = ProductMade::find()->where(['product_id'=>$id,'granule_id'=>$granule_id])->one()) {
+            $model->delete();
+            Yii::$app->session->setFlash('success', 'Гранула ўчирилди');
+        }else{
+            Yii::$app->session->setFlash('error', 'Гранула ўчирилмади');
+        }
+        return $this->redirect(['view', 'id' => $id]);
     }
 
     /**

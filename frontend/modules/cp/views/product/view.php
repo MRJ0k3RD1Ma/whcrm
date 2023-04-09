@@ -1,11 +1,12 @@
 <?php
 
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 use yii\widgets\DetailView;
 use yii\helpers\Url;
 /** @var yii\web\View $this */
 /** @var common\models\Product $model */
-
+/** @var \common\models\ProductMade $granule*/
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Mahsulotlar', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
@@ -88,8 +89,49 @@ $this->params['breadcrumbs'][] = $this->title;
                     ]) ?>
                 </div>
                 <div class="col-md-6">
+                    <?php if($model->is_good){?>
+                        <h4>Ушбу маҳсулотни ишлаб чиқариш учун керакли гранулалар</h4>
+                        <?php $form = ActiveForm::begin()?>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <?= $form->field($granule, 'granule_id')->dropDownList(\yii\helpers\ArrayHelper::map(\common\models\Product::find()->where(['is_good'=>0])->andWhere('id not in (select granule_id from product_made where product_id='.$model->id.')')->all(), 'id', 'name'), ['prompt'=>'']) ?>
+                            </div>
+                            <div class="col-md-6">
+                                <?= $form->field($granule, 'count')->textInput() ?>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <?= Html::submitButton('Saqlash', ['class' => 'btn btn-success']) ?>
+                        </div>
+                        <?php ActiveForm::end()?>
+
+                    <br>
+                    <h5>Ушбу маҳсулотни ишлаб чиқариш учун керакли гранулалар</h5>
+                        <table class="table table-bordered dataTable">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Гранула</th>
+                                <th>Миқдори</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach ($model->granules as $key => $granule): ?>
+                                <tr>
+                                    <td><?= $key+1 ?></td>
+                                    <td><?= $granule->product->name ?></td>
+                                    <td><?= $granule->count ?></td>
+                                    <td><a href="<?= Yii::$app->urlManager->createUrl(['/cp/product/delete-granule','id'=>$model->id,'granule_id'=>$granule->granule_id])?>" class="btn btn-danger"><span class="fa fa-trash"></span></a></td>
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                        <br>
+                    <?php }?>
                     <h5>Ushbu mahsulotni yetkazib beruvchilar</h5>
-                    <table class="table table-bordered">
+                    <table class="table table-bordered dataTable">
                         <thead>
                         <tr>
                             <th>#</th>
