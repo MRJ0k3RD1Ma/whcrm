@@ -10,6 +10,7 @@ use common\models\Product;
 use common\models\search\ComeSearch;
 use common\models\Supplier;
 use common\models\WhProduct;
+use yii\db\Exception;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -77,12 +78,14 @@ class ComeController extends Controller
         $model->date = date('Y-m-d');
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
+                $transaction = Yii::$app->db->beginTransaction();
+                try{
                 $model->creator_id = Yii::$app->user->id;
                 $model->status = 1;
-                if($model->c_id == -1){
-                    if($s = Supplier::find()->where(['name'=>$model->c_name])->orWhere(['phone'=>$model->c_phone])->one()){
+                if ($model->c_id == -1) {
+                    if ($s = Supplier::find()->where(['name' => $model->c_name])->orWhere(['phone' => $model->c_phone])->one()) {
                         $model->supplier_id = $s->id;
-                    }else{
+                    } else {
                         $supplier = new Supplier();
                         $supplier->name = $model->c_name;
                         $supplier->phone = $model->c_phone;
@@ -90,36 +93,46 @@ class ComeController extends Controller
                         $supplier->save();
                         $model->supplier_id = $supplier->id;
                     }
-                }else{
+                } else {
                     $model->supplier_id = $model->c_id;
                 }
-                if($model->save()){
+                if ($model->save()) {
                     $pro = $model->pro;
                     foreach ($pro as $item) {
+
+                        if(!$item['product_id'] or !$item['cnt'] or !$item['price']){
+                            continue;
+                        }
                         $come = new ComeProduct();
-                        $id = ComeProduct::find()->where(['come_id'=>$model->id,'product_id'=>$item['product_id']])->max('id');
-                        if(!$id){
+                        $id = ComeProduct::find()->where(['come_id' => $model->id, 'product_id' => $item['product_id']])->max('id');
+                        if (!$id) {
                             $id = 0;
                         }
-                        $id ++;
+                        $id++;
                         $come->id = $id;
                         $come->come_id = $model->id;
                         $come->product_id = $item['product_id'];
                         $come->price = $item['price'];
                         $come->cnt = $item['cnt'];
                         $come->box = $item['box'];
-                        $come->cnt_price = ($item['cnt'] + $item['box'] * $come->product->box ) * $item['price'];
-                        if($come->save()) {
+                        $come->cnt_price = ($item['cnt'] + $item['box'] * $come->product->box) * $item['price'];
+                        if ($come->save()) {
                             $deliverable = null;
                             if ($deliverable = Deliverable::findOne(['supplier_id' => $model->supplier_id, 'product_id' => $item['product_id']])) {
                                 $deliverable->retail_price = $item['price'];
-                                $deliverable->save();
+                                if(!$deliverable->save()){
+                                    Yii::$app->session->setFlash('error', 'deliverable save error');
+                                    $transaction->rollBack();
+                                }
                             } else {
                                 $deliverable = new Deliverable();
                                 $deliverable->supplier_id = $model->supplier_id;
                                 $deliverable->product_id = $item['product_id'];
                                 $deliverable->retail_price = $item['price'];
-                                $deliverable->save();
+                                if(!$deliverable->save()){
+                                    Yii::$app->session->setFlash('error', 'deliverable save error 2');
+                                    $transaction->rollBack();
+                                }
                             }
                             $product = null;
                             if ($product = Product::findOne($item['product_id'])) {
@@ -139,7 +152,10 @@ class ComeController extends Controller
                                         $pr->wholesale_price = $price->wholesale_price;
                                         $pr->user_id = Yii::$app->user->id;
                                         $pr->date = date('Y-m-d');
-                                        $pr->save();
+                                        if(!$pr->save()){
+                                            Yii::$app->session->setFlash('error', 'price save error');
+                                            $transaction->rollBack();
+                                        }
                                         $price = $pr;
                                     }
                                 } else {
@@ -151,9 +167,18 @@ class ComeController extends Controller
                                     $price->wholesale_price = 0;
                                     $price->user_id = Yii::$app->user->id;
                                     $price->date = date('Y-m-d');
-                                    $price->save();
+                                    if(!$price->save()){
+                                        Yii::$app->session->setFlash('error', 'Price save error 23');
+                                        $transaction->rollBack();
+                                    }
                                 }
-                                $product->save();
+                                $product->basic_price = $price->base_price;
+                                $product->retail_price = $price->retail_price;
+                                $product->wholesale_price = $price->wholesale_price;
+                                if(!$product->save(false)){
+                                    Yii::$app->session->setFlash('error', 'Product save error');
+                                    $transaction->rollBack();
+                                }
                             }
 
 
@@ -166,8 +191,11 @@ class ComeController extends Controller
                                 $whproduct->retail_price = $price->retail_price;
                                 $whproduct->wholesale_price = $price->wholesale_price;
                                 $whproduct->box += $item['box'];
-                                $whproduct->save();
-                            }else{
+                                if(!$whproduct->save()){
+                                    Yii::$app->session->setFlash('error', 'Whproduct save error');
+                                    $transaction->rollBack();
+                                }
+                            } else {
                                 $whproduct = new WhProduct();
                                 $whproduct->product_id = $item['product_id'];
                                 $whproduct->wh_id = $model->ware_id;
@@ -178,11 +206,25 @@ class ComeController extends Controller
                                 $whproduct->retail_price = $price->retail_price;
                                 $whproduct->wholesale_price = $price->wholesale_price;
                                 $whproduct->box = $item['box'];
-                                $whproduct->save();
+                                if(!$whproduct->save()){
+                                    Yii::$app->session->setFlash('error', 'Whproduct save error 2');
+                                    $transaction->rollBack();
+                                }
                             }
+                        }else{
+                            Yii::$app->session->setFlash('error', 'Come save error');
+                            $transaction->rollBack();
                         }
                     }
+                    $transaction->commit();
+                } else {
+                    Yii::$app->session->setFlash('error', 'Model save error');
+                    $transaction->rollBack();
                 }
+            }catch(\Exception $e){
+                $transaction->rollBack();
+                throw $e;
+            }
 
                 return $this->redirect(['view', 'id' => $model->id]);
             }
