@@ -2,6 +2,7 @@
 
 namespace frontend\modules\cp\controllers;
 
+use common\models\BrigadaProduct;
 use common\models\ProductUser;
 use common\models\User;
 use common\models\search\UserSearch;
@@ -56,7 +57,7 @@ class UserController extends Controller
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id,$ware_id=null,$product_id = null)
+    public function actionView($id,$ware_id=null,$product_id = null,$brigada_id = null)
     {
         $model = $this->findModel($id);
         if($ware_id){
@@ -91,12 +92,42 @@ class UserController extends Controller
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
+        if($brigada_id){
+            $brigada = BrigadaProduct::findOne(['user_id'=>$id,'product_id'=>$brigada_id]);
+        }else{
+            $brigada = new BrigadaProduct();
+            $brigada->user_id = $id;
+        }
+        if($brigada->load($this->request->post())){
+            if($brigada->save()){
+                Yii::$app->session->setFlash('success', 'Muvoffaqiyatli Saqlandi');
+            }else{
+                Yii::$app->session->setFlash('error', 'Bu foydalanuvchiga allaqachon bu mahsulot biriktirilgan yoki mahsulotni biriktirishda xatolik yuz berdi');
+            }
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+
+
         return $this->render('view', [
             'model' => $model,
             'wareuser' => $wareuser,
             'productuser' => $productuser,
+            'brigada' => $brigada,
         ]);
     }
+
+    public function actionDeleteBrigada($id,$brigada_id)
+    {
+        $brigada = BrigadaProduct::findOne(['user_id'=>$id,'product_id'=>$brigada_id]);
+        if($brigada->delete()){
+            Yii::$app->session->setFlash('success', 'Muvoffaqiyatli O`chirildi');
+        }else{
+            Yii::$app->session->setFlash('error', 'Xatolik yuz berdi');
+        }
+        return $this->redirect(['view', 'id' => $id]);
+    }
+
+
 
     public function actionDeleteWare($id,$ware_id)
     {

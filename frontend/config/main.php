@@ -18,6 +18,9 @@ return [
         'store' => [
             'class' => 'frontend\modules\store\Module',
         ],
+        'brigada' => [
+            'class' => 'frontend\modules\brigada\Module',
+        ],
     ],
     'language'=>'uz',
     'components' => [

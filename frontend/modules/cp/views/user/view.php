@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]) ?>
             </p>
 
-            <?php if($model->role_id == 2 or $model->role_id == 7){?>
+            <?php if($model->role_id == 2 or $model->role_id == 7 or $model->role_id == 8){?>
             <div class="row">
                 <div class="col-md-6">
             <?php }?>
@@ -63,14 +63,16 @@ $this->params['breadcrumbs'][] = $this->title;
 //            'password_reset_token',
                         ],
                     ]) ?>
-            <?php if($model->role_id == 2 or $model->role_id == 7){?>
+            <?php if($model->role_id == 2 or $model->role_id == 7 or $model->role_id == 8){?>
 
                 </div>
                 <div class="col-md-6">
                     <?php if($model->role_id == 2){?>
                          <?= $this->render('_wh',['model'=>$wareuser])?>
                     <?php } ?>
-
+                    <?php if($model->role_id == 8){?>
+                        <?= $this->render('_brigada',['model'=>$brigada])?>
+                    <?php } ?>
                     <?php if($model->role_id == 7){?>
                         <?= $this->render('_control',['model'=>$productuser])?>
                     <?php } ?>

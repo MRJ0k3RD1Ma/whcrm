@@ -101,3 +101,12 @@ body.dark-only .pagination a, body.dark-only .pagination span {
 #products .remover{
     margin-top: 30px;
 }
+
+/*
+body.nonmenu .page-wrapper.compact-wrapper .page-header{
+    margin-left: 0px !important;
+    width: 100% !important;
+}
+body.nonmenu .page-wrapper.compact-wrapper .page-body-wrapper .page-body{
+    margin-left: 0px !important;
+}*/
