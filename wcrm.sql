@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 10, 2023 at 02:06 AM
+-- Generation Time: Apr 11, 2023 at 02:09 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 7.4.33
 
@@ -1101,6 +1101,26 @@ INSERT INTO `bank` (`id`, `mfo`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `brigada_product`
+--
+
+CREATE TABLE `brigada_product` (
+                                   `user_id` bigint(20) UNSIGNED NOT NULL,
+                                   `product_id` bigint(20) UNSIGNED NOT NULL,
+                                   `price` decimal(10,2) DEFAULT NULL,
+                                   `unit_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `brigada_product`
+--
+
+INSERT INTO `brigada_product` (`user_id`, `product_id`, `price`, `unit_id`) VALUES
+    (6, 2, '500.00', 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `category`
 --
 
@@ -1246,6 +1266,47 @@ INSERT INTO `deliverable` (`product_id`, `supplier_id`, `retail_price`, `wholesa
                                                                                                                                             (3, 1, '500.00', NULL, NULL, NULL, '2023-04-10 03:24:21', '2023-04-10 03:24:21'),
                                                                                                                                             (2, 2, '500.00', NULL, NULL, NULL, '2023-04-10 01:03:48', '2023-04-10 01:03:48'),
                                                                                                                                             (3, 2, '500.00', NULL, NULL, NULL, '2023-04-10 01:04:33', '2023-04-10 01:04:33');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `made`
+--
+
+CREATE TABLE `made` (
+                        `date` date NOT NULL,
+                        `product_id` bigint(20) UNSIGNED NOT NULL,
+                        `user_id` bigint(20) UNSIGNED NOT NULL,
+                        `price` decimal(10,2) DEFAULT NULL,
+                        `cnt_price` decimal(10,2) DEFAULT NULL,
+                        `cnt` decimal(10,2) DEFAULT NULL,
+                        `cnt_total` decimal(10,2) DEFAULT NULL,
+                        `box` int(11) DEFAULT 0,
+                        `c_cnt_total` decimal(10,2) DEFAULT NULL,
+                        `c_cnt` decimal(10,2) DEFAULT NULL,
+                        `c_cnt_price` decimal(10,2) DEFAULT NULL,
+                        `c_box` decimal(10,2) DEFAULT NULL,
+                        `consept_id` bigint(20) UNSIGNED DEFAULT NULL,
+                        `status` int(11) DEFAULT 0,
+                        `note` text DEFAULT NULL,
+                        `created` datetime DEFAULT current_timestamp(),
+                        `updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `made_cost`
+--
+
+CREATE TABLE `made_cost` (
+                             `date` date NOT NULL,
+                             `product_id` bigint(20) UNSIGNED NOT NULL,
+                             `user_id` bigint(20) UNSIGNED NOT NULL,
+                             `granule_id` bigint(20) UNSIGNED NOT NULL,
+                             `cnt` decimal(10,2) DEFAULT NULL,
+                             `cnt_total` decimal(10,2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1464,7 +1525,8 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`id`, `name`, `username`, `password`, `phone`, `created`, `updated`, `role_id`, `status`, `auth_key`, `verification_token`, `password_reset_token`) VALUES
                                                                                                                                                                             (3, 'Allabergenov Dilmurod', 'super', '$2y$13$0DgaEn6NOKpryHj2U9B/MuDWDhUFTINPw5FFGSAqqv1.ef..OIHZa', NULL, '2022-06-06 17:22:11', '2023-03-31 01:46:25', 5, 1, NULL, NULL, NULL),
                                                                                                                                                                             (4, 'sklad', 'sklad', '$2y$13$onBxaGx63bXHshdavKzE/uXYpV1tfBc9lW5CDgptfMa.uqkh5X9ke', '-', '2023-04-01 02:02:31', '2023-04-02 22:09:07', 2, 1, NULL, NULL, NULL),
-                                                                                                                                                                            (5, 'nazoratchi', 'nazoratchi', '123', '-', '2023-04-01 02:22:11', '2023-04-01 02:22:11', 7, 1, NULL, NULL, NULL);
+                                                                                                                                                                            (5, 'nazoratchi', 'nazoratchi', '123', '-', '2023-04-01 02:22:11', '2023-04-01 02:22:11', 7, 1, NULL, NULL, NULL),
+                                                                                                                                                                            (6, 'Brigader', 'brigader', '$2y$13$X/S2NLPQLqFt0UB5dgIZNOnU0kOvW8q36SnFn51UICWEfx12dqWm6', '-', '2023-04-11 01:41:50', '2023-04-11 01:41:50', 8, 1, 'f5_hOBrn1DOdFRuEuKd__aS0wxw59Los', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1543,6 +1605,14 @@ ALTER TABLE `bank`
   ADD UNIQUE KEY `mfo` (`mfo`);
 
 --
+-- Indexes for table `brigada_product`
+--
+ALTER TABLE `brigada_product`
+  ADD PRIMARY KEY (`user_id`,`product_id`),
+  ADD KEY `FK_brigada_product_product_id` (`product_id`),
+  ADD KEY `FK_brigada_product_unit_id` (`unit_id`);
+
+--
 -- Indexes for table `category`
 --
 ALTER TABLE `category`
@@ -1585,6 +1655,24 @@ ALTER TABLE `c_legal`
 ALTER TABLE `deliverable`
   ADD PRIMARY KEY (`supplier_id`,`product_id`),
   ADD KEY `FK_deliverable_product_id` (`product_id`);
+
+--
+-- Indexes for table `made`
+--
+ALTER TABLE `made`
+  ADD PRIMARY KEY (`date`,`user_id`,`product_id`),
+  ADD KEY `FK_made_product_id` (`product_id`),
+  ADD KEY `FK_made_user_id` (`user_id`),
+  ADD KEY `FK_made_consept_id` (`consept_id`);
+
+--
+-- Indexes for table `made_cost`
+--
+ALTER TABLE `made_cost`
+  ADD PRIMARY KEY (`date`,`product_id`,`user_id`,`granule_id`),
+  ADD KEY `FK_made_cost_granule_id` (`granule_id`),
+  ADD KEY `FK_made_cost_product_id` (`product_id`),
+  ADD KEY `FK_made_cost_user_id` (`user_id`);
 
 --
 -- Indexes for table `price`
@@ -1735,7 +1823,7 @@ ALTER TABLE `unit`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `warehouse`
@@ -1746,6 +1834,14 @@ ALTER TABLE `warehouse`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `brigada_product`
+--
+ALTER TABLE `brigada_product`
+  ADD CONSTRAINT `FK_brigada_product_product_id` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `FK_brigada_product_unit_id` FOREIGN KEY (`unit_id`) REFERENCES `unit` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `FK_brigada_product_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `come`
@@ -1774,6 +1870,22 @@ ALTER TABLE `c_legal`
 ALTER TABLE `deliverable`
   ADD CONSTRAINT `FK_deliverable_product_id` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `FK_deliverable_supplier_id` FOREIGN KEY (`supplier_id`) REFERENCES `supplier` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `made`
+--
+ALTER TABLE `made`
+  ADD CONSTRAINT `FK_made_consept_id` FOREIGN KEY (`consept_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `FK_made_product_id` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `FK_made_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `made_cost`
+--
+ALTER TABLE `made_cost`
+  ADD CONSTRAINT `FK_made_cost_granule_id` FOREIGN KEY (`granule_id`) REFERENCES `product` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `FK_made_cost_product_id` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `FK_made_cost_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `price`
