@@ -94,7 +94,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?php $form = ActiveForm::begin()?>
                         <div class="row">
                             <div class="col-md-6">
-                                <?= $form->field($granule, 'granule_id')->dropDownList(\yii\helpers\ArrayHelper::map(\common\models\Product::find()->where(['is_good'=>0])->andWhere('id not in (select granule_id from product_made where product_id='.$model->id.')')->all(), 'id', 'name'), ['prompt'=>'']) ?>
+                                <?= $form->field($granule, 'granule_id')->dropDownList(\yii\helpers\ArrayHelper::map(\common\models\Product::find()->where(['is_good'=>0])->andWhere('id not in (select granule_id from product_made where product_id='.$model->id.')')->all(), 'id', 'name'), ['prompt'=>'','class'=>'form-control select2']) ?>
                             </div>
                             <div class="col-md-6">
                                 <?= $form->field($granule, 'count')->textInput() ?>
@@ -121,8 +121,8 @@ $this->params['breadcrumbs'][] = $this->title;
                             <?php foreach ($model->granules as $key => $granule): ?>
                                 <tr>
                                     <td><?= $key+1 ?></td>
-                                    <td><?= $granule->product->name ?></td>
-                                    <td><?= $granule->count ?></td>
+                                    <td><?= $granule->granule->name ?></td>
+                                    <td><?= $granule->count .' '.$granule->granule->unit->name?></td>
                                     <td><a href="<?= Yii::$app->urlManager->createUrl(['/cp/product/delete-granule','id'=>$model->id,'granule_id'=>$granule->granule_id])?>" class="btn btn-danger"><span class="fa fa-trash"></span></a></td>
                                 </tr>
                             <?php endforeach; ?>

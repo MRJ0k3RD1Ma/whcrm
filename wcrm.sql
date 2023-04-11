@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 11, 2023 at 02:09 AM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 7.4.33
+-- Generation Time: Apr 11, 2023 at 02:51 PM
+-- Server version: 10.4.25-MariaDB
+-- PHP Version: 7.4.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -31,7 +31,7 @@ CREATE TABLE `bank` (
                         `id` int(16) NOT NULL,
                         `mfo` varchar(255) NOT NULL,
                         `name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `bank`
@@ -1107,16 +1107,18 @@ INSERT INTO `bank` (`id`, `mfo`, `name`) VALUES
 CREATE TABLE `brigada_product` (
                                    `user_id` bigint(20) UNSIGNED NOT NULL,
                                    `product_id` bigint(20) UNSIGNED NOT NULL,
-                                   `price` decimal(10,2) DEFAULT NULL,
+                                   `price` decimal(10,5) DEFAULT NULL,
                                    `unit_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `brigada_product`
 --
 
 INSERT INTO `brigada_product` (`user_id`, `product_id`, `price`, `unit_id`) VALUES
-    (6, 2, '500.00', 1);
+                                                                                (6, 31, '0.00000', 5),
+                                                                                (6, 32, '0.00000', 5),
+                                                                                (6, 33, '0.00000', 5);
 
 -- --------------------------------------------------------
 
@@ -1126,9 +1128,9 @@ INSERT INTO `brigada_product` (`user_id`, `product_id`, `price`, `unit_id`) VALU
 
 CREATE TABLE `category` (
                             `id` bigint(20) UNSIGNED NOT NULL,
-                            `name` varchar(255) NOT NULL,
-                            `code` varchar(255) DEFAULT NULL,
-                            `icon` varchar(255) DEFAULT NULL
+                            `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                            `code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                            `icon` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -1136,7 +1138,20 @@ CREATE TABLE `category` (
 --
 
 INSERT INTO `category` (`id`, `name`, `code`, `icon`) VALUES
-    (1, 'Plitalar', '1', '');
+                                                          (1, 'ПЛИТА', 'plita', ''),
+                                                          (2, 'ЩЕБЕНЬ', 'sheben', ''),
+                                                          (3, 'Цемент', 'sement', ''),
+                                                          (4, 'Песок', 'pesok', ''),
+                                                          (5, 'Сим', 'sim', ''),
+                                                          (6, 'Арматура', 'armatura', ''),
+                                                          (7, 'КОЛЬЦА', 'koltsa', ''),
+                                                          (8, 'Люк', 'lyuk', ''),
+                                                          (9, 'ФБС', 'fbs', ''),
+                                                          (10, 'Бетон', 'beton', ''),
+                                                          (11, 'Лоток', 'lotok', ''),
+                                                          (12, 'Стойки, Столбы', 'stoyka-stolba', ''),
+                                                          (13, 'Масла', 'masla', ''),
+                                                          (14, 'Бошқа', 'boshqa', '');
 
 -- --------------------------------------------------------
 
@@ -1154,20 +1169,7 @@ CREATE TABLE `come` (
                         `created` datetime DEFAULT current_timestamp(),
                         `updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
                         `ware_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `come`
---
-
-INSERT INTO `come` (`id`, `date`, `supplier_id`, `note`, `creator_id`, `status`, `created`, `updated`, `ware_id`) VALUES
-                                                                                                                      (1, '2023-04-09', 2, 'Bir dona mahsulot qolib getibdi akan.', 4, 2, '2023-04-10 00:47:59', '2023-04-10 03:52:58', 1),
-                                                                                                                      (2, '2023-04-09', 2, '', 4, 2, '2023-04-10 01:02:11', '2023-04-10 03:53:41', 1),
-                                                                                                                      (3, '2023-04-09', 2, 'Bir dona mahsulot qolib getibdi akan.', 4, 1, '2023-04-10 01:03:31', '2023-04-10 01:03:31', 1),
-                                                                                                                      (4, '2023-04-09', 2, 'Bir dona mahsulot qolib getibdi akan.', 4, 1, '2023-04-10 01:03:42', '2023-04-10 01:03:42', 1),
-                                                                                                                      (5, '2023-04-09', 2, 'Bir dona mahsulot qolib getibdi akan.', 4, 1, '2023-04-10 01:03:48', '2023-04-10 01:03:48', 1),
-                                                                                                                      (6, '2023-04-09', 1, 'Bir dona mahsulot qolib getibdi akan.', 4, 2, '2023-04-10 01:04:33', '2023-04-10 03:52:16', 1),
-                                                                                                                      (13, '2023-04-09', 1, '', 4, 1, '2023-04-10 02:35:07', '2023-04-10 02:35:07', 1);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -1179,23 +1181,11 @@ CREATE TABLE `come_product` (
                                 `id` int(11) NOT NULL,
                                 `come_id` bigint(20) NOT NULL,
                                 `product_id` bigint(20) UNSIGNED NOT NULL,
-                                `cnt` decimal(10,2) DEFAULT NULL,
-                                `price` decimal(10,2) DEFAULT NULL,
+                                `cnt` decimal(10,5) DEFAULT NULL,
+                                `price` decimal(10,5) DEFAULT NULL,
                                 `box` bigint(20) DEFAULT NULL,
-                                `cnt_price` decimal(10,2) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `come_product`
---
-
-INSERT INTO `come_product` (`id`, `come_id`, `product_id`, `cnt`, `price`, `box`, `cnt_price`) VALUES
-                                                                                                   (1, 3, 2, '10.00', '500.00', 1, '122000.00'),
-                                                                                                   (1, 4, 2, '10.00', '500.00', 1, '122000.00'),
-                                                                                                   (1, 5, 2, '10.00', '500.00', 1, '122000.00'),
-                                                                                                   (1, 6, 2, '10.00', '500.00', 1, '122000.00'),
-                                                                                                   (1, 6, 3, '10.00', '500.00', 1, '66500.00'),
-                                                                                                   (1, 13, 2, '1.00', '500.00', 1, '117500.00');
+                                `cnt_price` decimal(10,5) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -1214,7 +1204,7 @@ CREATE TABLE `c_individual` (
                                 `phone` varchar(255) DEFAULT NULL,
                                 `created` datetime DEFAULT current_timestamp(),
                                 `updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB AVG_ROW_LENGTH=120 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AVG_ROW_LENGTH=120 DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -1238,7 +1228,7 @@ CREATE TABLE `c_legal` (
                            `phone_name` varchar(255) DEFAULT NULL,
                            `created` datetime DEFAULT NULL,
                            `updated` datetime DEFAULT NULL
-) ENGINE=InnoDB AVG_ROW_LENGTH=8192 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AVG_ROW_LENGTH=8192 DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -1249,23 +1239,13 @@ CREATE TABLE `c_legal` (
 CREATE TABLE `deliverable` (
                                `product_id` bigint(20) UNSIGNED NOT NULL,
                                `supplier_id` int(11) NOT NULL,
-                               `retail_price` decimal(10,2) DEFAULT NULL,
+                               `retail_price` decimal(10,5) DEFAULT NULL,
                                `wholesale_price` bigint(20) DEFAULT NULL,
                                `dtime` varchar(255) DEFAULT NULL,
                                `dcondition` varchar(500) DEFAULT NULL,
                                `created` datetime DEFAULT current_timestamp(),
                                `updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `deliverable`
---
-
-INSERT INTO `deliverable` (`product_id`, `supplier_id`, `retail_price`, `wholesale_price`, `dtime`, `dcondition`, `created`, `updated`) VALUES
-                                                                                                                                            (2, 1, '500.00', 90000, '10 kun', '53 da yetkazib beradi. maxsimal 3 tonna', '2023-04-01 01:41:47', '2023-04-10 02:35:07'),
-                                                                                                                                            (3, 1, '500.00', NULL, NULL, NULL, '2023-04-10 03:24:21', '2023-04-10 03:24:21'),
-                                                                                                                                            (2, 2, '500.00', NULL, NULL, NULL, '2023-04-10 01:03:48', '2023-04-10 01:03:48'),
-                                                                                                                                            (3, 2, '500.00', NULL, NULL, NULL, '2023-04-10 01:04:33', '2023-04-10 01:04:33');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -1277,21 +1257,21 @@ CREATE TABLE `made` (
                         `date` date NOT NULL,
                         `product_id` bigint(20) UNSIGNED NOT NULL,
                         `user_id` bigint(20) UNSIGNED NOT NULL,
-                        `price` decimal(10,2) DEFAULT NULL,
-                        `cnt_price` decimal(10,2) DEFAULT NULL,
-                        `cnt` decimal(10,2) DEFAULT NULL,
-                        `cnt_total` decimal(10,2) DEFAULT NULL,
+                        `price` decimal(10,5) DEFAULT NULL,
+                        `cnt_price` decimal(10,5) DEFAULT NULL,
+                        `cnt` decimal(10,5) DEFAULT NULL,
+                        `cnt_total` decimal(10,5) DEFAULT NULL,
                         `box` int(11) DEFAULT 0,
-                        `c_cnt_total` decimal(10,2) DEFAULT NULL,
-                        `c_cnt` decimal(10,2) DEFAULT NULL,
-                        `c_cnt_price` decimal(10,2) DEFAULT NULL,
-                        `c_box` decimal(10,2) DEFAULT NULL,
+                        `c_cnt_total` decimal(10,5) DEFAULT NULL,
+                        `c_cnt` decimal(10,5) DEFAULT NULL,
+                        `c_cnt_price` decimal(10,5) DEFAULT NULL,
+                        `c_box` decimal(10,5) DEFAULT NULL,
                         `consept_id` bigint(20) UNSIGNED DEFAULT NULL,
                         `status` int(11) DEFAULT 0,
                         `note` text DEFAULT NULL,
                         `created` datetime DEFAULT current_timestamp(),
                         `updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -1304,9 +1284,9 @@ CREATE TABLE `made_cost` (
                              `product_id` bigint(20) UNSIGNED NOT NULL,
                              `user_id` bigint(20) UNSIGNED NOT NULL,
                              `granule_id` bigint(20) UNSIGNED NOT NULL,
-                             `cnt` decimal(10,2) DEFAULT NULL,
-                             `cnt_total` decimal(10,2) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+                             `cnt` decimal(10,5) DEFAULT NULL,
+                             `cnt_total` decimal(10,5) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -1317,23 +1297,19 @@ CREATE TABLE `made_cost` (
 CREATE TABLE `price` (
                          `id` int(10) NOT NULL COMMENT 'ID',
                          `product_id` bigint(20) UNSIGNED NOT NULL COMMENT 'id tovar',
-                         `base_price` decimal(10,2) NOT NULL COMMENT 'Bazaviy narx',
-                         `retail_price` decimal(10,2) NOT NULL COMMENT 'Donali narxi',
-                         `wholesale_price` decimal(10,2) NOT NULL COMMENT 'Optom narx',
+                         `base_price` decimal(10,5) NOT NULL COMMENT 'Bazaviy narx',
+                         `retail_price` decimal(10,5) NOT NULL COMMENT 'Donali narxi',
+                         `wholesale_price` decimal(10,5) NOT NULL COMMENT 'Optom narx',
                          `date` date NOT NULL COMMENT 'Narx o`zgargan sana',
                          `user_id` bigint(20) UNSIGNED NOT NULL COMMENT 'Kim o`zgartirdi'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='Narxlar';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Narxlar';
 
 --
 -- Dumping data for table `price`
 --
 
 INSERT INTO `price` (`id`, `product_id`, `base_price`, `retail_price`, `wholesale_price`, `date`, `user_id`) VALUES
-                                                                                                                 (1, 2, '234.00', '234.00', '234.00', '2023-03-30', 3),
-                                                                                                                 (1, 3, '123.00', '123.00', '123.00', '2023-04-01', 3),
-                                                                                                                 (2, 2, '234.00', '23412.00', '234.00', '2023-03-30', 3),
-                                                                                                                 (2, 3, '500.00', '123.00', '123.00', '2023-04-09', 4),
-                                                                                                                 (3, 2, '500.00', '23412.00', '234.00', '2023-04-09', 4);
+    (1, 4, '0.00000', '0.00000', '0.00000', '2023-04-11', 3);
 
 -- --------------------------------------------------------
 
@@ -1343,18 +1319,18 @@ INSERT INTO `price` (`id`, `product_id`, `base_price`, `retail_price`, `wholesal
 
 CREATE TABLE `product` (
                            `id` bigint(20) UNSIGNED NOT NULL,
-                           `name` varchar(255) NOT NULL,
-                           `image` varchar(255) NOT NULL DEFAULT '',
-                           `serial` varchar(255) DEFAULT NULL,
+                           `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                           `image` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+                           `serial` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
                            `serial_num` bigint(20) DEFAULT 0,
-                           `basic_price` decimal(10,2) NOT NULL,
-                           `retail_price` decimal(10,2) NOT NULL,
-                           `wholesale_price` decimal(10,2) NOT NULL,
+                           `basic_price` decimal(10,5) NOT NULL,
+                           `retail_price` decimal(10,5) NOT NULL,
+                           `wholesale_price` decimal(10,5) NOT NULL,
                            `box` int(11) NOT NULL,
                            `cat_id` bigint(20) UNSIGNED NOT NULL,
-                           `note` varchar(255) DEFAULT NULL,
-                           `code` varchar(255) NOT NULL,
-                           `bio` longtext DEFAULT NULL,
+                           `note` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                           `code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                           `bio` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
                            `is_sale` int(11) NOT NULL DEFAULT 1,
                            `is_good` int(11) DEFAULT 0 COMMENT 'Granula bo''lsa 1 aks holda 0 yoziladi',
                            `expiry_month` int(11) DEFAULT NULL,
@@ -1368,8 +1344,57 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`id`, `name`, `image`, `serial`, `serial_num`, `basic_price`, `retail_price`, `wholesale_price`, `box`, `cat_id`, `note`, `code`, `bio`, `is_sale`, `is_good`, `expiry_month`, `unit_id`, `created_at`, `updated_at`) VALUES
-                                                                                                                                                                                                                                                 (2, '234', '2023-03/1680202719photo_5231044805755258086_y.jpg', '234', 0, '500.00', '23412.00', '234.00', 234, 1, '234', 'LLgQN0EaGu', '234234234asd', 1, 1, 234, 1, '2023-03-30 18:58:39', '2023-04-09 21:30:18'),
-                                                                                                                                                                                                                                                 (3, 'test', 'no-image.png', '12', 0, '500.00', '123.00', '123.00', 123, 1, '234', 'T08axAFbj_', '123', 1, 0, 234, 1, '2023-03-31 22:59:21', '2023-04-09 22:24:21');
+                                                                                                                                                                                                                                                 (4, 'ЩЕБЕНЬ ИЗ ПРИРОДНОГО КАМНЯ ДЛЯ СТРОИТЕЛЬНЫХ РАБОТ ФРАКЦИИ 40-70 ММ', 'no-image.png', 'sheben-1', 1, '0.00000', '0.00000', '0.00000', 1, 2, '', 'D0YTWCeWuY', '-', 0, 0, 1, 2, '2023-04-11 11:07:35', '2023-04-11 11:07:52'),
+                                                                                                                                                                                                                                                 (5, 'ЩЕБЕНЬ ИЗ ПРИРОДНОГО КАМНЯ ДЛЯ СТРОИТЕЛЬНЫХ РАБОТ ФРАКЦИИ 10-20 ММ', 'no-image.png', 'sheben-2', 2, '0.00000', '0.00000', '0.00000', 1, 2, '', 'fOikQdM-nK', '', 0, 0, 1, 2, '2023-04-11 11:08:28', '2023-04-11 11:08:28'),
+                                                                                                                                                                                                                                                 (6, 'ЩЕБЕНЬ ИЗ ПРИРОДНОГО КАМНЯ ДЛЯ СТРОИТЕЛЬНЫХ РАБОТ ФРАКЦИИ 5-10 ММ', 'no-image.png', 'sheben-3', 3, '0.00000', '0.00000', '0.00000', 1, 2, '', '0D0DvvaPte', '', 0, 0, 1, 2, '2023-04-11 11:08:40', '2023-04-11 11:08:40'),
+                                                                                                                                                                                                                                                 (7, 'ЩЕБЕНОЧНО-ПЕСЧАНАЯ СМЕСЬ', 'no-image.png', 'sheben-4', 4, '0.00000', '0.00000', '0.00000', 1, 2, '', '_y3wLL3RFm', '', 0, 0, 1, 2, '2023-04-11 11:09:23', '2023-04-11 11:09:23'),
+                                                                                                                                                                                                                                                 (8, 'Цемент М400', 'no-image.png', 'sement-1', 1, '0.00000', '0.00000', '0.00000', 1, 3, '', 'aZ4UDoCzuk', '', 0, 0, 1, 6, '2023-04-11 11:09:43', '2023-04-11 11:41:42'),
+                                                                                                                                                                                                                                                 (9, 'Цемент М500', 'no-image.png', 'sement-2', 2, '0.00000', '0.00000', '0.00000', 1, 3, '', 'PIAOvc1vXC', '', 0, 0, 1, 6, '2023-04-11 11:09:51', '2023-04-11 11:42:02'),
+                                                                                                                                                                                                                                                 (10, 'Песок', 'no-image.png', 'pesok-1', 1, '0.00000', '0.00000', '0.00000', 1, 4, '', 'l7t8XejvNE', '', 0, 0, 1, 5, '2023-04-11 11:10:00', '2023-04-11 11:43:35'),
+                                                                                                                                                                                                                                                 (11, 'Песок крупнозернистый', 'no-image.png', 'pesok-2', 2, '0.00000', '0.00000', '0.00000', 1, 4, '', 'qeuvA9xstv', '', 0, 0, 1, 5, '2023-04-11 11:10:07', '2023-04-11 11:43:42'),
+                                                                                                                                                                                                                                                 (12, 'Каркас сим', 'no-image.png', 'sim-3', 3, '0.00000', '0.00000', '0.00000', 100, 5, '', 'mrIPYACRuR', '', 0, 0, 1, 2, '2023-04-11 11:10:18', '2023-04-11 11:37:26'),
+                                                                                                                                                                                                                                                 (13, 'КАТАНКА  ДИАМЕТРОМ 3 ММ', 'no-image.png', 'sim-4', 4, '0.00000', '0.00000', '0.00000', 100, 5, '', 'usUXYPaJUO', '', 0, 0, 1, 2, '2023-04-11 11:11:53', '2023-04-11 11:37:09'),
+                                                                                                                                                                                                                                                 (14, 'КАТАНКА  ДИАМЕТРОМ 3,5 ММ', 'no-image.png', 'sim-5', 5, '0.00000', '0.00000', '0.00000', 100, 5, '', 'rBH0lvFum8', '', 0, 0, 1, 2, '2023-04-11 11:12:20', '2023-04-11 11:37:14'),
+                                                                                                                                                                                                                                                 (15, 'КАТАНКА  ДИАМЕТРОМ 4 ММ', 'no-image.png', 'sim-6', 6, '0.00000', '0.00000', '0.00000', 100, 5, '', 'oMfOcyQsB4', '', 0, 0, 1, 2, '2023-04-11 11:12:27', '2023-04-11 11:37:19'),
+                                                                                                                                                                                                                                                 (16, 'АРМАТУРНАЯ СТАЛЬ ГЛАДКАЯ КЛАССА А-1, ДИАМЕТРОМ 6 ММ', 'no-image.png', 'armatura-1', 1, '0.00000', '0.00000', '0.00000', 100, 6, '', 'DMtTI-4hGr', '', 0, 0, 1, 4, '2023-04-11 11:12:34', '2023-04-11 11:12:34'),
+                                                                                                                                                                                                                                                 (17, 'АРМАТУРНАЯ СТАЛЬ ГЛАДКАЯ КЛАССА А-1, ДИАМЕТРОМ 8 ММ', 'no-image.png', 'armatura-2', 2, '0.00000', '0.00000', '0.00000', 100, 6, '', '21sGjhRwfn', '', 0, 0, 1, 4, '2023-04-11 11:12:44', '2023-04-11 11:12:44'),
+                                                                                                                                                                                                                                                 (18, 'Арматура Д-8 мм А III', 'no-image.png', 'armatura-3', 3, '0.00000', '0.00000', '0.00000', 100, 6, '', '3AtpVAoDzq', '', 0, 0, 1, 4, '2023-04-11 11:12:50', '2023-04-11 11:12:50'),
+                                                                                                                                                                                                                                                 (19, 'Арматура Д-10 мм А III', 'no-image.png', 'armatura-4', 4, '0.00000', '0.00000', '0.00000', 100, 6, '', 'EhUxRuCa-0', '', 0, 0, 1, 4, '2023-04-11 11:12:56', '2023-04-11 11:12:56'),
+                                                                                                                                                                                                                                                 (20, 'Арматура Д-12 мм А III', 'no-image.png', 'armatura-5', 5, '0.00000', '0.00000', '0.00000', 100, 6, '', '3bALCKpHzn', '', 0, 0, 1, 4, '2023-04-11 11:13:01', '2023-04-11 11:13:01'),
+                                                                                                                                                                                                                                                 (21, 'Арматура Д-14 мм А III', 'no-image.png', 'armatura-6', 6, '0.00000', '0.00000', '0.00000', 100, 6, '', 'fI8P0mxilO', '', 0, 0, 1, 4, '2023-04-11 11:13:06', '2023-04-11 11:13:06'),
+                                                                                                                                                                                                                                                 (22, 'Арматура Д-16 мм А III', 'no-image.png', 'armatura-7', 7, '0.00000', '0.00000', '0.00000', 100, 6, '', 'QT3nMnnN_2', '', 0, 0, 1, 4, '2023-04-11 11:13:11', '2023-04-11 11:13:11'),
+                                                                                                                                                                                                                                                 (23, 'Арматура Д-18 мм А III', 'no-image.png', 'armatura-8', 8, '0.00000', '0.00000', '0.00000', 100, 6, '', 'vqBvRTbfAJ', '', 0, 0, 1, 4, '2023-04-11 11:13:16', '2023-04-11 11:13:16'),
+                                                                                                                                                                                                                                                 (24, 'Арматура Д-20 мм А III', 'no-image.png', 'armatura-9', 9, '0.00000', '0.00000', '0.00000', 100, 6, '', 'BucEg2IEqK', '', 0, 0, 1, 4, '2023-04-11 11:13:21', '2023-04-11 11:13:21'),
+                                                                                                                                                                                                                                                 (25, 'Арматура Д-22 мм А III', 'no-image.png', 'armatura-10', 10, '0.00000', '0.00000', '0.00000', 100, 6, '', '2XeMM7JhGc', '', 0, 0, 1, 4, '2023-04-11 11:13:26', '2023-04-11 11:13:26'),
+                                                                                                                                                                                                                                                 (26, 'Арматура Д-25 мм А III', 'no-image.png', 'armatura-11', 11, '0.00000', '0.00000', '0.00000', 100, 6, '', 'J3gSk-Zr66', '', 0, 0, 1, 4, '2023-04-11 11:13:30', '2023-04-11 11:13:30'),
+                                                                                                                                                                                                                                                 (27, 'Арматура Д-28 мм А III', 'no-image.png', 'armatura-12', 12, '0.00000', '0.00000', '0.00000', 100, 6, '', 'ZMkL5Iki4H', '', 0, 0, 1, 4, '2023-04-11 11:13:36', '2023-04-11 11:13:36'),
+                                                                                                                                                                                                                                                 (28, 'Арматура Д-32 мм А III', 'no-image.png', 'armatura-13', 13, '0.00000', '0.00000', '0.00000', 100, 6, '', '15QBiuM0TJ', '', 0, 0, 1, 4, '2023-04-11 11:13:42', '2023-04-11 11:13:42'),
+                                                                                                                                                                                                                                                 (29, 'Арматура Д-36 мм А III', 'no-image.png', 'armatura-14', 14, '0.00000', '0.00000', '0.00000', 100, 6, '', 'HLXmPwk3dq', '', 0, 0, 1, 4, '2023-04-11 11:13:46', '2023-04-11 11:13:46'),
+                                                                                                                                                                                                                                                 (30, 'Арматура Д-40 мм А III', 'no-image.png', 'armatura-15', 15, '0.00000', '0.00000', '0.00000', 100, 6, '', 'bGcApnAZ0U', '', 0, 0, 1, 4, '2023-04-11 11:13:52', '2023-04-11 11:13:52'),
+                                                                                                                                                                                                                                                 (31, 'ПЛИТА ДНИША КЦ Д-10', 'no-image.png', 'plita-1', 1, '0.00000', '0.00000', '0.00000', 1, 1, '', 'mx5WFFkSsm', '', 1, 1, 1, 1, '2023-04-11 11:20:58', '2023-04-11 11:20:58'),
+                                                                                                                                                                                                                                                 (32, 'ПЛИТА ПЕРЕКРЫТИЯ КЦП-10-2', 'no-image.png', 'plita-2', 2, '0.00000', '0.00000', '0.00000', 1, 1, '', 'Rf_GPcAELI', '', 1, 1, 1, 1, '2023-04-11 11:21:04', '2023-04-11 11:21:04'),
+                                                                                                                                                                                                                                                 (33, 'КОЛЬЦА СТЕНОВЫЕ КЦ 10-6', 'no-image.png', 'koltsa-1', 1, '0.00000', '0.00000', '0.00000', 1, 7, '', 'QmlGf8r2xD', '', 1, 1, 1, 1, '2023-04-11 11:21:13', '2023-04-11 11:21:13'),
+                                                                                                                                                                                                                                                 (34, 'КОЛЬЦА СТЕНОВЫЕ КЦ 10-9', 'no-image.png', 'koltsa-2', 2, '0.00000', '0.00000', '0.00000', 1, 7, '', 'E2xYBuT-E8', '', 1, 1, 1, 1, '2023-04-11 11:21:19', '2023-04-11 11:21:19'),
+                                                                                                                                                                                                                                                 (35, 'ПЛИТА ДНИЩА КЦД-15 (УСЕЛИННЫЙ)', 'no-image.png', 'plita-3', 3, '0.00000', '0.00000', '0.00000', 1, 1, '', '71sSAKwvh4', '', 1, 1, 1, 1, '2023-04-11 11:21:26', '2023-04-11 11:21:26'),
+                                                                                                                                                                                                                                                 (36, 'ПЛИТА ПЕРЕКРЫТИЯ КЦП-15 (УСЕЛИННЫЙ)', 'no-image.png', 'plita-4', 4, '0.00000', '0.00000', '0.00000', 1, 1, '', '3sb-CriHZE', '', 1, 1, 1, 1, '2023-04-11 11:21:34', '2023-04-11 11:21:34'),
+                                                                                                                                                                                                                                                 (37, 'КОЛЬЦА СТЕНОВЫЕ КЦ 15-6', 'no-image.png', 'koltsa-3', 3, '0.00000', '0.00000', '0.00000', 1, 7, '', '23ObrgUHMz', '', 1, 1, 1, 1, '2023-04-11 11:21:44', '2023-04-11 11:21:44'),
+                                                                                                                                                                                                                                                 (38, 'КОЛЬЦА СТЕНОВЫЕ КЦ 15-9', 'no-image.png', 'koltsa-4', 4, '0.00000', '0.00000', '0.00000', 1, 7, '', 'Eot-xDDcy7', '', 1, 1, 1, 1, '2023-04-11 11:21:51', '2023-04-11 11:21:51'),
+                                                                                                                                                                                                                                                 (39, 'Люк Чугунная  Д60', 'no-image.png', 'lyuk-1', 1, '0.00000', '0.00000', '0.00000', 1, 8, '', 'Qea6avfLer', '', 1, 1, 1, 1, '2023-04-11 11:22:01', '2023-04-11 11:22:01'),
+                                                                                                                                                                                                                                                 (40, 'Люк Чугунная  Д70', 'no-image.png', 'lyuk-2', 2, '0.00000', '0.00000', '0.00000', 1, 8, '', 'GzZCPlYu0V', '', 1, 1, 1, 1, '2023-04-11 11:22:06', '2023-04-11 11:22:06'),
+                                                                                                                                                                                                                                                 (41, 'ФБС 24,4,6-Т', 'no-image.png', 'fbs-1', 1, '0.00000', '0.00000', '0.00000', 1, 9, '', 'WD8J1Bl7lt', '', 1, 1, 1, 1, '2023-04-11 11:22:15', '2023-04-11 11:22:15'),
+                                                                                                                                                                                                                                                 (42, 'ФБС 12,4,6-Т', 'no-image.png', 'fbs-2', 2, '0.00000', '0.00000', '0.00000', 1, 9, '', '0O1o8GpE8q', '', 1, 1, 1, 1, '2023-04-11 11:22:20', '2023-04-11 11:22:20'),
+                                                                                                                                                                                                                                                 (43, 'Бетон М100', 'no-image.png', 'beton-1', 1, '0.00000', '0.00000', '0.00000', 1, 10, '', 'HDa7sRnWDS', '', 1, 1, 1, 1, '2023-04-11 11:22:30', '2023-04-11 11:22:30'),
+                                                                                                                                                                                                                                                 (44, 'Бетон М150', 'no-image.png', 'beton-2', 2, '0.00000', '0.00000', '0.00000', 1, 10, '', 'SXQZfgV2qp', '', 1, 1, 1, 1, '2023-04-11 11:22:37', '2023-04-11 11:22:37'),
+                                                                                                                                                                                                                                                 (45, 'Бетон М200', 'no-image.png', 'beton-3', 3, '0.00000', '0.00000', '0.00000', 1, 10, '', '5iFm_H6PYk', '', 1, 1, 1, 1, '2023-04-11 11:22:42', '2023-04-11 11:22:42'),
+                                                                                                                                                                                                                                                 (46, 'Бетон М250', 'no-image.png', 'beton-4', 4, '0.00000', '0.00000', '0.00000', 1, 10, '', 'SjXRrbqbBL', '', 1, 1, 1, 1, '2023-04-11 11:22:47', '2023-04-11 11:22:47'),
+                                                                                                                                                                                                                                                 (47, 'Бетон М300', 'no-image.png', 'beton-5', 5, '0.00000', '0.00000', '0.00000', 1, 10, '', 'UwAF41-KUV', '', 1, 1, 1, 1, '2023-04-11 11:22:51', '2023-04-11 11:22:51'),
+                                                                                                                                                                                                                                                 (48, 'Лоток L=3.0 м', 'no-image.png', 'lotok-1', 6, '0.00000', '0.00000', '0.00000', 1, 11, '', 'YAfW-Om6P0', '', 1, 1, 1, 1, '2023-04-11 11:22:57', '2023-04-11 11:24:31'),
+                                                                                                                                                                                                                                                 (49, 'СВ-110 Арм.Д14', 'no-image.png', 'stoyka-stolba-7', 7, '0.00000', '0.00000', '0.00000', 1, 12, '', '26ABFXjjuf', '', 1, 1, 1, 1, '2023-04-11 11:23:01', '2023-04-11 11:24:47'),
+                                                                                                                                                                                                                                                 (50, 'СВ-110 Арм.Д12', 'no-image.png', 'stoyka-stolba-8', 8, '0.00000', '0.00000', '0.00000', 1, 12, '', 'YIzN2NmVF4', '', 1, 1, 1, 1, '2023-04-11 11:23:56', '2023-04-11 11:23:56'),
+                                                                                                                                                                                                                                                 (51, 'КАТАНКА  ДИАМЕТРОМ 6 ММ', 'no-image.png', 'sim-7', 7, '0.00000', '0.00000', '0.00000', 100, 5, '', 'a5OLEozVjo', '', 0, 0, 1, 2, '2023-04-11 11:36:15', '2023-04-11 11:36:45'),
+                                                                                                                                                                                                                                                 (52, 'Отработанная масло', 'no-image.png', 'masla-1', 1, '0.00000', '0.00000', '0.00000', 1, 13, '', 't0vpKYZi0A', '', 0, 0, 1, 3, '2023-04-11 11:40:17', '2023-04-11 11:40:17'),
+                                                                                                                                                                                                                                                 (53, 'Вода', 'no-image.png', 'boshqa-1', 1, '0.00000', '0.00000', '0.00000', 1, 14, '', 'V0EZ8MjiUD', '', 0, 0, 1, 5, '2023-04-11 11:46:04', '2023-04-11 11:46:04'),
+                                                                                                                                                                                                                                                 (54, 'Армат-я Сетка 3 Вр-1 (0,85*3,25)', 'no-image.png', 'boshqa-2', 2, '0.00000', '0.00000', '0.00000', 1, 14, '', '7ZDlkX7nnN', '', 0, 0, 1, 2, '2023-04-11 12:25:30', '2023-04-11 12:25:30');
 
 -- --------------------------------------------------------
 
@@ -1380,7 +1405,7 @@ INSERT INTO `product` (`id`, `name`, `image`, `serial`, `serial_num`, `basic_pri
 CREATE TABLE `product_images` (
                                   `product_id` bigint(20) UNSIGNED NOT NULL,
                                   `image` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -1391,15 +1416,35 @@ CREATE TABLE `product_images` (
 CREATE TABLE `product_made` (
                                 `product_id` bigint(20) UNSIGNED NOT NULL,
                                 `granule_id` bigint(20) UNSIGNED NOT NULL,
-                                `count` decimal(10,2) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+                                `count` decimal(10,5) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `product_made`
 --
 
 INSERT INTO `product_made` (`product_id`, `granule_id`, `count`) VALUES
-    (2, 3, '10.00');
+                                                                     (31, 6, '0.14000'),
+                                                                     (31, 8, '0.06000'),
+                                                                     (31, 10, '0.08000'),
+                                                                     (31, 20, '10.30000'),
+                                                                     (31, 51, '0.90000'),
+                                                                     (31, 52, '0.50000'),
+                                                                     (31, 53, '0.04000'),
+                                                                     (32, 6, '0.08600'),
+                                                                     (32, 8, '0.03450'),
+                                                                     (32, 10, '0.04500'),
+                                                                     (32, 20, '14.10000'),
+                                                                     (32, 51, '0.95000'),
+                                                                     (32, 52, '0.50000'),
+                                                                     (32, 53, '0.02100'),
+                                                                     (33, 6, '0.17595'),
+                                                                     (33, 8, '0.07142'),
+                                                                     (33, 10, '0.09315'),
+                                                                     (33, 51, '0.95000'),
+                                                                     (33, 52, '2.00000'),
+                                                                     (33, 53, '0.04347'),
+                                                                     (33, 54, '2.90000');
 
 -- --------------------------------------------------------
 
@@ -1410,14 +1455,7 @@ INSERT INTO `product_made` (`product_id`, `granule_id`, `count`) VALUES
 CREATE TABLE `product_user` (
                                 `user_id` bigint(20) UNSIGNED NOT NULL,
                                 `product_id` bigint(20) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `product_user`
---
-
-INSERT INTO `product_user` (`user_id`, `product_id`) VALUES
-    (5, 3);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -1427,8 +1465,8 @@ INSERT INTO `product_user` (`user_id`, `product_id`) VALUES
 
 CREATE TABLE `role` (
                         `id` bigint(20) UNSIGNED NOT NULL,
-                        `name` varchar(255) NOT NULL,
-                        `url` varchar(255) NOT NULL
+                        `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                        `url` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB AVG_ROW_LENGTH=5461 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -1467,7 +1505,7 @@ CREATE TABLE `supplier` (
                             `phone_name` varchar(255) DEFAULT NULL,
                             `created` datetime DEFAULT current_timestamp(),
                             `updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB AVG_ROW_LENGTH=8192 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AVG_ROW_LENGTH=8192 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `supplier`
@@ -1486,16 +1524,19 @@ INSERT INTO `supplier` (`id`, `name`, `inn`, `bank_id`, `address`, `oked`, `acco
 CREATE TABLE `unit` (
                         `id` int(11) NOT NULL,
                         `name` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `unit`
 --
 
 INSERT INTO `unit` (`id`, `name`) VALUES
-                                      (1, 'Dona'),
-                                      (2, 'KG'),
-                                      (3, 'Litr');
+                                      (1, 'та'),
+                                      (2, 'кг'),
+                                      (3, 'л'),
+                                      (4, 'м'),
+                                      (5, 'м3'),
+                                      (6, 'тн');
 
 -- --------------------------------------------------------
 
@@ -1505,17 +1546,17 @@ INSERT INTO `unit` (`id`, `name`) VALUES
 
 CREATE TABLE `user` (
                         `id` bigint(20) UNSIGNED NOT NULL,
-                        `name` varchar(255) NOT NULL,
-                        `username` varchar(255) NOT NULL,
-                        `password` varchar(500) NOT NULL,
-                        `phone` varchar(255) DEFAULT NULL,
+                        `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                        `username` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                        `password` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL,
+                        `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
                         `created` datetime DEFAULT current_timestamp(),
                         `updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
                         `role_id` bigint(20) UNSIGNED DEFAULT NULL,
                         `status` int(11) NOT NULL DEFAULT 10,
-                        `auth_key` varchar(500) DEFAULT NULL,
-                        `verification_token` varchar(500) DEFAULT NULL,
-                        `password_reset_token` varchar(500) DEFAULT NULL
+                        `auth_key` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                        `verification_token` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                        `password_reset_token` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB AVG_ROW_LENGTH=8192 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -1537,7 +1578,7 @@ INSERT INTO `user` (`id`, `name`, `username`, `password`, `phone`, `created`, `u
 CREATE TABLE `warehouse` (
                              `id` int(11) NOT NULL,
                              `name` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='skladlar';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='skladlar';
 
 --
 -- Dumping data for table `warehouse`
@@ -1555,7 +1596,7 @@ INSERT INTO `warehouse` (`id`, `name`) VALUES
 CREATE TABLE `ware_user` (
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `ware_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Foydalanuvchilar ruhsat berilgan omborlarga kirim chiqib qilishadi';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Foydalanuvchilar ruhsat berilgan omborlarga kirim chiqib qilishadi';
 
 --
 -- Dumping data for table `ware_user`
@@ -1573,25 +1614,17 @@ INSERT INTO `ware_user` (`user_id`, `ware_id`) VALUES
 CREATE TABLE `wh_product` (
   `wh_id` int(11) NOT NULL,
   `product_id` bigint(20) UNSIGNED NOT NULL,
-  `count` decimal(10,2) NOT NULL,
+  `count` decimal(10,5) NOT NULL,
   `price_id` int(11) NOT NULL,
   `user_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `base_price` decimal(10,2) NOT NULL,
-  `retail_price` decimal(10,2) NOT NULL,
-  `wholesale_price` decimal(10,2) NOT NULL,
+  `base_price` decimal(10,5) NOT NULL,
+  `retail_price` decimal(10,5) NOT NULL,
+  `wholesale_price` decimal(10,5) NOT NULL,
   `expiry_date` date DEFAULT NULL,
   `created` datetime DEFAULT current_timestamp(),
   `updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `box` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `wh_product`
---
-
-INSERT INTO `wh_product` (`wh_id`, `product_id`, `count`, `price_id`, `user_id`, `base_price`, `retail_price`, `wholesale_price`, `expiry_date`, `created`, `updated`, `box`) VALUES
-(1, 2, '24.00', 3, 3, '500.00', '23412.00', '234.00', NULL, '2023-04-10 01:04:33', '2023-04-10 03:24:21', 4),
-(1, 3, '10.00', 2, 3, '500.00', '123.00', '123.00', NULL, '2023-04-10 01:04:33', '2023-04-10 03:24:21', 1);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Indexes for dumped tables
@@ -1775,7 +1808,7 @@ ALTER TABLE `bank`
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `come`
@@ -1799,7 +1832,7 @@ ALTER TABLE `c_legal`
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `role`
@@ -1817,7 +1850,7 @@ ALTER TABLE `supplier`
 -- AUTO_INCREMENT for table `unit`
 --
 ALTER TABLE `unit`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `user`
