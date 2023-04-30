@@ -9,9 +9,9 @@ use yii\helpers\ArrayHelper;
 
 ?>
 <?php if($model->isNewRecord){ $where = "id not in (select product_id from brigada_product where user_id = {$model->user_id})";?>
-    <h5>Mahsulot ishlab chiqarishni biriktirish</h5>
+    <h5>Маҳсулот ишлаб чиқаришни бириктириш</h5>
 <?php }else{ $where = "1";?>
-    <h5>Biriktirilgan mahsulotni o`zgartirish</h5>
+    <h5>Бириктирилган маҳсулотлар рўйхати</h5>
 <?php }?>
 
 <?php $form = ActiveForm::begin(); ?>
@@ -19,6 +19,7 @@ use yii\helpers\ArrayHelper;
 <?= $form->field($model, 'product_id')->dropDownList(ArrayHelper::map(\common\models\Product::find()->where($where)->andWhere(['is_good'=>1])->all(),'id','name'),['prompt'=>'']) ?>
 <?= $form->field($model, 'price')->textInput() ?>
 <?= $form->field($model, 'unit_id')->dropDownList(ArrayHelper::map(\common\models\Unit::find()->all(),'id','name'),['prompt'=>'']) ?>
+<?= $form->field($model,'ware_id')->dropDownList(\yii\helpers\ArrayHelper::map(\common\models\Warehouse::find()->all(),'id','name'),['prompt'=>''])?>
 
     <div class="form-group">
         <?= Html::submitButton('Saqlash', ['class' => 'btn btn-success']) ?>
@@ -26,16 +27,17 @@ use yii\helpers\ArrayHelper;
 
 <?php ActiveForm::end(); ?>
 
-<h5>Biriktirilgan mahsulotni ro`yxati</h5>
+<h5>Бириктирилган маҳсулотлар рўйхати</h5>
 
 <table class="table table-bordered">
     <thead>
     <tr>
         <th>#</th>
-        <th>Mahsulot nomi</th>
-        <th>Narxi</th>
-        <th>Birligi</th>
-        <th>Amallar</th>
+        <th>Маҳсулот номи</th>
+        <th>Омборхона</th>
+        <th>Нархи</th>
+        <th>Бирлиги</th>
+        <th>Амаллар</th>
     </tr>
     </thead>
     <tbody>
@@ -43,6 +45,7 @@ use yii\helpers\ArrayHelper;
         <tr>
             <td><?=$i++?></td>
             <td><?=$item->product->name?></td>
+            <td><?=$item->ware->name?></td>
             <td><?=$item->price ?></td>
             <td><?=$item->unit->name ?></td>
             <td>

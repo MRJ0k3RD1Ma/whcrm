@@ -31,13 +31,14 @@ class BrigadaProduct extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'product_id'], 'required'],
-            [['user_id', 'product_id'], 'integer'],
+            [['user_id', 'product_id','ware_id'], 'required'],
+            [['user_id', 'product_id','ware_id'], 'integer'],
             [['price'],'number'],
             [['unit_id'],'integer'],
             [['user_id', 'product_id'], 'unique', 'targetAttribute' => ['user_id', 'product_id']],
             [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::class, 'targetAttribute' => ['product_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
+            [['ware_id'], 'exist', 'skipOnError' => true, 'targetClass' => Warehouse::class, 'targetAttribute' => ['unit_id' => 'id']],
             [['unit_id'], 'exist', 'skipOnError' => true, 'targetClass' => Unit::class, 'targetAttribute' => ['unit_id' => 'id']],
         ];
     }
@@ -51,6 +52,8 @@ class BrigadaProduct extends \yii\db\ActiveRecord
             'user_id' => 'Фойдаланувчи',
             'product_id' => 'Маҳсулот',
             'price' => 'Нархи',
+            'unit_id' => 'Бирлиги',
+            'ware_id' => 'Маҳсулотлар олинадиган омборхона',
         ];
     }
 
@@ -77,5 +80,14 @@ class BrigadaProduct extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::class, ['id' => 'user_id']);
+    }
+
+    public function getWare(){
+        return $this->hasOne(Warehouse::class, ['id' => 'ware_id']);
+    }
+
+
+    public function getBrigadaProduct(){
+        return $this->hasOne(BrigadaProduct::class, ['product_id' => 'id']);
     }
 }

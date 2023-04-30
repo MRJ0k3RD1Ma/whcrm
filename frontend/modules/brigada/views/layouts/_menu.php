@@ -16,7 +16,7 @@
 
                     <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="<?= Yii::$app->urlManager->createUrl(['/brigada/sale'])?>"><i class="fa fa-dollar"> </i><span>Сотув</span></a></li>
 
-                    <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="<?= Yii::$app->urlManager->createUrl(['/store/sale'])?>"><i class="fa fa-dollar"> </i><span>Сотув</span></a></li>
+                    <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="<?= Yii::$app->urlManager->createUrl(['/store/sale'])?>"><i class="fa fa-bar-chart"> </i><span>Ҳисоботлар</span></a></li>
 
                 </ul>
             </div>

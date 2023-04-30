@@ -3,7 +3,7 @@
 namespace common\models;
 
 use Yii;
-
+use yii\helpers\ArrayHelper;
 /**
  * This is the model class for table "made".
  *
@@ -63,23 +63,23 @@ class Made extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'date' => 'Date',
-            'product_id' => 'Product ID',
-            'user_id' => 'User ID',
-            'price' => 'Price',
-            'cnt_price' => 'Cnt Price',
-            'cnt' => 'Cnt',
-            'cnt_total' => 'Cnt Total',
-            'box' => 'Box',
-            'c_cnt_total' => 'C Cnt Total',
-            'c_cnt' => 'C Cnt',
-            'c_cnt_price' => 'C Cnt Price',
-            'c_box' => 'C Box',
-            'consept_id' => 'Consept ID',
-            'status' => 'Status',
-            'note' => 'Note',
-            'created' => 'Created',
-            'updated' => 'Updated',
+            'date' => 'Сана',
+            'product_id' => 'Маҳсулот',
+            'user_id' => 'Бригада',
+            'price' => 'Нархи',
+            'cnt_price' => 'Умумий нарх',
+            'cnt' => 'Сони',
+            'cnt_total' => 'Умумий сони',
+            'box' => 'Каробкалар',
+            'c_cnt_total' => 'Умумий сони(Текширув)',
+            'c_cnt' => 'Сони(Текширув)',
+            'c_cnt_price' => 'Умумий нарх(Текширув)',
+            'c_box' => 'Каробкалар(Текширув)',
+            'consept_id' => 'Текширувчи',
+            'status' => 'Статус',
+            'note' => 'Изоҳ',
+            'created' => 'Яратилди',
+            'updated' => 'Ўзгартирилди',
         ];
     }
 
@@ -111,5 +111,19 @@ class Made extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::class, ['id' => 'user_id']);
+    }
+
+    public static function getStatus($status){
+        $sts = [
+            1=>'Жараёнда',
+            2=>'Тасдиқланиши кутилмоқда',
+            3=>'Тасдиқланган',
+        ];
+        return $sts[$status];
+    }
+
+    public static function getProductList(){
+        $products = Product::find()->where(['is_good'=>1])->all();
+        return ArrayHelper::map($products, 'id', 'name');
     }
 }

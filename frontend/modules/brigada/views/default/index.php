@@ -8,7 +8,7 @@ $this->title = 'Бригада бошлиғи';
         <div class="card">
             <div class="card-header">
                 <h5 class="card-title">Бугун ишлаб чиқарилган маҳсулотлар
-                <span style="float: right"> <a href="<?= Yii::$app->urlManager->createUrl(['/brigada/default/made'])?>" class="btn btn-primary">Киритиш</a></span>
+                <?php if($t){?><span style="float: right"> <a href="<?= Yii::$app->urlManager->createUrl(['/brigada/default/made'])?>" class="btn btn-primary">Киритиш</a></span><?php }?>
                 </h5>
             </div>
             <div class="card-body">
@@ -40,6 +40,12 @@ $this->title = 'Бригада бошлиғи';
                         </tbody>
                     </table>
                 </div>
+                <br>
+                <?php if($t){?>
+                    <a href="<?= Yii::$app->urlManager->createUrl(['/brigada/default/done'])?>" class="btn btn-success">Кунни якунлаш ҳамда ишлаб чиқарилган маҳсулотларни текширувга юбориш</a>
+                <?php }else{?>
+                    <h4><?= date('d.m.Y')?> санадаги ишлар якунланган</h4>
+                <?php }?>
             </div>
         </div>
     </div>

@@ -99,7 +99,8 @@ class UserController extends Controller
             $brigada->user_id = $id;
         }
         if($brigada->load($this->request->post())){
-            if($brigada->save()){
+
+            if($brigada->save(false)){
                 Yii::$app->session->setFlash('success', 'Muvoffaqiyatli Saqlandi');
             }else{
                 Yii::$app->session->setFlash('error', 'Bu foydalanuvchiga allaqachon bu mahsulot biriktirilgan yoki mahsulotni biriktirishda xatolik yuz berdi');

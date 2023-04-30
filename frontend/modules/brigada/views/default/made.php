@@ -14,25 +14,25 @@ $this->title = 'Бугун '. date('d.m.Y') .' санада тайёрланга
         <?php $form = ActiveForm::begin() ?>
 
         <?php foreach (\common\models\BrigadaProduct::find()->where(['user_id'=>Yii::$app->user->id])->all() as $item):?>
-
+            <?php $pro = \common\models\Made::findOne(['date'=>date('Y-m-d'),'product_id'=>$item->product_id,'user_id'=>Yii::$app->user->id])?>
             <div class="row">
                 <div class="col-md-2">
                     <?= $form->field($model,'pro['.$item->product_id.'][product]')->textInput(['value'=>$item->product->name,'disabled'=>true])->label('Маҳсулот номи') ?>
                 </div>
                 <div class="col-md-2">
-                    <?= $form->field($model,'pro['.$item->product_id.'][cnt]')->textInput(['data-key'=>$item->product_id,'class'=>'cnts form-control'])->label('Сони')?>
+                    <?= $form->field($model,'pro['.$item->product_id.'][cnt]')->textInput(['data-key'=>$item->product_id,'class'=>'cnts form-control','value'=>$pro ? $pro->cnt : ''])->label('Сони')?>
                 </div>
                 <div class="col-md-2">
-                    <?= $form->field($model,'pro['.$item->product_id.'][box]')->textInput(['data-key'=>$item->product_id,'class'=>'boxs form-control'])->label('Коробка')?>
+                    <?= $form->field($model,'pro['.$item->product_id.'][box]')->textInput(['data-key'=>$item->product_id,'class'=>'boxs form-control','value'=>$pro ? $pro->box : ''])->label('Коробка')?>
                 </div>
                 <div class="col-md-2">
-                    <?= $form->field($model,'pro['.$item->product_id.'][cnt_total]')->textInput(['disabled'=>true])->label('Умумий сони')?>
+                    <?= $form->field($model,'pro['.$item->product_id.'][cnt_total]')->textInput(['disabled'=>true,'value'=>$pro ? $pro->cnt_total : ''])->label('Умумий сони')?>
                 </div>
                 <div class="col-md-2">
                     <?= $form->field($model,'pro['.$item->product_id.'][price]')->textInput(['disabled'=>true,'value'=>$item->price])->label('Нархи')?>
                 </div>
                 <div class="col-md-2">
-                    <?= $form->field($model,'pro['.$item->product_id.'][cnt_price]')->textInput(['disabled'=>true,'value'=>0])->label('Умумий нархи')?>
+                    <?= $form->field($model,'pro['.$item->product_id.'][cnt_price]')->textInput(['disabled'=>true,'value'=>$pro ? $pro->cnt_price : 0])->label('Умумий нархи')?>
                 </div>
             </div>
 
