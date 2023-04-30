@@ -21,6 +21,9 @@ return [
         'brigada' => [
             'class' => 'frontend\modules\brigada\Module',
         ],
+        'sales' => [
+            'class' => 'frontend\modules\sales\Module',
+        ],
     ],
     'language'=>'uz',
     'components' => [
