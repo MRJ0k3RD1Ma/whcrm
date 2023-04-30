@@ -3,7 +3,9 @@
 namespace frontend\modules\brigada\controllers;
 
 use common\models\BrigadaProduct;
+use common\models\Made;
 use common\models\Product;
+use common\models\ProductMade;
 use frontend\models\MadeForm;
 use yii\web\Controller;
 use Yii;
@@ -27,9 +29,25 @@ class DefaultController extends Controller
 
     public function actionMade(){
         $model = new MadeForm();
-
         if($model->load($this->request->post())){
-            debug($model);
+            foreach ($model->pro as $key=>$item){
+                $m = null;
+                if(!($m = Made::find()->where(['product_id'=>$key,'user_id'=>Yii::$app->user->id,'date'=>date('Y-m-d')])->one())){
+                    $m = new Made();
+                }
+                $m->user_id = Yii::$app->user->id;
+                $m->product_id = $key;
+                $m->cnt = $item['cnt'];
+                $m->box = $item['box'];
+                $m->price = BrigadaProduct::findOne(['product_id'=>$key,'user_id'=>$m->user_id])->price;
+                $m->date = date('Y-m-d');
+                $m->cnt_total = $m->cnt + $m->box * $m->product->box;
+                $m->cnt_price = $m->cnt_total * $m->price;
+                $m->status = 1;
+                $m->save();
+
+            }
+
         }
 
         return $this->render('made',[
