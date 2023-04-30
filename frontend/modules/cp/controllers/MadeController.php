@@ -67,7 +67,12 @@ class MadeController extends Controller
     }
     public function actionConfirm($date, $product_id, $user_id)
     {
+
         $model = $this->findModel($date, $product_id, $user_id);
+        if($model->status == 3){
+            Yii::$app->session->setFlash('error','Bu ishlab chiqarilgan mahsulot avvalroq tasdiqlangan!');
+            return $this->redirect(['index']);
+        }
         $model->c_cnt = $model->cnt;
         $model->c_cnt_price = $model->cnt_price;
         $model->c_cnt_total = $model->cnt_total;
@@ -81,7 +86,6 @@ class MadeController extends Controller
         $wh->count += $model->cnt;
         $wh->box += $model->box;
         $wh->save();
-
 
         $pro = ProductMade::find()->where(['product_id'=>$model->product_id])->all();
 
