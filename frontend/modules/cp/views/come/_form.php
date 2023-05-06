@@ -49,16 +49,13 @@ $model->scenario = 'insert';
             <div style="display: none">
                 <?= $form->field($model,'pro[0][id]')->textInput()?>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <?= $form->field($model, 'pro[0][product_id]')->dropDownList(
                         \yii\helpers\ArrayHelper::map(\common\models\Product::find()->all(),'id','name'),
                         ['prompt'=>'','onchange'=>'productchanger(0)','class'=>'form-control productid','data-key'=>'0'])->label('Маҳсулот') ?>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <?= $form->field($model, 'pro[0][cnt]')->textInput(['onkeyup' => 'pricecalc(0)',])->label('Умумий сони') ?>
-            </div>
-            <div class="col-md-2">
-                <?= $form->field($model, 'pro[0][box]')->textInput(['maxlength' => true,'onkeyup' => 'pricecalc(0)',])->label('Коропкалар сони') ?>
             </div>
             <div class="col-md-2">
                 <?= $form->field($model, 'pro[0][price]')->textInput(['maxlength' => true,'onkeyup' => 'pricecalc(0)',])->label('Нархи') ?>
@@ -80,16 +77,13 @@ $model->scenario = 'insert';
                     <div style="display: none">
                         <?= $form->field($model,'pro['.$key.'][id]')->textInput(['value'=>$item->id])?>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <?= $form->field($model, 'pro['.$key.'][product_id]')->dropDownList(
                             \yii\helpers\ArrayHelper::map(\common\models\Product::find()->all(),'id','name'),
                             ['prompt'=>'','value'=>$item->product_id,'onchange'=>'productchanger('.$key.')','class'=>'form-control productid','data-key'=>''.$key.''])->label('Маҳсулот') ?>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <?= $form->field($model, 'pro['.$key.'][cnt]')->textInput(['onkeyup' => 'pricecalc('.$key.')','value'=>$item->cnt])->label('Умумий сони') ?>
-                    </div>
-                    <div class="col-md-2">
-                        <?= $form->field($model, 'pro['.$key.'][box]')->textInput(['value'=>$item->box,'maxlength' => true,'onkeyup' => 'pricecalc('.$key.')',])->label('Коропкалар сони') ?>
                     </div>
                     <div class="col-md-2">
                         <?= $form->field($model, 'pro['.$key.'][price]')->textInput(['value'=>$item->price,'maxlength' => true,'onkeyup' => 'pricecalc('.$key.')',])->label('Нархи') ?>
@@ -130,7 +124,7 @@ $url_company = \yii\helpers\Url::to(['come/company']);
 $this->registerJs("
     $('.addbtn').click(function(){
         key = $('#products').data('key');
-        var str = '<div class=\"row\"><div style=\"display: none\"><div class=\"form-group field-come-pro-'+key+'-id\"><input type=\"text\" id=\"come-pro-'+key+'-id\" class=\"form-control\" name=\"Come[pro]['+key+'][id]\"></div></div><div class=\"col-md-3\"><div class=\"form-group field-come-pro-'+key+'-product_id\"><label class=\"control-label\" for=\"come-pro-'+key+'-product_id\">Маҳсулот</label><select id=\"come-pro-'+key+'-product_id\" data-key=\"'+key+'\" class=\"form-control productid\" name=\"Come[pro]['+key+'][product_id]\" onchange=\"productchanger('+key+')\"></select></div></div><div class=\"col-md-2\"><div class=\"form-group field-come-pro-'+key+'-cnt\"><label class=\"control-label\" for=\"come-pro-'+key+'-cnt\">Умумий сони</label><input type=\"text\" id=\"come-pro-'+key+'-cnt\" class=\"form-control\" name=\"Come[pro]['+key+'][cnt]\" onkeyup=\"pricecalc('+key+')\"></div>            </div><div class=\"col-md-2\"><div class=\"form-group field-come-pro-'+key+'-box\"><label class=\"control-label\" for=\"come-pro-'+key+'-box\">Коропкалар сони</label><input type=\"text\" id=\"come-pro-'+key+'-box\" class=\"form-control\" name=\"Come[pro]['+key+'][box]\" onkeyup=\"pricecalc('+key+')\"></div>            </div><div class=\"col-md-2\"><div class=\"form-group field-come-pro-'+key+'-price\"><label class=\"control-label\" for=\"come-pro-'+key+'-price\">Нархи</label><input type=\"text\" id=\"come-pro-'+key+'-price\" class=\"form-control\" name=\"Come[pro]['+key+'][price]\" onkeyup=\"pricecalc('+key+')\"></div>            </div><div class=\"col-md-2\"><div class=\"form-group field-come-pro-'+key+'-cnt_price\"><label class=\"control-label\" for=\"come-pro-'+key+'-cnt_price\">Умумий нархи</label><input type=\"text\" id=\"come-pro-'+key+'-cnt_price\" class=\"form-control\" name=\"Come[pro]['+key+'][cnt_price]\" disabled=\"\"></div></div><div class=\"col-md-1\"><button  onclick=\"remover('+key+')\"  type=\"button\" class=\"btn btn-danger remover\"><span class=\"fa fa-trash\"></span></button></div></div>';        
+        var str = '<div class=\"row\"><div style=\"display: none\"><div class=\"form-group field-come-pro-'+key+'-id\"><input type=\"text\" id=\"come-pro-'+key+'-id\" class=\"form-control\" name=\"Come[pro]['+key+'][id]\"></div></div><div class=\"col-md-4\"><div class=\"form-group field-come-pro-'+key+'-product_id\"><label class=\"control-label\" for=\"come-pro-'+key+'-product_id\">Маҳсулот</label><select id=\"come-pro-'+key+'-product_id\" data-key=\"'+key+'\" class=\"form-control productid\" name=\"Come[pro]['+key+'][product_id]\" onchange=\"productchanger('+key+')\"></select></div></div><div class=\"col-md-3\"><div class=\"form-group field-come-pro-'+key+'-cnt\"><label class=\"control-label\" for=\"come-pro-'+key+'-cnt\">Умумий сони</label><input type=\"text\" id=\"come-pro-'+key+'-cnt\" class=\"form-control\" name=\"Come[pro]['+key+'][cnt]\" onkeyup=\"pricecalc('+key+')\"></div>            </div><div class=\"col-md-2\"><div class=\"form-group field-come-pro-'+key+'-price\"><label class=\"control-label\" for=\"come-pro-'+key+'-price\">Нархи</label><input type=\"text\" id=\"come-pro-'+key+'-price\" class=\"form-control\" name=\"Come[pro]['+key+'][price]\" onkeyup=\"pricecalc('+key+')\"></div>            </div><div class=\"col-md-2\"><div class=\"form-group field-come-pro-'+key+'-cnt_price\"><label class=\"control-label\" for=\"come-pro-'+key+'-cnt_price\">Умумий нархи</label><input type=\"text\" id=\"come-pro-'+key+'-cnt_price\" class=\"form-control\" name=\"Come[pro]['+key+'][cnt_price]\" disabled=\"\"></div></div><div class=\"col-md-1\"><button  onclick=\"remover('+key+')\"  type=\"button\" class=\"btn btn-danger remover\"><span class=\"fa fa-trash\"></span></button></div></div>';        
         $('#products').append(str);
         $.ajax({
             url: '/cp/come/get-product',
