@@ -27,8 +27,7 @@
                     <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#">
                             <i data-feather="layers"></i><span class="lan-6">Мижозлар</span></a>
                         <ul class="sidebar-submenu">
-                            <li><a href="<?= Yii::$app->urlManager->createUrl(['/sales/c-individual'])?>">Жисмоний шахслар</a></li>
-                            <li><a href="<?= Yii::$app->urlManager->createUrl(['/sales/c-legal'])?>">Юридлик шахслар</a></li>
+                            <li><a href="<?= Yii::$app->urlManager->createUrl(['/sales/c-legal'])?>">Мижозлар</a></li>
                             <li><a href="#">Лидлар</a></li>
                         </ul>
                     </li>
