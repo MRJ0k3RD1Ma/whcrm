@@ -23,8 +23,10 @@ use Yii;
  * @property string|null $address
  * @property string|null $localtion
  * @property int|null $status_id
+ * @property int|null $wh_id
  * @property string|null $created
  * @property string|null $updated
+ * @property string|null $note
  *
  * @property CLegal $client
  * @property OrderProduct[] $orderProducts
@@ -36,6 +38,7 @@ use Yii;
  */
 class Order extends \yii\db\ActiveRecord
 {
+    public $c_name,$c_phone,$c_id,$pro,$c_type;
     /**
      * {@inheritdoc}
      */
@@ -50,16 +53,17 @@ class Order extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['client_id', 'user_id', 'plan_id', 'code_id', 'type_id', 'is_delivery', 'status_id'], 'integer'],
+            [['client_id', 'user_id', 'plan_id', 'c_id','code_id', 'type_id', 'is_delivery', 'status_id','c_type'], 'integer'],
             [['price', 'discount', 'qqs', 'debt'], 'number'],
-            [['date', 'created', 'updated'], 'safe'],
+            [['date', 'created', 'updated','note','pro'], 'safe'],
             [['localtion'], 'string'],
-            [['code', 'address'], 'string', 'max' => 255],
+            [['code', 'address','c_name','c_phone'], 'string', 'max' => 255],
             [['client_id'], 'exist', 'skipOnError' => true, 'targetClass' => CLegal::class, 'targetAttribute' => ['client_id' => 'id']],
             [['plan_id'], 'exist', 'skipOnError' => true, 'targetClass' => PaymentPlan::class, 'targetAttribute' => ['plan_id' => 'id']],
             [['status_id'], 'exist', 'skipOnError' => true, 'targetClass' => OrderStatus::class, 'targetAttribute' => ['status_id' => 'id']],
             [['type_id'], 'exist', 'skipOnError' => true, 'targetClass' => OrderType::class, 'targetAttribute' => ['type_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
+            [['wh_id'], 'exist', 'skipOnError' => true, 'targetClass' => Warehouse::class, 'targetAttribute' => ['wh_id' => 'id']],
         ];
     }
 
@@ -87,6 +91,12 @@ class Order extends \yii\db\ActiveRecord
             'status_id' => 'Статус',
             'created' => 'Яратилди',
             'updated' => 'Ўзгартирилди',
+            'wh_id' => 'Омборхона',
+            'c_name' => 'Ташкилот номи/ФИО',
+            'c_id' => 'ид',
+            'c_phone' => 'Телефон',
+            'note' => 'Изоҳ',
+            'c_type' => 'Тури',
         ];
     }
 
@@ -130,6 +140,10 @@ class Order extends \yii\db\ActiveRecord
         return $this->hasMany(Product::class, ['id' => 'product_id'])->viaTable('order_product', ['order_id' => 'id']);
     }
 
+
+    public function getOrders(){
+        return $this->hasMany(OrderProduct::class, ['order_id' => 'id']);
+    }
     /**
      * Gets query for [[Status]].
      *

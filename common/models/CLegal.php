@@ -25,6 +25,7 @@ use Yii;
  * @property string|null $call_time
  * @property string|null $called_time
  * @property int|null $is_call
+ * @property int|null $type_id
  *
  * @property Bank $bank
  */
@@ -45,9 +46,11 @@ class CLegal extends \yii\db\ActiveRecord
     {
         return [
             [['bank_id','is_call'], 'integer'],
+            [['name','phone','type_id'],'required'],
             [['created', 'updated','call_time','called_time'], 'safe'],
             [['name', 'inn', 'address', 'oked', 'account', 'director', 'director_phone', 'bux', 'bux_phone', 'phone', 'phone_name'], 'string', 'max' => 255],
             [['bank_id'], 'exist', 'skipOnError' => true, 'targetClass' => Bank::class, 'targetAttribute' => ['bank_id' => 'id']],
+            [['type_id'], 'exist', 'skipOnError' => true, 'targetClass' => CType::class, 'targetAttribute' => ['type_id' => 'id']],
         ];
     }
 
@@ -58,7 +61,7 @@ class CLegal extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ИД',
-            'name' => 'Ташкилот номи',
+            'name' => 'Ташкилот номи/ФИО',
             'inn' => 'СТИР(ИНН)',
             'bank_id' => 'Банк',
             'address' => 'Манзили',
@@ -74,7 +77,8 @@ class CLegal extends \yii\db\ActiveRecord
             'updated' => 'Ўзгартирилди',
             'is_call' => 'Қўнғироқ қилиш керакми?',
             'call_time' => 'Қўнғироқ вақти',
-            'called_time' => 'Сўги қўнғироқ',
+            'called_time' => 'Сўнги қўнғироқ',
+            'type_id' => 'Мижоз тури',
         ];
     }
 

@@ -17,7 +17,7 @@ class CLegalSearch extends CLegal
     public function rules()
     {
         return [
-            [['id', 'bank_id'], 'integer'],
+            [['id', 'bank_id','type_id'], 'integer'],
             [['name', 'inn', 'address', 'oked', 'account', 'director', 'director_phone', 'bux', 'bux_phone', 'phone', 'phone_name', 'created', 'updated'], 'safe'],
         ];
     }
@@ -40,7 +40,7 @@ class CLegalSearch extends CLegal
      */
     public function search($params)
     {
-        $query = CLegal::find();
+        $query = CLegal::find()->orderBy(['id'=>SORT_DESC]);
 
         // add conditions that should always apply here
 
@@ -60,6 +60,7 @@ class CLegalSearch extends CLegal
         $query->andFilterWhere([
             'id' => $this->id,
             'bank_id' => $this->bank_id,
+            'type_id' => $this->type_id,
             'created' => $this->created,
             'updated' => $this->updated,
         ]);

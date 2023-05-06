@@ -40,7 +40,7 @@ class WarehouseSearch extends Warehouse
      */
     public function search($params)
     {
-        $query = Warehouse::find();
+        $query = Warehouse::find()->orderBy(['id'=>SORT_DESC]);
 
         // add conditions that should always apply here
 

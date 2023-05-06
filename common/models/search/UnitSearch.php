@@ -40,7 +40,7 @@ class UnitSearch extends Unit
      */
     public function search($params)
     {
-        $query = Unit::find();
+        $query = Unit::find()->orderBy(['id'=>SORT_DESC]);
 
         // add conditions that should always apply here
 

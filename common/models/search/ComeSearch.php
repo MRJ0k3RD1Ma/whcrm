@@ -40,7 +40,7 @@ class ComeSearch extends Come
      */
     public function search($params)
     {
-        $query = Come::find();
+        $query = Come::find()->orderBy(['id'=>SORT_DESC]);
 
         // add conditions that should always apply here
 

@@ -40,7 +40,7 @@ class DeliverableSearch extends Deliverable
      */
     public function search($params)
     {
-        $query = Deliverable::find();
+        $query = Deliverable::find()->orderBy(['created'=>SORT_DESC]);
 
         // add conditions that should always apply here
 

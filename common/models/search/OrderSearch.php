@@ -4,12 +4,12 @@ namespace common\models\search;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\User;
+use common\models\order;
 
 /**
- * UserSearch represents the model behind the search form of `common\models\User`.
+ * OrderSearch represents the model behind the search form of `common\models\order`.
  */
-class UserSearch extends User
+class OrderSearch extends order
 {
     /**
      * {@inheritdoc}
@@ -17,8 +17,9 @@ class UserSearch extends User
     public function rules()
     {
         return [
-            [['id', 'role_id', 'status'], 'integer'],
-            [['name', 'username', 'password', 'phone', 'created', 'updated', 'auth_key', 'verification_token', 'password_reset_token'], 'safe'],
+            [['id', 'client_id', 'user_id', 'plan_id', 'code_id', 'type_id', 'is_delivery', 'status_id'], 'integer'],
+            [['code', 'date', 'address', 'localtion', 'created', 'updated'], 'safe'],
+            [['price', 'discount', 'qqs', 'debt'], 'number'],
         ];
     }
 
@@ -40,7 +41,7 @@ class UserSearch extends User
      */
     public function search($params)
     {
-        $query = User::find()->orderBy(['id'=>SORT_DESC]);
+        $query = order::find()->orderBy(['id'=>SORT_DESC]);
 
         // add conditions that should always apply here
 
@@ -59,19 +60,25 @@ class UserSearch extends User
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'client_id' => $this->client_id,
+            'user_id' => $this->user_id,
+            'plan_id' => $this->plan_id,
+            'code_id' => $this->code_id,
+            'price' => $this->price,
+            'discount' => $this->discount,
+            'qqs' => $this->qqs,
+            'debt' => $this->debt,
+            'type_id' => $this->type_id,
+            'date' => $this->date,
+            'is_delivery' => $this->is_delivery,
+            'status_id' => $this->status_id,
             'created' => $this->created,
             'updated' => $this->updated,
-            'role_id' => $this->role_id,
-            'status' => $this->status,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'username', $this->username])
-            ->andFilterWhere(['like', 'password', $this->password])
-            ->andFilterWhere(['like', 'phone', $this->phone])
-            ->andFilterWhere(['like', 'auth_key', $this->auth_key])
-            ->andFilterWhere(['like', 'verification_token', $this->verification_token])
-            ->andFilterWhere(['like', 'password_reset_token', $this->password_reset_token]);
+        $query->andFilterWhere(['like', 'code', $this->code])
+            ->andFilterWhere(['like', 'address', $this->address])
+            ->andFilterWhere(['like', 'localtion', $this->localtion]);
 
         return $dataProvider;
     }
