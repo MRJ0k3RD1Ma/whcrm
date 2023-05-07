@@ -54,7 +54,8 @@ class Order extends \yii\db\ActiveRecord
     {
         return [
             [['client_id', 'user_id', 'plan_id', 'c_id','code_id', 'type_id', 'is_delivery', 'status_id','c_type'], 'integer'],
-            [['price', 'discount', 'qqs', 'debt'], 'number'],
+            [['type_id','c_type','wh_id','date','c_name','c_phone'],'required'],
+            [['price', 'discount', 'qqs', 'debt','delivery_price'], 'number'],
             [['date', 'created', 'updated','note','pro'], 'safe'],
             [['localtion'], 'string'],
             [['code', 'address','c_name','c_phone'], 'string', 'max' => 255],
@@ -97,6 +98,7 @@ class Order extends \yii\db\ActiveRecord
             'c_phone' => 'Телефон',
             'note' => 'Изоҳ',
             'c_type' => 'Тури',
+            'delivery_price' => 'Етказиш нархи',
         ];
     }
 

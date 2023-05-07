@@ -57,6 +57,7 @@ use yii\widgets\ActiveForm;
             <?= $form->field($model, 'is_delivery')->checkbox(['value'=>1]) ?>
             <div id="address" style="display:none">
                 <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model, 'delivery_price')->textInput(['maxlength' => true]) ?>
             </div>
 
         </div>
@@ -70,7 +71,7 @@ use yii\widgets\ActiveForm;
                         </div>
                         <div class="col-md-4">
                             <?= $form->field($model, 'pro[0][product_id]')->dropDownList(
-                                \yii\helpers\ArrayHelper::map(\common\models\Product::find()->all(),'id','name'),
+                                \yii\helpers\ArrayHelper::map(\common\models\Product::find()->where(['is_sale'=>1])->all(),'id','name'),
                                 ['prompt'=>'','onchange'=>'productchanger(0)','class'=>'form-control productid','data-key'=>'0'])->label('Маҳсулот') ?>
                         </div>
                         <div class="col-md-3">
@@ -98,7 +99,7 @@ use yii\widgets\ActiveForm;
                             </div>
                             <div class="col-md-4">
                                 <?= $form->field($model, 'pro['.$key.'][product_id]')->dropDownList(
-                                    \yii\helpers\ArrayHelper::map(\common\models\Product::find()->all(),'id','name'),
+                                    \yii\helpers\ArrayHelper::map(\common\models\Product::find()->where(['is_sale'=>1])->all(),'id','name'),
                                     ['prompt'=>'','value'=>$item->product_id,'onchange'=>'productchanger('.$key.')','class'=>'form-control productid','data-key'=>''.$key.''])->label('Маҳсулот') ?>
                             </div>
                             <div class="col-md-3">
@@ -108,7 +109,7 @@ use yii\widgets\ActiveForm;
                                 <?= $form->field($model, 'pro['.$key.'][price]')->textInput(['value'=>$item->price,'maxlength' => true,'onkeyup' => 'pricecalc('.$key.')','disabled'=>true,])->label('Нархи') ?>
                             </div>
                             <div class="col-md-2">
-                                <?= $form->field($model, 'pro['.$key.'][cnt_price]')->textInput(['value'=>$item->cnt_price,'maxlength' => true,'disabled'=>true])->label('Умумий нархи') ?>
+                                <?= $form->field($model, 'pro['.$key.'][cnt_price]')->textInput(['value'=>$item->cnt_price,'maxlength' => true,'readonly'=>true])->label('Умумий нархи') ?>
                             </div>
                             <div class="col-md-1">
                                 <button  onclick="remover(<?= $key?>)"  type="button" class="btn btn-danger remover"><span class="fa fa-trash"></span></button>
@@ -193,38 +194,46 @@ $this->registerJs("
             data: {product_id:product_id},
             success: function(data){
                 $('#order-pro-'+key+'-price').val(data);
+                pricecalc(key);
             }
         });
 
     }
     
-    pricecalc = function(key){
-        var cnt = $('#order-pro-'+key+'-cnt').val();
-        var box = $('#order-pro-'+key+'-box').val();
-        var price = $('#order-pro-'+key+'-price').val();
-        
-        $.get('/sales/order/get-fullprice',{
-            product_id:$('#order-pro-'+key+'-product_id').val(),
-            box:box,
-            cnt:cnt,
-            price:price,
-        },function(data){
-            $('#order-pro-'+key+'-cnt_price').val(data);
-            var id = $('#products').data('key');
-            window.cnt = 0;
-            for(i = 0; i < id; i++){
-               $.get('/sales/order/get-fullprice',{
-                    product_id:$('#order-pro-'+i+'-product_id').val(),
-                    box:$('#order-pro-'+i+'-box').val(),
-                    cnt:$('#order-pro-'+i+'-cnt').val(),
-                    price:$('#order-pro-'+i+'-price').val(),
-                },function(data){
-                    window.cnt += data;
-                }); 
+    pricecalc = function(key=-1){
+        if(key != -1){
+            var cnt = $('#order-pro-'+key+'-cnt').val();
+            var box = $('#order-pro-'+key+'-box').val();
+            var price = $('#order-pro-'+key+'-price').val();
+            
+            $.get('/sales/order/get-fullprice',{
+                product_id:$('#order-pro-'+key+'-product_id').val(),
+                box:box,
+                cnt:cnt,
+                price:price,
+            },function(data){
+                $('#order-pro-'+key+'-cnt_price').val(data);
+            });
+        }
+        var id = $('#products').data('key');
+        cnt = 0;
+        for(i = 0; i < id; i++){
+            if($('#order-pro-'+i+'-cnt_price').length > 0){
+                cnt += parseFloat($('#order-pro-'+i+'-cnt_price').val());
             }
-            $('#order-price').val(window.cnt);
-        });
+        }
+        cnt = cnt - parseFloat($('#order-discount').val()) ;
+        cnt = cnt + parseFloat($('#order-qqs').val()) * cnt / 100; 
+        cnt = cnt + parseFloat($('#order-delivery_price').val());
+        $('#order-price').val(cnt);
     }
+    
+    $('#order-discount').keyup(function(){
+        pricecalc();
+    });
+    $('#order-qqs').keyup(function(){
+        pricecalc();
+    });
     
     remover = function(key){
         $('#order-pro-'+key+'-product_id').parent().parent().parent().remove();

@@ -104,12 +104,12 @@ class ProductController extends Controller
                 }
                 $model->code = $code;
                 if(!$model->serial){
-                    $ser = Product::find()->where(['cat_id'=>$model->cat_id])->max('serial_num');
+                    $ser = Product::find()->max('serial_num');
                     if(!$ser){
                         $ser = 0;
                     }
                     $model->serial_num = $ser + 1;
-                    $model->serial = $model->cat->code.'-'.$model->serial_num;
+                    $model->serial = $model->serial_num;
                 }
                 if($model->image = UploadedFile::getInstance($model, 'image')){
                     $name = time().$model->image->baseName.'.'.$model->image->extension;
@@ -168,12 +168,12 @@ class ProductController extends Controller
         if ($this->request->isPost && $model->load($this->request->post())) {
 
             if(!$model->serial){
-                $ser = Product::find()->where(['cat_id'=>$model->cat_id])->max('serial_num');
+                $ser = Product::find()->max('serial_num');
                 if(!$ser){
                     $ser = 0;
                 }
                 $model->serial_num = $ser + 1;
-                $model->serial = $model->cat->code.'-'.$model->serial_num;
+                $model->serial = $model->serial_num;
             }else{
                 $model->serial = $serial;
             }

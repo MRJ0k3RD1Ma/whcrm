@@ -73,6 +73,8 @@ class OrderController extends Controller
         $model = new Order();
         $model->date = date('Y-m-d');
         $model->plan_id = 1;
+        $model->discount = 0;
+        $model->qqs = 0;
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
@@ -107,7 +109,7 @@ class OrderController extends Controller
     }
 
     public function actionGetProduct(){
-        $model = Product::find()->all();
+        $model = Product::find()->where(['is_sale'=>1])->all();
         $res = "<option value='0'></option>";
         foreach ($model as $item) {
             $res .= "<option value='{$item->id}'>{$item->name}</option>";
