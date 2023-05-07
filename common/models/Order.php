@@ -39,7 +39,7 @@ use Yii;
  */
 class Order extends \yii\db\ActiveRecord
 {
-    public $c_name,$c_phone,$c_id,$pro,$c_type;
+    public $c_name,$c_phone,$c_id,$pro,$c_type,$pay_price,$pay_type,$month;
     /**
      * {@inheritdoc}
      */
@@ -54,9 +54,9 @@ class Order extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['client_id', 'user_id', 'plan_id', 'c_id','code_id', 'type_id', 'is_delivery', 'status_id','c_type'], 'integer'],
+            [['client_id', 'user_id', 'plan_id', 'c_id','code_id', 'type_id', 'is_delivery', 'status_id','c_type','pay_type','month'], 'integer'],
             [['type_id','c_type','wh_id','date','c_name','c_phone'],'required'],
-            [['price', 'discount', 'qqs', 'debt','delivery_price'], 'number'],
+            [['price', 'discount', 'qqs', 'debt','delivery_price','pay_price'], 'number'],
             [['date', 'created', 'updated','note','pro'], 'safe'],
             [['localtion'], 'string'],
             [['code', 'address','c_name','c_phone'], 'string', 'max' => 255],
@@ -100,6 +100,9 @@ class Order extends \yii\db\ActiveRecord
             'note' => 'Изоҳ',
             'c_type' => 'Тури',
             'delivery_price' => 'Етказиш нархи',
+            'pay_price'=>'Биринчи тўлов',
+            'pay_type'=>'Тўлов тури',
+            'month'=>'Ойлар сони',
         ];
     }
 

@@ -46,6 +46,31 @@ use yii\widgets\ActiveForm;
     <div class="row">
         <div class="col-md-3">
 
+            <?= $form->field($model, 'plan_id')->dropDownList(\yii\helpers\ArrayHelper::map(\common\models\PaymentPlan::find()->all(),'id','name')) ?>
+
+            <div id="plan1" style="display:<?= ($model->plan_id == 1 or $model->plan_id == 2)? 'block' : 'none'?>">
+                <div class="row">
+                    <div class="col-md-6">
+                        <?= $form->field($model,'pay_price')->textInput()?>
+                    </div>
+                    <div class="col-md-6">
+                        <?= $form->field($model,'pay_type')->dropDownList(\yii\helpers\ArrayHelper::map(\common\models\Payment::find()->all(),'id','name'))?>
+                    </div>
+                </div>
+            </div>
+
+            <div id="plan3" style="display:<?= $model->plan_id == 3 ? 'block' : 'none'?>">
+                <div class="row">
+                    <div class="col-md-6">
+                        <?= $form->field($model,'pay_price')->textInput()?>
+                    </div>
+                    <div class="col-md-6">
+                        <?= $form->field($model,'pay_type')->dropDownList(\yii\helpers\ArrayHelper::map(\common\models\Payment::find()->all(),'id','name'))?>
+                    </div>
+                </div>
+                <?= $form->field($model,'month')->textInput(['value'=>1])?>
+            </div>
+
             <?= $form->field($model, 'price')->textInput(['maxlength' => true,'disabled'=>'true']) ?>
 
             <?= $form->field($model, 'discount')->textInput(['maxlength' => true]) ?>
@@ -95,7 +120,7 @@ use yii\widgets\ActiveForm;
 
                         <div class="row">
                             <div style="display: none">
-                                <?= $form->field($model,'pro['.$key.'][id]')->textInput(['value'=>$item->id])?>
+                                <?= $form->field($model,'pro['.$key.'][product_id]')->textInput(['value'=>$item->product_id])?>
                             </div>
                             <div class="col-md-4">
                                 <?= $form->field($model, 'pro['.$key.'][product_id]')->dropDownList(
@@ -103,13 +128,13 @@ use yii\widgets\ActiveForm;
                                     ['prompt'=>'','value'=>$item->product_id,'onchange'=>'productchanger('.$key.')','class'=>'form-control productid','data-key'=>''.$key.''])->label('Маҳсулот') ?>
                             </div>
                             <div class="col-md-3">
-                                <?= $form->field($model, 'pro['.$key.'][cnt]')->textInput(['onkeyup' => 'pricecalc('.$key.')','value'=>$item->cnt])->label('Умумий сони') ?>
+                                <?= $form->field($model, 'pro['.$key.'][cnt]')->textInput(['onkeyup' => 'pricecalc('.$key.')','value'=>$item->count])->label('Умумий сони') ?>
                             </div>
                             <div class="col-md-2">
                                 <?= $form->field($model, 'pro['.$key.'][price]')->textInput(['value'=>$item->price,'maxlength' => true,'onkeyup' => 'pricecalc('.$key.')','disabled'=>true,])->label('Нархи') ?>
                             </div>
                             <div class="col-md-2">
-                                <?= $form->field($model, 'pro['.$key.'][cnt_price]')->textInput(['value'=>$item->cnt_price,'maxlength' => true,'readonly'=>true])->label('Умумий нархи') ?>
+                                <?= $form->field($model, 'pro['.$key.'][cnt_price]')->textInput(['value'=>$item->total_price,'maxlength' => true,'readonly'=>true])->label('Умумий нархи') ?>
                             </div>
                             <div class="col-md-1">
                                 <button  onclick="remover(<?= $key?>)"  type="button" class="btn btn-danger remover"><span class="fa fa-trash"></span></button>
@@ -161,8 +186,8 @@ $this->registerJs("
 
 <?php
 
-$url_full_company = \yii\helpers\Url::to(['come/full-company']);
-$url_company = \yii\helpers\Url::to(['come/company']);
+$url_full_company = \yii\helpers\Url::to(['order/full-company']);
+$url_company = \yii\helpers\Url::to(['order/company']);
 
 $this->registerJs("
     $('.addbtn').click(function(){
@@ -242,7 +267,7 @@ $this->registerJs("
      $('#order-c_name').keyup(function(){
             $('#livesearchname').html('');
             
-            var searchField = $('#come-c_name').val();
+            var searchField = $('#order-c_name').val();
             $('#order-c_id').val(-1);
             if(searchField.length == 0){
                 $('#livesearch').html('');
@@ -264,14 +289,23 @@ $this->registerJs("
             $('#order-c_name').val($.trim(click_text));
             $.get('{$url_full_company}?id='+$(this).attr('data-key')).done(function(data){
                 data = JSON.parse(data);
-                $('#come-c_id').val(data.id);
-                $('#come-c_name').val(data.name);
-                $('#come-c_phone').val(data.phone);
-                $('#come-c_type').val(data.type_id);
+                $('#order-c_id').val(data.id);
+                $('#order-c_name').val(data.name);
+                $('#order-c_phone').val(data.phone);
+                $('#order-c_type').val(data.type_id);
             })
             $(\"#livesearch\").html('');
         });
-    
+        $('#order-plan_id').change(function(){
+            var plan_id = $(this).val();
+            $('#plan1').css('display','none');
+            $('#plan3').css('display','none');
+            if(plan_id == 1 || plan_id == 2){
+                $('#plan1').css('display','block');
+            }else{
+                $('#plan3').css('display','block');
+            }
+        })
 ");
 
 ?>

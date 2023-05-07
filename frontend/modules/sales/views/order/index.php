@@ -53,7 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'attribute' => 'user_id',
                                 'format'=>'raw',
                                 'value' => function($model){
-                                    return Html::a($model->user->username, Url::toRoute(['user/view', 'id' => $model->user_id]));
+                                    return Html::a($model->user->name, Url::toRoute(['user/view', 'id' => $model->user_id]));
                                 }
                             ],
 //            'plan_id',

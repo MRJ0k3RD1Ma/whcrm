@@ -77,6 +77,8 @@ class OrderController extends Controller
         $model->plan_id = 1;
         $model->discount = 0;
         $model->qqs = 0;
+        $model->user_id = Yii::$app->user->id;
+        $model->status_id = 1;
         $model->delivery_price = 0;
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
@@ -126,6 +128,17 @@ class OrderController extends Controller
                         }
 
                     }
+                    // umumiy narx xisob kitobi
+                    $model->price = OrderProduct::find()->where(['order_id'=>$model->id])->sum('total_price') + $model->delivery_price - $model->discount;
+                    $model->price = $model->price - $model->qqs * $model->price / 100;
+                    $model->debt = $model->price;
+
+                    // to'lovni qabul qilish va to'lovlarni shakllantirish
+
+
+
+                    $model->save();
+
                     Yii::$app->session->setFlash('success','Буюртма муваффақиятли яратилди');
                 }
 
@@ -140,8 +153,77 @@ class OrderController extends Controller
         ]);
     }
 
+    /**
+     * Updates an existing order model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param int $id ID
+     * @return string|\yii\web\Response
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionUpdate($id)
+    {
+        $model = $this->findModel($id);
+        $model->c_id = $model->client_id;
+        $model->c_name = $model->client->name;
+        $model->c_phone = $model->client->phone;
+        $model->c_type = $model->client->type_id;
+        $model->date = date('Y-m-d',strtotime($model->date));
+        if ($this->request->isPost && $model->load($this->request->post())) {
+            if($model->c_id != -1){
+                $model->client_id = $model->c_id;
+            }else{
+                $client = new CLegal();
+                $client->name = $model->c_name;
+                $client->phone = $model->c_phone;
+                $client->type_id = $model->c_type;
+                if($client->save()){
+                    $model->client_id = $client->id;
+                }else{
+                    Yii::$app->session->setFlash('error', 'Мижоз маълумотларини сақлашда хатолик');
+                }
+            }
+            if($model->is_delivery != 1){
+                $model->delivery_price = 0;
+            }
+
+            if($model->save()){
+                foreach ($model->pro as $key=>$item){
+                    if($product = OrderProduct::findOne(['order_id'=>$model->id,'product_id'=>$item['product_id']])){
+                        $product->count += $item['cnt'];
+                        $price = Price::find()->where(['product_id'=>$item['product_id']])->orderBy(['id'=>SORT_DESC])->one();
+                        $product->price = $price->retail_price;
+                        $product->total_price = $product->count * $price->retail_price;
+                        $product->price_id = $price->id;
+                        $product->save();
+                    }else{
+                        $product = new OrderProduct();
+                        $product->order_id = $model->id;
+                        $product->product_id = $item['product_id'];
+                        $product->count = $item['cnt'];
+                        $price = Price::find()->where(['product_id'=>$item['product_id']])->orderBy(['id'=>SORT_DESC])->one();
+                        $product->price = $price->retail_price;
+                        $product->total_price = $item['cnt'] * $price->retail_price;
+                        $product->price_id = $price->id;
+                        $product->save();
+                    }
+
+                }
+                // umumiy narx xisob kitobi
+                $model->price = OrderProduct::find()->where(['order_id'=>$model->id])->sum('total_price') + $model->delivery_price - $model->discount;
+                $model->price = $model->price - $model->qqs * $model->price / 100;
+                $model->save();
+                Yii::$app->session->setFlash('success','Буюртма муваффақиятли яратилди');
+            }
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+
+        return $this->render('update', [
+            'model' => $model,
+        ]);
+    }
+
     public function actionCompany($name){
-        $model = Supplier::find()->where(['like','name',$name])
+        $model = CLegal::find()->where(['like','name',$name])
             ->orWhere(['like','phone',$name])
             ->all();
         $res = "";
@@ -150,7 +232,7 @@ class OrderController extends Controller
         }
         return $res;
     }
-    public function actionFullCompany($id,$type_id){
+    public function actionFullCompany($id){
         return json_encode(CLegal::findOne($id)->toArray());
     }
     public function actionGetPrice(){
@@ -184,25 +266,7 @@ class OrderController extends Controller
         return $full_price;
     }
 
-    /**
-     * Updates an existing order model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param int $id ID
-     * @return string|\yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
-    }
 
     /**
      * Deletes an existing order model.
