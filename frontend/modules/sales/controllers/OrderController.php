@@ -4,13 +4,15 @@ namespace frontend\modules\sales\controllers;
 
 use common\models\CLegal;
 use common\models\Order;
+use common\models\OrderProduct;
+use common\models\Price;
 use common\models\Product;
 use common\models\search\OrderSearch;
 use common\models\Supplier;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use Yii;
 /**
  * OrderController implements the CRUD actions for order model.
  */
@@ -75,8 +77,58 @@ class OrderController extends Controller
         $model->plan_id = 1;
         $model->discount = 0;
         $model->qqs = 0;
+        $model->delivery_price = 0;
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
+            if ($model->load($this->request->post())) {
+                $code = Order::find()->where(['like','date','%'.date('Y').'%'])->max('code_id');
+                if(!$code){
+                    $code = 0;
+                }
+                $code ++;
+                $model->code_id = $code;
+                $model->code = date('Y').'-'.$code;
+                if($model->c_id != -1){
+                    $model->client_id = $model->c_id;
+                }else{
+                    $client = new CLegal();
+                    $client->name = $model->c_name;
+                    $client->phone = $model->c_phone;
+                    $client->type_id = $model->c_type;
+                    if($client->save()){
+                        $model->client_id = $client->id;
+                    }else{
+                        Yii::$app->session->setFlash('error', 'Мижоз маълумотларини сақлашда хатолик');
+                    }
+                }
+                if($model->is_delivery != 1){
+                    $model->delivery_price = 0;
+                }
+
+                if($model->save()){
+                    foreach ($model->pro as $key=>$item){
+                        if($product = OrderProduct::findOne(['order_id'=>$model->id,'product_id'=>$item['product_id']])){
+                            $product->count += $item['cnt'];
+                            $price = Price::find()->where(['product_id'=>$item['product_id']])->orderBy(['id'=>SORT_DESC])->one();
+                            $product->price = $price->retail_price;
+                            $product->total_price = $product->count * $price->retail_price;
+                            $product->price_id = $price->id;
+                            $product->save();
+                        }else{
+                            $product = new OrderProduct();
+                            $product->order_id = $model->id;
+                            $product->product_id = $item['product_id'];
+                            $product->count = $item['cnt'];
+                            $price = Price::find()->where(['product_id'=>$item['product_id']])->orderBy(['id'=>SORT_DESC])->one();
+                            $product->price = $price->retail_price;
+                            $product->total_price = $item['cnt'] * $price->retail_price;
+                            $product->price_id = $price->id;
+                            $product->save();
+                        }
+
+                    }
+                    Yii::$app->session->setFlash('success','Буюртма муваффақиятли яратилди');
+                }
+
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {

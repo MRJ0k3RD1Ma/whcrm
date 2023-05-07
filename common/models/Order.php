@@ -27,6 +27,7 @@ use Yii;
  * @property string|null $created
  * @property string|null $updated
  * @property string|null $note
+ * @property number|null $delivery_price
  *
  * @property CLegal $client
  * @property OrderProduct[] $orderProducts

@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 30, 2023 at 07:07 PM
--- Server version: 10.4.25-MariaDB
--- PHP Version: 7.4.30
+-- Generation Time: May 07, 2023 at 10:07 PM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -31,7 +31,7 @@ CREATE TABLE `bank` (
   `id` int(16) NOT NULL,
   `mfo` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `bank`
@@ -1110,7 +1110,7 @@ CREATE TABLE `brigada_product` (
   `price` decimal(10,5) DEFAULT NULL,
   `unit_id` int(11) DEFAULT NULL,
   `ware_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `brigada_product`
@@ -1129,9 +1129,9 @@ INSERT INTO `brigada_product` (`user_id`, `product_id`, `price`, `unit_id`, `war
 
 CREATE TABLE `category` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `icon` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `name` varchar(255) NOT NULL,
+  `code` varchar(255) DEFAULT NULL,
+  `icon` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -1170,7 +1170,7 @@ CREATE TABLE `come` (
   `created` datetime DEFAULT current_timestamp(),
   `updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `ware_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1184,28 +1184,9 @@ CREATE TABLE `come_product` (
   `product_id` bigint(20) UNSIGNED NOT NULL,
   `cnt` decimal(10,5) DEFAULT NULL,
   `price` decimal(10,5) DEFAULT NULL,
-  `box` bigint(20) DEFAULT NULL,
+  `box` bigint(20) DEFAULT 0,
   `cnt_price` decimal(10,5) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `c_individual`
---
-
-CREATE TABLE `c_individual` (
-  `id` bigint(20) NOT NULL,
-  `name` varchar(50) NOT NULL DEFAULT '',
-  `pnfl` varchar(255) DEFAULT NULL,
-  `inn` varchar(255) DEFAULT NULL,
-  `passport` varchar(255) DEFAULT NULL,
-  `address` varchar(255) DEFAULT NULL,
-  `gender` int(1) NOT NULL,
-  `phone` varchar(255) DEFAULT NULL,
-  `created` datetime DEFAULT current_timestamp(),
-  `updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB AVG_ROW_LENGTH=120 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1228,8 +1209,40 @@ CREATE TABLE `c_legal` (
   `phone` varchar(255) DEFAULT '',
   `phone_name` varchar(255) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
-  `updated` datetime DEFAULT NULL
-) ENGINE=InnoDB AVG_ROW_LENGTH=8192 DEFAULT CHARSET=utf8mb4;
+  `updated` datetime DEFAULT NULL,
+  `note` text DEFAULT NULL,
+  `is_call` int(11) DEFAULT 0,
+  `call_time` datetime DEFAULT NULL,
+  `called_time` datetime DEFAULT NULL,
+  `type_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB AVG_ROW_LENGTH=8192 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `c_legal`
+--
+
+INSERT INTO `c_legal` (`id`, `name`, `inn`, `bank_id`, `address`, `oked`, `account`, `director`, `director_phone`, `bux`, `bux_phone`, `phone`, `phone_name`, `created`, `updated`, `note`, `is_call`, `call_time`, `called_time`, `type_id`) VALUES
+(3, 'Million dastur OK', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '+998999670395', NULL, NULL, NULL, NULL, 0, NULL, NULL, 1),
+(4, 'Million dastur OK', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '+998999670395', NULL, NULL, NULL, NULL, 0, NULL, NULL, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `c_type`
+--
+
+CREATE TABLE `c_type` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `c_type`
+--
+
+INSERT INTO `c_type` (`id`, `name`) VALUES
+(1, 'Жисмоний шахс'),
+(2, 'Юридик шахс');
 
 -- --------------------------------------------------------
 
@@ -1246,7 +1259,7 @@ CREATE TABLE `deliverable` (
   `dcondition` varchar(500) DEFAULT NULL,
   `created` datetime DEFAULT current_timestamp(),
   `updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1272,15 +1285,15 @@ CREATE TABLE `made` (
   `note` text DEFAULT NULL,
   `created` datetime DEFAULT current_timestamp(),
   `updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `made`
 --
 
 INSERT INTO `made` (`date`, `product_id`, `user_id`, `price`, `cnt_price`, `cnt`, `cnt_total`, `box`, `c_cnt_total`, `c_cnt`, `c_cnt_price`, `c_box`, `consept_id`, `status`, `note`, `created`, `updated`) VALUES
-('2023-04-30', 31, 6, '500.00000', '7500.00000', '10.00000', '15.00000', 5, NULL, NULL, NULL, NULL, NULL, 2, NULL, '2023-04-30 15:46:59', '2023-04-30 16:38:39'),
-('2023-04-30', 32, 6, '1000.00000', '20000.00000', '15.00000', '20.00000', 5, NULL, NULL, NULL, NULL, NULL, 2, NULL, '2023-04-30 15:46:59', '2023-04-30 16:48:10'),
+('2023-04-30', 31, 6, '500.00000', '7500.00000', '10.00000', '15.00000', 5, '15.00000', '10.00000', '7500.00000', '5.00000', 3, 3, NULL, '2023-04-30 15:46:59', '2023-05-06 23:54:13'),
+('2023-04-30', 32, 6, '1000.00000', '20000.00000', '15.00000', '20.00000', 5, '20.00000', '15.00000', '20000.00000', '5.00000', 3, 3, NULL, '2023-04-30 15:46:59', '2023-05-06 23:54:12'),
 ('2023-04-30', 33, 6, '1200.00000', '18000.00000', '10.00000', '15.00000', 5, '15.00000', '10.00000', '18000.00000', '5.00000', 3, 3, NULL, '2023-04-30 15:46:59', '2023-04-30 18:19:01');
 
 -- --------------------------------------------------------
@@ -1296,7 +1309,171 @@ CREATE TABLE `made_cost` (
   `granule_id` bigint(20) UNSIGNED NOT NULL,
   `cnt` decimal(10,5) DEFAULT NULL,
   `cnt_total` decimal(10,5) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order`
+--
+
+CREATE TABLE `order` (
+  `id` int(11) NOT NULL,
+  `client_id` int(11) DEFAULT NULL,
+  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `plan_id` int(11) DEFAULT NULL,
+  `code` varchar(255) DEFAULT NULL,
+  `code_id` int(11) DEFAULT NULL,
+  `price` decimal(10,5) DEFAULT NULL,
+  `discount` decimal(10,5) DEFAULT NULL,
+  `qqs` decimal(10,5) DEFAULT NULL,
+  `debt` decimal(10,5) DEFAULT NULL,
+  `type_id` int(11) DEFAULT NULL,
+  `date` datetime DEFAULT NULL,
+  `is_delivery` int(11) DEFAULT 0,
+  `address` varchar(255) DEFAULT NULL,
+  `localtion` text DEFAULT NULL,
+  `status_id` int(11) DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `updated` datetime DEFAULT NULL,
+  `wh_id` int(11) DEFAULT NULL,
+  `note` text DEFAULT NULL,
+  `delivery_price` decimal(10,5) DEFAULT 0.00000
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `order`
+--
+
+INSERT INTO `order` (`id`, `client_id`, `user_id`, `plan_id`, `code`, `code_id`, `price`, `discount`, `qqs`, `debt`, `type_id`, `date`, `is_delivery`, `address`, `localtion`, `status_id`, `created`, `updated`, `wh_id`, `note`, `delivery_price`) VALUES
+(1, 4, NULL, 1, '2023-1', 1, NULL, '5000.00000', '12.00000', NULL, 1, '2023-05-07 00:00:00', 0, 'Neradir yetkaziladi', NULL, NULL, NULL, NULL, 1, '', '0.00000');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_paid`
+--
+
+CREATE TABLE `order_paid` (
+  `order_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='to''langan to''lovlar ro''yhati';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_pay_plan`
+--
+
+CREATE TABLE `order_pay_plan` (
+  `order_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='to''lovlar jadvali';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_product`
+--
+
+CREATE TABLE `order_product` (
+  `order_id` int(11) NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL,
+  `count` decimal(10,5) DEFAULT NULL,
+  `price_id` int(11) DEFAULT NULL,
+  `price` decimal(10,5) DEFAULT NULL,
+  `total_price` decimal(10,5) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `order_product`
+--
+
+INSERT INTO `order_product` (`order_id`, `product_id`, `count`, `price_id`, `price`, `total_price`) VALUES
+(1, 31, '210.00000', 2, '200.00000', '42000.00000');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_status`
+--
+
+CREATE TABLE `order_status` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `icon` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `order_status`
+--
+
+INSERT INTO `order_status` (`id`, `name`, `icon`) VALUES
+(1, 'Янги', NULL),
+(2, 'Жараёнда', NULL),
+(3, 'Еказилиши кутилмоқда', NULL),
+(4, 'Тўловлар кутилмоқда', NULL),
+(5, 'Тугалланган', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_type`
+--
+
+CREATE TABLE `order_type` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `order_type`
+--
+
+INSERT INTO `order_type` (`id`, `name`) VALUES
+(1, 'Ўзи келган'),
+(2, 'Телефон орқали буюртма'),
+(3, 'Электрон буюртма');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payment`
+--
+
+CREATE TABLE `payment` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `icon` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `payment`
+--
+
+INSERT INTO `payment` (`id`, `name`, `icon`) VALUES
+(1, 'Нақд', NULL),
+(2, 'Картага тўлов', NULL),
+(3, 'Терминал', NULL),
+(4, 'Пул ўтказиш(перечисление)', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payment_plan`
+--
+
+CREATE TABLE `payment_plan` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `payment_plan`
+--
+
+INSERT INTO `payment_plan` (`id`, `name`) VALUES
+(1, 'Ҳозироқ тўлаш'),
+(2, 'Буюртма тайёр бўлганда тўлаш'),
+(3, 'Муддатли тўлов');
 
 -- --------------------------------------------------------
 
@@ -1312,7 +1489,7 @@ CREATE TABLE `price` (
   `wholesale_price` decimal(10,5) NOT NULL COMMENT 'Optom narx',
   `date` date NOT NULL COMMENT 'Narx o`zgargan sana',
   `user_id` bigint(20) UNSIGNED NOT NULL COMMENT 'Kim o`zgartirdi'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Narxlar';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='Narxlar';
 
 --
 -- Dumping data for table `price`
@@ -1329,7 +1506,8 @@ INSERT INTO `price` (`id`, `product_id`, `base_price`, `retail_price`, `wholesal
 (1, 51, '0.00000', '0.00000', '0.00000', '2023-04-30', 6),
 (1, 52, '0.00000', '0.00000', '0.00000', '2023-04-30', 6),
 (1, 53, '0.00000', '0.00000', '0.00000', '2023-04-30', 6),
-(1, 54, '0.00000', '0.00000', '0.00000', '2023-04-30', 6);
+(1, 54, '0.00000', '0.00000', '0.00000', '2023-04-30', 6),
+(2, 31, '100.00000', '200.00000', '150.00000', '2023-05-07', 3);
 
 -- --------------------------------------------------------
 
@@ -1339,18 +1517,18 @@ INSERT INTO `price` (`id`, `product_id`, `base_price`, `retail_price`, `wholesal
 
 CREATE TABLE `product` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `image` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-  `serial` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `image` varchar(255) NOT NULL DEFAULT '',
+  `serial` varchar(255) DEFAULT NULL,
   `serial_num` bigint(20) DEFAULT 0,
   `basic_price` decimal(10,5) NOT NULL,
   `retail_price` decimal(10,5) NOT NULL,
   `wholesale_price` decimal(10,5) NOT NULL,
-  `box` int(11) NOT NULL,
+  `box` int(11) NOT NULL DEFAULT 0,
   `cat_id` bigint(20) UNSIGNED NOT NULL,
-  `note` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `bio` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `note` varchar(255) DEFAULT NULL,
+  `code` varchar(255) NOT NULL,
+  `bio` longtext DEFAULT NULL,
   `is_sale` int(11) NOT NULL DEFAULT 1,
   `is_good` int(11) DEFAULT 0 COMMENT 'Granula bo''lsa 1 aks holda 0 yoziladi',
   `expiry_month` int(11) DEFAULT NULL,
@@ -1364,9 +1542,9 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`id`, `name`, `image`, `serial`, `serial_num`, `basic_price`, `retail_price`, `wholesale_price`, `box`, `cat_id`, `note`, `code`, `bio`, `is_sale`, `is_good`, `expiry_month`, `unit_id`, `created_at`, `updated_at`) VALUES
-(4, 'ЩЕБЕНЬ ИЗ ПРИРОДНОГО КАМНЯ ДЛЯ СТРОИТЕЛЬНЫХ РАБОТ ФРАКЦИИ 40-70 ММ', 'no-image.png', 'sheben-1', 1, '0.00000', '0.00000', '0.00000', 1, 2, '', 'D0YTWCeWuY', '-', 0, 0, 1, 2, '2023-04-11 11:07:35', '2023-04-11 11:07:52'),
-(5, 'ЩЕБЕНЬ ИЗ ПРИРОДНОГО КАМНЯ ДЛЯ СТРОИТЕЛЬНЫХ РАБОТ ФРАКЦИИ 10-20 ММ', 'no-image.png', 'sheben-2', 2, '0.00000', '0.00000', '0.00000', 1, 2, '', 'fOikQdM-nK', '', 0, 0, 1, 2, '2023-04-11 11:08:28', '2023-04-11 11:08:28'),
-(6, 'ЩЕБЕНЬ ИЗ ПРИРОДНОГО КАМНЯ ДЛЯ СТРОИТЕЛЬНЫХ РАБОТ ФРАКЦИИ 5-10 ММ', 'no-image.png', 'sheben-3', 3, '0.00000', '0.00000', '0.00000', 1, 2, '', '0D0DvvaPte', '', 0, 0, 1, 2, '2023-04-11 11:08:40', '2023-04-11 11:08:40'),
+(4, 'ЩЕБЕНЬ ИЗ ПРИРОДНОГО КАМНЯ ДЛЯ СТРОИТЕЛЬНЫХ РАБОТ ФРАКЦИИ 40-70 ММ', 'no-image.png', 'sheben-1', 1, '0.00000', '100.00000', '0.00000', 1, 2, '', 'D0YTWCeWuY', '-', 0, 0, 1, 2, '2023-04-11 11:07:35', '2023-05-06 22:50:49'),
+(5, 'ЩЕБЕНЬ ИЗ ПРИРОДНОГО КАМНЯ ДЛЯ СТРОИТЕЛЬНЫХ РАБОТ ФРАКЦИИ 10-20 ММ', 'no-image.png', 'sheben-2', 2, '0.00000', '200.00000', '0.00000', 1, 2, '', 'fOikQdM-nK', '', 0, 0, 1, 2, '2023-04-11 11:08:28', '2023-05-06 22:50:52'),
+(6, 'ЩЕБЕНЬ ИЗ ПРИРОДНОГО КАМНЯ ДЛЯ СТРОИТЕЛЬНЫХ РАБОТ ФРАКЦИИ 5-10 ММ', 'no-image.png', 'sheben-3', 3, '0.00000', '300.00000', '0.00000', 1, 2, '', '0D0DvvaPte', '', 0, 0, 1, 2, '2023-04-11 11:08:40', '2023-05-06 22:50:55'),
 (7, 'ЩЕБЕНОЧНО-ПЕСЧАНАЯ СМЕСЬ', 'no-image.png', 'sheben-4', 4, '0.00000', '0.00000', '0.00000', 1, 2, '', '_y3wLL3RFm', '', 0, 0, 1, 2, '2023-04-11 11:09:23', '2023-04-11 11:09:23'),
 (8, 'Цемент М400', 'no-image.png', 'sement-1', 1, '0.00000', '0.00000', '0.00000', 1, 3, '', 'aZ4UDoCzuk', '', 0, 0, 1, 6, '2023-04-11 11:09:43', '2023-04-11 11:41:42'),
 (9, 'Цемент М500', 'no-image.png', 'sement-2', 2, '0.00000', '0.00000', '0.00000', 1, 3, '', 'PIAOvc1vXC', '', 0, 0, 1, 6, '2023-04-11 11:09:51', '2023-04-11 11:42:02'),
@@ -1391,7 +1569,7 @@ INSERT INTO `product` (`id`, `name`, `image`, `serial`, `serial_num`, `basic_pri
 (28, 'Арматура Д-32 мм А III', 'no-image.png', 'armatura-13', 13, '0.00000', '0.00000', '0.00000', 100, 6, '', '15QBiuM0TJ', '', 0, 0, 1, 4, '2023-04-11 11:13:42', '2023-04-11 11:13:42'),
 (29, 'Арматура Д-36 мм А III', 'no-image.png', 'armatura-14', 14, '0.00000', '0.00000', '0.00000', 100, 6, '', 'HLXmPwk3dq', '', 0, 0, 1, 4, '2023-04-11 11:13:46', '2023-04-11 11:13:46'),
 (30, 'Арматура Д-40 мм А III', 'no-image.png', 'armatura-15', 15, '0.00000', '0.00000', '0.00000', 100, 6, '', 'bGcApnAZ0U', '', 0, 0, 1, 4, '2023-04-11 11:13:52', '2023-04-11 11:13:52'),
-(31, 'ПЛИТА ДНИША КЦ Д-10', 'no-image.png', 'plita-1', 1, '0.00000', '0.00000', '0.00000', 1, 1, '', 'mx5WFFkSsm', '', 1, 1, 1, 1, '2023-04-11 11:20:58', '2023-04-11 11:20:58'),
+(31, 'ПЛИТА ДНИША КЦ Д-10', 'no-image.png', 'plita-1', 1, '100.00000', '200.00000', '150.00000', 1, 1, '', 'mx5WFFkSsm', '', 1, 1, 1, 1, '2023-04-11 11:20:58', '2023-05-07 09:48:49'),
 (32, 'ПЛИТА ПЕРЕКРЫТИЯ КЦП-10-2', 'no-image.png', 'plita-2', 2, '0.00000', '0.00000', '0.00000', 1, 1, '', 'Rf_GPcAELI', '', 1, 1, 1, 1, '2023-04-11 11:21:04', '2023-04-11 11:21:04'),
 (33, 'КОЛЬЦА СТЕНОВЫЕ КЦ 10-6', 'no-image.png', 'koltsa-1', 1, '0.00000', '0.00000', '0.00000', 1, 7, '', 'QmlGf8r2xD', '', 1, 1, 1, 1, '2023-04-11 11:21:13', '2023-04-11 11:21:13'),
 (34, 'КОЛЬЦА СТЕНОВЫЕ КЦ 10-9', 'no-image.png', 'koltsa-2', 2, '0.00000', '0.00000', '0.00000', 1, 7, '', 'E2xYBuT-E8', '', 1, 1, 1, 1, '2023-04-11 11:21:19', '2023-04-11 11:21:19'),
@@ -1425,7 +1603,7 @@ INSERT INTO `product` (`id`, `name`, `image`, `serial`, `serial_num`, `basic_pri
 CREATE TABLE `product_images` (
   `product_id` bigint(20) UNSIGNED NOT NULL,
   `image` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1437,7 +1615,7 @@ CREATE TABLE `product_made` (
   `product_id` bigint(20) UNSIGNED NOT NULL,
   `granule_id` bigint(20) UNSIGNED NOT NULL,
   `count` decimal(10,5) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `product_made`
@@ -1475,7 +1653,7 @@ INSERT INTO `product_made` (`product_id`, `granule_id`, `count`) VALUES
 CREATE TABLE `product_user` (
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `product_id` bigint(20) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1485,8 +1663,8 @@ CREATE TABLE `product_user` (
 
 CREATE TABLE `role` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `url` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+  `name` varchar(255) NOT NULL,
+  `url` varchar(255) NOT NULL
 ) ENGINE=InnoDB AVG_ROW_LENGTH=5461 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -1501,7 +1679,7 @@ INSERT INTO `role` (`id`, `name`, `url`) VALUES
 (6, 'Mehmon(Jarayonda)', '/site/index/'),
 (7, 'Nazoratchi(Jarayonda)', '/control/'),
 (2, 'Omborxona', '/store/'),
-(4, 'Sotuv bo\'limi(Jarayonda)', '/admin/');
+(4, 'Sotuv bo\'limi', '/sales/');
 
 -- --------------------------------------------------------
 
@@ -1525,7 +1703,7 @@ CREATE TABLE `supplier` (
   `phone_name` varchar(255) DEFAULT NULL,
   `created` datetime DEFAULT current_timestamp(),
   `updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB AVG_ROW_LENGTH=8192 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AVG_ROW_LENGTH=8192 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `supplier`
@@ -1544,7 +1722,7 @@ INSERT INTO `supplier` (`id`, `name`, `inn`, `bank_id`, `address`, `oked`, `acco
 CREATE TABLE `unit` (
   `id` int(11) NOT NULL,
   `name` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `unit`
@@ -1566,17 +1744,17 @@ INSERT INTO `unit` (`id`, `name`) VALUES
 
 CREATE TABLE `user` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `username` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `password` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `password` varchar(500) NOT NULL,
+  `phone` varchar(255) DEFAULT NULL,
   `created` datetime DEFAULT current_timestamp(),
   `updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `role_id` bigint(20) UNSIGNED DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT 10,
-  `auth_key` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `verification_token` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `password_reset_token` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `auth_key` varchar(500) DEFAULT NULL,
+  `verification_token` varchar(500) DEFAULT NULL,
+  `password_reset_token` varchar(500) DEFAULT NULL
 ) ENGINE=InnoDB AVG_ROW_LENGTH=8192 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -1587,7 +1765,8 @@ INSERT INTO `user` (`id`, `name`, `username`, `password`, `phone`, `created`, `u
 (3, 'Allabergenov Dilmurod', 'super', '$2y$13$0DgaEn6NOKpryHj2U9B/MuDWDhUFTINPw5FFGSAqqv1.ef..OIHZa', NULL, '2022-06-06 17:22:11', '2023-03-31 01:46:25', 5, 1, NULL, NULL, NULL),
 (4, 'sklad', 'sklad', '$2y$13$onBxaGx63bXHshdavKzE/uXYpV1tfBc9lW5CDgptfMa.uqkh5X9ke', '-', '2023-04-01 02:02:31', '2023-04-02 22:09:07', 2, 1, NULL, NULL, NULL),
 (5, 'nazoratchi', 'nazoratchi', '123', '-', '2023-04-01 02:22:11', '2023-04-01 02:22:11', 7, 1, NULL, NULL, NULL),
-(6, 'Brigader', 'brigader', '$2y$13$X/S2NLPQLqFt0UB5dgIZNOnU0kOvW8q36SnFn51UICWEfx12dqWm6', '-', '2023-04-11 01:41:50', '2023-04-11 01:41:50', 8, 1, 'f5_hOBrn1DOdFRuEuKd__aS0wxw59Los', NULL, NULL);
+(6, 'Brigader', 'brigader', '$2y$13$X/S2NLPQLqFt0UB5dgIZNOnU0kOvW8q36SnFn51UICWEfx12dqWm6', '-', '2023-04-11 01:41:50', '2023-04-11 01:41:50', 8, 1, 'f5_hOBrn1DOdFRuEuKd__aS0wxw59Los', NULL, NULL),
+(7, 'Sotuvchi', 'sotuv', '$2y$13$83ftKQKOeDvgC6qgIZG/huQJhFrjc1VG.XcrQigT8/dzuYxakfnFS', '-', '2023-05-01 00:36:30', '2023-05-01 00:36:30', 4, 1, '6EqNmiy13uk9mqM_3AR7zLq2HysVSwbg', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1598,7 +1777,7 @@ INSERT INTO `user` (`id`, `name`, `username`, `password`, `phone`, `created`, `u
 CREATE TABLE `warehouse` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='skladlar';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='skladlar';
 
 --
 -- Dumping data for table `warehouse`
@@ -1616,7 +1795,7 @@ INSERT INTO `warehouse` (`id`, `name`) VALUES
 CREATE TABLE `ware_user` (
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `ware_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Foydalanuvchilar ruhsat berilgan omborlarga kirim chiqib qilishadi';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Foydalanuvchilar ruhsat berilgan omborlarga kirim chiqib qilishadi';
 
 --
 -- Dumping data for table `ware_user`
@@ -1643,24 +1822,24 @@ CREATE TABLE `wh_product` (
   `expiry_date` date DEFAULT NULL,
   `created` datetime DEFAULT current_timestamp(),
   `updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `box` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `box` int(11) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `wh_product`
 --
 
 INSERT INTO `wh_product` (`wh_id`, `product_id`, `count`, `price_id`, `user_id`, `base_price`, `retail_price`, `wholesale_price`, `expiry_date`, `created`, `updated`, `box`) VALUES
-(1, 6, '-1.60780', 1, 6, '0.00000', '0.00000', '0.00000', NULL, '2023-04-30 17:33:18', '2023-04-30 17:34:22', 0),
-(1, 8, '-0.66368', 1, 6, '0.00000', '0.00000', '0.00000', NULL, '2023-04-30 17:33:18', '2023-04-30 17:34:22', 0),
-(1, 10, '-0.87260', 1, 6, '0.00000', '0.00000', '0.00000', NULL, '2023-04-30 17:33:18', '2023-04-30 17:34:22', 0),
-(1, 20, '-97.60000', 1, 6, '0.00000', '0.00000', '0.00000', NULL, '2023-04-30 17:33:18', '2023-04-30 17:34:22', 0),
-(1, 31, '40.00000', 1, 6, '0.00000', '0.00000', '0.00000', NULL, '2023-04-30 17:33:18', '2023-04-30 17:34:22', 20),
-(1, 32, '60.00000', 1, 6, '0.00000', '0.00000', '0.00000', NULL, '2023-04-30 17:33:18', '2023-04-30 17:34:22', 20),
-(1, 33, '40.00000', 1, 6, '0.00000', '0.00000', '0.00000', NULL, '2023-04-30 17:33:18', '2023-04-30 17:34:22', 20),
-(1, 51, '-11.20000', 1, 6, '0.00000', '0.00000', '0.00000', NULL, '2023-04-30 17:33:18', '2023-04-30 17:34:22', 0),
-(1, 52, '-12.00000', 1, 6, '0.00000', '0.00000', '0.00000', NULL, '2023-04-30 17:33:18', '2023-04-30 17:34:22', 0),
-(1, 53, '-0.41788', 1, 6, '0.00000', '0.00000', '0.00000', NULL, '2023-04-30 17:33:18', '2023-04-30 17:34:22', 0),
+(1, 6, '-1.83380', 1, 6, '0.00000', '0.00000', '0.00000', NULL, '2023-04-30 17:33:18', '2023-05-06 23:54:13', 0),
+(1, 8, '-0.75818', 1, 6, '0.00000', '0.00000', '0.00000', NULL, '2023-04-30 17:33:18', '2023-05-06 23:54:13', 0),
+(1, 10, '-0.99760', 1, 6, '0.00000', '0.00000', '0.00000', NULL, '2023-04-30 17:33:18', '2023-05-06 23:54:13', 0),
+(1, 20, '-122.00000', 1, 6, '0.00000', '0.00000', '0.00000', NULL, '2023-04-30 17:33:18', '2023-05-06 23:54:13', 0),
+(1, 31, '50.00000', 1, 6, '0.00000', '0.00000', '0.00000', NULL, '2023-04-30 17:33:18', '2023-05-07 02:04:15', 0),
+(1, 32, '75.00000', 1, 6, '0.00000', '0.00000', '0.00000', NULL, '2023-04-30 17:33:18', '2023-05-07 02:04:17', 0),
+(1, 33, '40.00000', 1, 6, '0.00000', '0.00000', '0.00000', NULL, '2023-04-30 17:33:18', '2023-05-07 02:04:19', 0),
+(1, 51, '-13.05000', 1, 6, '0.00000', '0.00000', '0.00000', NULL, '2023-04-30 17:33:18', '2023-05-06 23:54:13', 0),
+(1, 52, '-13.00000', 1, 6, '0.00000', '0.00000', '0.00000', NULL, '2023-04-30 17:33:18', '2023-05-06 23:54:13', 0),
+(1, 53, '-0.47888', 1, 6, '0.00000', '0.00000', '0.00000', NULL, '2023-04-30 17:33:18', '2023-05-06 23:54:13', 0),
 (1, 54, '-11.60000', 1, 6, '0.00000', '0.00000', '0.00000', NULL, '2023-04-30 17:33:18', '2023-04-30 17:34:22', 0);
 
 --
@@ -1708,17 +1887,18 @@ ALTER TABLE `come_product`
   ADD KEY `FK_come_product_product_id` (`product_id`);
 
 --
--- Indexes for table `c_individual`
---
-ALTER TABLE `c_individual`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `c_legal`
 --
 ALTER TABLE `c_legal`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `FK_c_legal_bank_id` (`bank_id`);
+  ADD KEY `FK_c_legal_bank_id` (`bank_id`),
+  ADD KEY `FK_c_legal_type_id` (`type_id`);
+
+--
+-- Indexes for table `c_type`
+--
+ALTER TABLE `c_type`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `deliverable`
@@ -1744,6 +1924,62 @@ ALTER TABLE `made_cost`
   ADD KEY `FK_made_cost_granule_id` (`granule_id`),
   ADD KEY `FK_made_cost_product_id` (`product_id`),
   ADD KEY `FK_made_cost_user_id` (`user_id`);
+
+--
+-- Indexes for table `order`
+--
+ALTER TABLE `order`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_order_client_id` (`client_id`),
+  ADD KEY `FK_order_user_id` (`user_id`),
+  ADD KEY `FK_order_type_id` (`type_id`),
+  ADD KEY `FK_order_plan_id` (`plan_id`),
+  ADD KEY `FK_order_status_id` (`status_id`),
+  ADD KEY `FK_order_wh_id` (`wh_id`);
+
+--
+-- Indexes for table `order_paid`
+--
+ALTER TABLE `order_paid`
+  ADD PRIMARY KEY (`order_id`);
+
+--
+-- Indexes for table `order_pay_plan`
+--
+ALTER TABLE `order_pay_plan`
+  ADD PRIMARY KEY (`order_id`);
+
+--
+-- Indexes for table `order_product`
+--
+ALTER TABLE `order_product`
+  ADD PRIMARY KEY (`order_id`,`product_id`),
+  ADD KEY `FK_order_product_product_id` (`product_id`),
+  ADD KEY `FK_order_product_price_id` (`price_id`);
+
+--
+-- Indexes for table `order_status`
+--
+ALTER TABLE `order_status`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `order_type`
+--
+ALTER TABLE `order_type`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `payment`
+--
+ALTER TABLE `payment`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `payment_plan`
+--
+ALTER TABLE `payment_plan`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `price`
@@ -1855,16 +2091,52 @@ ALTER TABLE `come`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
--- AUTO_INCREMENT for table `c_individual`
---
-ALTER TABLE `c_individual`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `c_legal`
 --
 ALTER TABLE `c_legal`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `c_type`
+--
+ALTER TABLE `c_type`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `order`
+--
+ALTER TABLE `order`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `order_pay_plan`
+--
+ALTER TABLE `order_pay_plan`
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `order_status`
+--
+ALTER TABLE `order_status`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `order_type`
+--
+ALTER TABLE `order_type`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `payment`
+--
+ALTER TABLE `payment`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `payment_plan`
+--
+ALTER TABLE `payment_plan`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `product`
@@ -1894,7 +2166,7 @@ ALTER TABLE `unit`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `warehouse`
@@ -1934,7 +2206,8 @@ ALTER TABLE `come_product`
 -- Constraints for table `c_legal`
 --
 ALTER TABLE `c_legal`
-  ADD CONSTRAINT `FK_c_legal_bank_id` FOREIGN KEY (`bank_id`) REFERENCES `bank` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `FK_c_legal_bank_id` FOREIGN KEY (`bank_id`) REFERENCES `bank` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `FK_c_legal_type_id` FOREIGN KEY (`type_id`) REFERENCES `c_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `deliverable`
@@ -1958,6 +2231,25 @@ ALTER TABLE `made_cost`
   ADD CONSTRAINT `FK_made_cost_granule_id` FOREIGN KEY (`granule_id`) REFERENCES `product` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `FK_made_cost_product_id` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `FK_made_cost_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `order`
+--
+ALTER TABLE `order`
+  ADD CONSTRAINT `FK_order_client_id` FOREIGN KEY (`client_id`) REFERENCES `c_legal` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `FK_order_plan_id` FOREIGN KEY (`plan_id`) REFERENCES `payment_plan` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `FK_order_status_id` FOREIGN KEY (`status_id`) REFERENCES `order_status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `FK_order_type_id` FOREIGN KEY (`type_id`) REFERENCES `order_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `FK_order_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `FK_order_wh_id` FOREIGN KEY (`wh_id`) REFERENCES `warehouse` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `order_product`
+--
+ALTER TABLE `order_product`
+  ADD CONSTRAINT `FK_order_product_order_id` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `FK_order_product_price_id` FOREIGN KEY (`price_id`) REFERENCES `price` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `FK_order_product_product_id` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `price`
