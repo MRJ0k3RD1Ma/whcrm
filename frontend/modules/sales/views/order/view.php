@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /** @var yii\web\View $this */
 /** @var common\models\order $model */
 
-$this->title = $model->date;
+$this->title = date('d.m.Y',strtotime($model->date)).' - Код:'.$model->code;
 $this->params['breadcrumbs'][] = ['label' => 'Буюртмалар', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -20,8 +20,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="card-body">
                     <p>
                         <?= Html::a('Ўзгартириш', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-                        <a href="#">Тўловни киритиш</a>
-                        <a href="#">Статусни ўзгартириш</a>
+                        <button value="<?= Yii::$app->urlManager->createUrl(['/sales/order/paid','id'=>$model->id])?>" class="btn btn-success paid">Тўловни киритиш</button>
+                        <button value="<?= Yii::$app->urlManager->createUrl(['/sales/order/send','id'=>$model->id])?>" class="btn btn-info send">Буюртмани жўнатиш</button>
+                        <a href="<?= Yii::$app->urlManager->createUrl(['/sales/order/check','id'=>$model->id])?>" target="_blank" class="btn btn-secondary">Чекни кўриш</a>
 
                     </p>
 
@@ -116,6 +117,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         </div>
                         <div class="col-md-6">
 
+                            <?= $this->render('_paid_his',['model'=>$model->paid])?>
 
 
 
@@ -127,3 +129,54 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
 </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="paidmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Тўлов қабул қилиш</h5>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body paidmodal">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="sendmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Буюртмани жўнатиш</h5>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body sendmodal">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+<?php
+
+    $this->registerJs("
+        $('.paid').click(function(){
+            var url = this.value;
+            $('#paidmodal').modal('show').find('.modal-body.paidmodal').load(url);
+        });
+        $('.send').click(function(){
+            var url = this.value;
+            $('#sendmodal').modal('show').find('.modal-body.sendmodal').load(url);
+        });
+    ")
+
+?>

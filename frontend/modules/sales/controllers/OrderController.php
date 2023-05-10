@@ -4,11 +4,13 @@ namespace frontend\modules\sales\controllers;
 
 use common\models\CLegal;
 use common\models\Order;
+use common\models\OrderPaid;
 use common\models\OrderProduct;
 use common\models\Price;
 use common\models\Product;
 use common\models\search\OrderSearch;
 use common\models\Supplier;
+use Mpdf\Mpdf;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -169,6 +171,7 @@ class OrderController extends Controller
         $model->c_type = $model->client->type_id;
         $model->date = date('Y-m-d',strtotime($model->date));
         if ($this->request->isPost && $model->load($this->request->post())) {
+
             if($model->c_id != -1){
                 $model->client_id = $model->c_id;
             }else{
@@ -211,6 +214,7 @@ class OrderController extends Controller
                 // umumiy narx xisob kitobi
                 $model->price = OrderProduct::find()->where(['order_id'=>$model->id])->sum('total_price') + $model->delivery_price - $model->discount;
                 $model->price = $model->price - $model->qqs * $model->price / 100;
+                $model->debt = $model->price;
                 $model->save();
                 Yii::$app->session->setFlash('success','Буюртма муваффақиятли яратилди');
             }
@@ -219,6 +223,33 @@ class OrderController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+        ]);
+    }
+
+    public function actionPaid($id){
+        $model = new OrderPaid();
+        $model->order_id = $id;
+        $model->status_id = 1;
+        $model->user_id = Yii::$app->user->id;
+        $model->date = date('Y-m-d');
+        $ii = OrderPaid::find()->where(['order_id'=>$id])->max('id');
+        if(!$ii) {
+            $ii = 0;
+        }
+        $ii++;
+        $model->id = $ii;
+
+
+        if($model->load($this->request->post())){
+            if($model->save()){
+                Yii::$app->session->setFlash('success','Тўлов муваффақиятли сақланди');
+            }else{
+                Yii::$app->session->setFlash('error','Тўловнинг майдонлари тўлиқ тўлдирилмаган');
+            }
+            return $this->redirect(['view','id'=>$id]);
+        }
+        return $this->renderAjax('_paid',[
+            'model'=>$model
         ]);
     }
 
@@ -266,6 +297,46 @@ class OrderController extends Controller
         return $full_price;
     }
 
+
+    public function actionCheck($id){
+
+
+        $model = $this->findModel($id);
+
+        $this->layout ="";
+        $defaultConfig = (new \Mpdf\Config\ConfigVariables())->getDefaults();
+        $fontDirs = $defaultConfig['fontDir'];
+
+        $defaultFontConfig = (new \Mpdf\Config\FontVariables())->getDefaults();
+        $fontData = $defaultFontConfig['fontdata'];
+        $mpdf = new Mpdf([
+            'mode' => 'utf-8',
+            'orientation' => 'P',
+            'margin_footer'=>3,
+            'margin_top'=>3,
+            'margin_left'=>3,
+            'margin_right'=>3,
+            'format'=>[80,200]
+        ]);
+        $mpdf->use_kwt = true;
+        $name = str_replace('/','-',$model->code.' '.$model->client->name).'.pdf';
+        $mpdf->title = $model->client->name;
+
+        $stylesheet = "table{border-collapse: collapse;}table, td, th {border: 1px solid black;}p{margin:0;padding:0;}hr{margin:0; padding:0;}";
+        $mpdf->WriteHTML($stylesheet,\Mpdf\HTMLParserMode::HEADER_CSS);
+
+        $mpdf->WriteHTML($this->renderPartial('_check',['model'=>$model]));
+        $p = 'p';
+        $y = $mpdf->y;
+        unset($mpdf->page[0]);
+        $mpdf->page = 0;
+        $mpdf->state = 0;
+        $mpdf->_setPageSize([80,$y+20],$p);
+        $mpdf->WriteHTML($this->renderPartial('_check',['model'=>$model]));
+
+        return $mpdf->Output($name,'I');
+
+    }
 
 
     /**

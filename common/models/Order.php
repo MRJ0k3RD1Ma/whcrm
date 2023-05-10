@@ -126,6 +126,10 @@ class Order extends \yii\db\ActiveRecord
         return $this->hasMany(OrderProduct::class, ['order_id' => 'id']);
     }
 
+    public function getPaid(){
+        return $this->hasMany(OrderPaid::class, ['order_id' => 'id'])->orderBy(['order_paid.id'=>SORT_DESC]);
+    }
+
     /**
      * Gets query for [[Plan]].
      *
