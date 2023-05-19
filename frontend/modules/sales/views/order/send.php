@@ -6,6 +6,15 @@
 use yii\widgets\ActiveForm;
 
 ?>
+
+<style>
+    .pmarginnone p{
+        margin: 0;
+    }
+</style>
+
+<div class="pmarginnone">
+
 <?php $form = ActiveForm::begin()?>
 
 <h4 style="text-align: center">Чек #<?= $model->code?></h4>
@@ -35,7 +44,7 @@ use yii\widgets\ActiveForm;
 <p><b>Қарз:</b> <?= intval($model->debt)?></p>
 <p><b>Буюртма ҳолати:</b> <?= $model->status->name?></p>
 
-<?= $form->field($model,'status')->radioList(\yii\helpers\ArrayHelper::map(\common\models\OrderStatus::find()->where('id in (2,3,4)')->all(),'id','name'))->label('Статусни ўзгартириш')?>
+<?= $form->field($model,'status_id')->radioList(\yii\helpers\ArrayHelper::map(\common\models\OrderStatus::find()->where('id in (2,3,4)')->all(),'id','name'))->label('Статусни ўзгартириш')?>
 
 
 
@@ -43,3 +52,4 @@ use yii\widgets\ActiveForm;
 <br>
 <button class="btn btn-success">Сақлаш</button>
 <?php ActiveForm::end()?>
+</div>

@@ -78,6 +78,7 @@ class OrderController extends Controller
     public function actionCreate()
     {
         $model = new Order();
+        $model->scenario = 'insert';
         $model->date = date('Y-m-d');
         $model->plan_id = 1;
         $model->discount = 0;
@@ -168,6 +169,7 @@ class OrderController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $model->scenario = 'insert';
         if($model->status_id > 2){
             throw new AccessDeniedException('Буюртма бажарилганлиги сабабли ўзгартириш мумкин эмас.');
         }
@@ -347,9 +349,10 @@ class OrderController extends Controller
 
     public function actionSend($id){
         $model = $this->findModel($id);
-
+        $model->scenario = 'send';
         if($model->load($this->request->post())){
-            if($model->save()){
+
+            if($model->save(false)){
                 if($model->status_id == 4) {
                     $wh_id = $model->wh_id;
                     foreach ($model->orderProducts as $item) {
@@ -371,7 +374,10 @@ class OrderController extends Controller
                     }
                 }
                 Yii::$app->session->setFlash('success','Мувоффақиятли сақланди');
+            }else{
+                Yii::$app->session->setFlash('error','Хатолик юз берди');
             }
+            return $this->redirect(['view','id'=>$id]);
         }
 
         return $this->renderAjax('send',[

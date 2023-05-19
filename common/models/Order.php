@@ -55,7 +55,8 @@ class Order extends \yii\db\ActiveRecord
     {
         return [
             [['client_id', 'user_id', 'plan_id', 'c_id','code_id', 'type_id', 'is_delivery', 'status_id','c_type','pay_type','month'], 'integer'],
-            [['type_id','c_type','wh_id','date','c_name','c_phone'],'required'],
+            [['type_id','c_type','wh_id','date','c_name','c_phone'],'required','on'=>'insert'],
+            [['status_id'],'required','on'=>'send'],
             [['price', 'discount', 'qqs', 'debt','delivery_price','pay_price'], 'number'],
             [['date', 'created', 'updated','note','pro'], 'safe'],
             [['localtion'], 'string'],

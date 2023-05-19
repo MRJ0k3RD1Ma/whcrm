@@ -23,7 +23,6 @@ $this->params['breadcrumbs'][] = $this->title;
                         <button value="<?= Yii::$app->urlManager->createUrl(['/sales/order/paid','id'=>$model->id])?>" class="btn btn-success paid">Тўловни киритиш</button>
                         <button value="<?= Yii::$app->urlManager->createUrl(['/sales/order/send','id'=>$model->id])?>" class="btn btn-info send">Буюртмани жўнатиш</button>
                         <a href="<?= Yii::$app->urlManager->createUrl(['/sales/order/check','id'=>$model->id])?>" target="_blank" class="btn btn-secondary">Чекни кўриш</a>
-
                     </p>
 
                     <div class="row">
