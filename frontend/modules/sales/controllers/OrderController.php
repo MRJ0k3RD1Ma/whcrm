@@ -372,6 +372,11 @@ class OrderController extends Controller
                         $whProduct->count -= $item->count;
                         $whProduct->save();
                     }
+                    $pr_cnt = OrderPaid::find()->where(['order_id' => $model->id])->sum('price');
+                    if($model->price == $pr_cnt){
+                        $model->status_id = 5;
+                        $model->save(false);
+                    }
                 }
                 Yii::$app->session->setFlash('success','Мувоффақиятли сақланди');
             }else{
