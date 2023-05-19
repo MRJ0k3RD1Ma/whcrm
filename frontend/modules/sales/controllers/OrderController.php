@@ -10,7 +10,10 @@ use common\models\Price;
 use common\models\Product;
 use common\models\search\OrderSearch;
 use common\models\Supplier;
+use common\models\Warehouse;
+use common\models\WhProduct;
 use Mpdf\Mpdf;
+use Symfony\Component\Finder\Exception\AccessDeniedException;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -80,7 +83,7 @@ class OrderController extends Controller
         $model->discount = 0;
         $model->qqs = 0;
         $model->user_id = Yii::$app->user->id;
-        $model->status_id = 1;
+        $model->status_id = 2;
         $model->delivery_price = 0;
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
@@ -165,6 +168,9 @@ class OrderController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        if($model->status_id > 2){
+            throw new AccessDeniedException('Буюртма бажарилганлиги сабабли ўзгартириш мумкин эмас.');
+        }
         $model->c_id = $model->client_id;
         $model->c_name = $model->client->name;
         $model->c_phone = $model->client->phone;
@@ -336,6 +342,41 @@ class OrderController extends Controller
 
         return $mpdf->Output($name,'I');
 
+    }
+
+
+    public function actionSend($id){
+        $model = $this->findModel($id);
+
+        if($model->load($this->request->post())){
+            if($model->save()){
+                if($model->status_id == 4) {
+                    $wh_id = $model->wh_id;
+                    foreach ($model->orderProducts as $item) {
+                        $whProduct = WhProduct::find()->where(['wh_id' => $wh_id, 'product_id' => $item->product_id])->one();
+                        if (!$whProduct) {
+                            $whProduct = new WhProduct();
+                            $whProduct->wh_id = $wh_id;
+                            $whProduct->product_id = $item->product_id;
+                            $whProduct->count = 0;
+                            $price = Price::find()->where(['product_id' => $item->product_id])->one();
+                            $whProduct->price_id = $price->id;
+                            $whProduct->user_id = Yii::$app->user->id;
+                            $whProduct->base_price = $price->base_price;
+                            $whProduct->retail_price = $price->retail_price;
+                            $whProduct->wholesale_price = $price->wholesale_price;
+                        }
+                        $whProduct->count -= $item->count;
+                        $whProduct->save();
+                    }
+                }
+                Yii::$app->session->setFlash('success','Мувоффақиятли сақланди');
+            }
+        }
+
+        return $this->renderAjax('send',[
+            'model'=>$model
+        ]);
     }
 
 
