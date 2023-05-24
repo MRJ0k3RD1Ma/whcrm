@@ -35,10 +35,17 @@ $this->params['breadcrumbs'][] = $this->title;
 //            'id',
 //            'client_id',
                             [
+                                'attribute'=>'code',
+                                'format'=>'raw',
+                                'value'=>function($model){
+                                    return Html::a($model->code, Url::toRoute(['order/view', 'id' => $model->id]));
+                                }
+                            ],
+                            [
                                 'attribute'=>'date',
                                 'format'=>'raw',
                                 'value'=>function($model){
-                                    return Html::a(date('d.m.Y', strtotime($model->date)), Url::toRoute(['order/view', 'id' => $model->id]));
+                                    return date('d.m.Y', strtotime($model->date));
                                 }
                             ],
                             [
@@ -64,7 +71,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                 },
                                 'filter' => \yii\helpers\ArrayHelper::map(\common\models\PaymentPlan::find()->all(), 'id', 'name')
                             ],
-                            'code',
                             //'code_id',
                             'price',
                             //'discount',
@@ -92,12 +98,6 @@ $this->params['breadcrumbs'][] = $this->title;
                             ],
                             //'created',
                             //'updated',
-                            [
-                                'class' => ActionColumn::className(),
-                                'urlCreator' => function ($action, order $model, $key, $index, $column) {
-                                    return Url::toRoute([$action, 'id' => $model->id]);
-                                }
-                            ],
                         ],
                     ]); ?>
                 </div>
