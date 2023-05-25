@@ -114,7 +114,7 @@
                                     <div class="media p-0">
                                         <div class="media-left bg-warning"><i class="icofont icofont-credit-card text-dark"></i></div>
                                         <div class="media-body">
-                                            <h6>Тасдиқланган тўловлар</h6>
+                                            <h6>Тасдиқланмаган тўловлар</h6>
                                             <p><?= intval(\common\models\OrderPaid::find()->where('date like "%'.date('Y-m-').'%"')->andWhere('status_id in (1,2)')->sum('price'))?> сўм</p>
                                         </div>
                                     </div>

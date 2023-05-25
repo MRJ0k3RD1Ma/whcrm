@@ -73,9 +73,6 @@ $this->params['breadcrumbs'][] = $this->title;
                             //'discount',
                             //'qqs',
                             'debt:integer',
-                            //'type_id',
-                            //
-//            'is_delivery',
                             [
                                 'attribute'=>'is_delivery',
                                 'value'=>function($model){
@@ -83,9 +80,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                 },
                                 'filter'=>Yii::$app->params['is_delivery']
                             ],
-                            //'address',
-                            //'localtion:ntext',
-                            //'status_id',
                             [
                                 'attribute' => 'status_id',
                                 'value' => function($model){
@@ -93,8 +87,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                 },
                                 'filter' => \yii\helpers\ArrayHelper::map(\common\models\OrderStatus::find()->all(), 'id', 'name')
                             ],
-                            //'created',
-                            //'updated',
                         ],
                     ]); ?>
 
