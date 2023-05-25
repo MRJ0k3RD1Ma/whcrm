@@ -67,22 +67,22 @@
                         <div class="col-xl-3 earning-content p-0">
                             <div class="row m-0 chart-left">
                                 <div class="col-xl-12 p-0 left_side_earning">
-                                    <h5>Statistika</h5>
-                                    <p class="font-roboto"><?= Yii::$app->params['date'][date('m')]?> oyidagi tushumlar statistikasi</p>
+                                    <h5>Статистикалар</h5>
+                                    <p class="font-roboto"><?= Yii::$app->params['date'][date('m')]?> ойдаги тушумлар статистикаси</p>
                                 </div>
                                 <div class="col-xl-12 p-0 left_side_earning">
-                                    <h5>4055.56 so'm </h5>
-                                    <p class="font-roboto">Bu oydagi tushum</p>
+                                    <h5><?= intval(\common\models\OrderPaid::find()->where('date like "%'.date('Y-m-').'%"')->sum('price')) ?> сўм </h5>
+                                    <p class="font-roboto">Бу ойдаги тушум</p>
                                 </div>
                                 <div class="col-xl-12 p-0 left_side_earning">
-                                    <h5>100 ta</h5>
-                                    <p class="font-roboto">Umumiy buyurtmalar</p>
+                                    <h5><?= intval(\common\models\Order::find()->where('date like "%'.date('Y-m-').'%"')->count('id'))?></h5>
+                                    <p class="font-roboto">Бу ойдаги умумий буюртмалар</p>
                                 </div>
                                 <div class="col-xl-12 p-0 left_side_earning">
                                     <h5>90%</h5>
-                                    <p class="font-roboto">Rejaga erishilganlik foizi</p>
+                                    <p class="font-roboto">Режага энришилганлик фоизи</p>
                                 </div>
-                                <div class="col-xl-12 p-0 left-btn"><a class="btn btn-gradient">Batafsil</a></div>
+                                <div class="col-xl-12 p-0 left-btn"><a class="btn btn-gradient" href="<?= Yii::$app->urlManager->createUrl(['/sales/sale'])?>">Батафсил</a></div>
                             </div>
                         </div>
                         <div class="col-xl-9 p-0">
@@ -91,20 +91,11 @@
                                     <div class="col-xl-12 col-md-12 col-sm-12 col-12 p-0">
                                         <div class="inner-top-left">
                                             <ul class="d-flex list-unstyled">
-                                                <li class="disabled"><a href="#">Bugun</a></li>
-                                                <li><a href="#">Haftalik</a></li>
-                                                <li><a href="#">Oylik</a></li>
-                                                <li><a href="#">Yillik</a></li>
+                                                <li class="disabled"><a href="#">Бугун</a></li>
+                                                <li><a href="#">Ҳафталик</a></li>
+                                                <li><a href="#">Ойлик</a></li>
+                                                <li><a href="#">Йиллик</a></li>
                                             </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xl-12">
-                                        <div class="card-body p-0">
-                                            <div class="current-sale-container">
-                                                <div id="chart-currently"></div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -114,8 +105,8 @@
                                     <div class="media p-0">
                                         <div class="media-left bg-success"><i class="icofont icofont-check-alt"></i></div>
                                         <div class="media-body">
-                                            <h6>Tasdiqlangan to'lovlar</h6>
-                                            <p>88 000 so'm</p>
+                                            <h6>Тасдиқланган тўловлар</h6>
+                                            <p><?= intval(\common\models\OrderPaid::find()->where('date like "%'.date('Y-m-').'%"')->andWhere(['status_id'=>3])->sum('price'))?> сўм</p>
                                         </div>
                                     </div>
                                 </div>
@@ -123,8 +114,8 @@
                                     <div class="media p-0">
                                         <div class="media-left bg-warning"><i class="icofont icofont-credit-card text-dark"></i></div>
                                         <div class="media-body">
-                                            <h6>Tasdiqlanishi kutilayotgan</h6>
-                                            <p>27 657 so'm</p>
+                                            <h6>Тасдиқланган тўловлар</h6>
+                                            <p><?= intval(\common\models\OrderPaid::find()->where('date like "%'.date('Y-m-').'%"')->andWhere('status_id in (1,2)')->sum('price'))?> сўм</p>
                                         </div>
                                     </div>
                                 </div>
@@ -134,8 +125,8 @@
                                     <div class="media p-0">
                                         <div class="media-left"><i class="icofont icofont-cur-dollar-plus"></i></div>
                                         <div class="media-body">
-                                            <h6>Kutilayotgan to'lovlar</h6>
-                                            <p>97 478 so'm</p>
+                                            <h6>Кутилаётган тўловлар</h6>
+                                            <p>0 сўм</p>
                                         </div>
                                     </div>
                                 </div>
@@ -143,8 +134,8 @@
                                     <div class="media p-0">
                                         <div class="media-left bg-danger"><i class="icofont icofont-warning"></i></div>
                                         <div class="media-body">
-                                            <h6>Muddati o'tgan to'lovlar</h6>
-                                            <p>97 478 so'm</p>
+                                            <h6>Муддати ўтган тўловлар</h6>
+                                            <p>0 сўм</p>
                                         </div>
                                     </div>
                                 </div>
@@ -255,7 +246,7 @@
                                 </div>
                                 <div class="media-body">
                                     <div class="right-chart-content">
-                                        <h4>1001</h4><span>Yangi mijozlar </span>
+                                        <h4><?= \common\models\CLegal::find()->where('created like "%'.date('Y-m-').'%"')->count('*')?></h4><span>Янги мижозлар </span>
                                     </div>
                                 </div>
                             </div>
@@ -269,7 +260,7 @@
                                 </div>
                                 <div class="media-body">
                                     <div class="right-chart-content">
-                                        <h4>1005</h4><span>Bugun tayyorlangan mahsulotlar</span>
+                                        <h4>1005</h4><span>Бугун тайёрланган маҳсулотлар</span>
                                     </div>
                                 </div>
                             </div>
@@ -283,7 +274,7 @@
                                 </div>
                                 <div class="media-body">
                                     <div class="right-chart-content">
-                                        <h4>100</h4><span>Tayyor mahsulotlar</span>
+                                        <h4>100</h4><span>Тайёр маҳсулотлар</span>
                                     </div>
                                 </div>
                             </div>
@@ -297,7 +288,7 @@
                                 </div>
                                 <div class="media-body">
                                     <div class="right-chart-content">
-                                        <h4>72</h4><span>Yetkazishga tayyor buyurtmalar</span>
+                                        <h4><?= \common\models\Order::find()->where(['status_id'=>3])->count('id')?></h4><span>Етказишга тайёр буёртмалар</span>
                                     </div>
                                 </div>
                             </div>
@@ -363,7 +354,7 @@
 
             <div class="card">
                 <div class="card-header">
-                    <h5>To'lovlar grafigi</h5>
+                    <h5>Тўловлар графиги</h5>
                 </div>
                 <div class="card-body">
                     <div id="mixed-chart" class="apex-charts" dir="ltr"></div>

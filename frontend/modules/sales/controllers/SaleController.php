@@ -30,7 +30,6 @@ class SaleController extends Controller
 
         $model = Order::find()->where(['MONTH(created)'=>$month,'YEAR(created)'=>$year])->all();
 
-
         return $this->render('index',[
             'month'=>$month,
             'year'=>$year

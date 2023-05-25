@@ -31,6 +31,7 @@ use Yii;
  */
 class CLegal extends \yii\db\ActiveRecord
 {
+    public $debtor;
     /**
      * {@inheritdoc}
      */
@@ -79,6 +80,7 @@ class CLegal extends \yii\db\ActiveRecord
             'call_time' => 'Қўнғироқ вақти',
             'called_time' => 'Сўнги қўнғироқ',
             'type_id' => 'Мижоз тури',
+            'debtor' => 'Қарздорлиги',
         ];
     }
 
@@ -90,5 +92,9 @@ class CLegal extends \yii\db\ActiveRecord
     public function getBank()
     {
         return $this->hasOne(Bank::class, ['id' => 'bank_id']);
+    }
+
+    public function getType(){
+        return $this->hasOne(CType::class, ['id' => 'type_id']);
     }
 }

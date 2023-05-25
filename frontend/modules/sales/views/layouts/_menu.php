@@ -19,8 +19,8 @@
                     <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#">
                             <i class="fa fa-money"></i><span class="lan-6">Тўловлар</span></a>
                         <ul class="sidebar-submenu">
-                            <li><a href="#">Қарздорлик</a></li>
-                            <li><a href="#">Тўловлар</a></li>
+                            <li><a href="<?= Yii::$app->urlManager->createUrl(['/sales/default/debt'])?>">Қарздорлик</a></li>
+                            <li><a href="<?= Yii::$app->urlManager->createUrl(['/sales/order-paid'])?>">Тўловлар</a></li>
                         </ul>
                     </li>
                     <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="<?= Yii::$app->urlManager->createUrl(['/sales/sale'])?>"><i class="fa fa-bar-chart"> </i><span>Ҳисоботлар</span></a></li>

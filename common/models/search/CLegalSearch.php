@@ -79,4 +79,51 @@ class CLegalSearch extends CLegal
 
         return $dataProvider;
     }
+
+
+    public function searchDebt($params)
+    {
+        $query = CLegal::find()
+            ->select(['c_legal.*','sum(order.debt) as debtor'])
+            ->innerJoin('order','order.client_id = c_legal.id')
+            ->where(['<','order.status_id',5])
+            ->orderBy(['debtor'=>SORT_DESC]);
+
+        // add conditions that should always apply here
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
+
+        // grid filtering conditions
+        $query->andFilterWhere([
+            'id' => $this->id,
+            'bank_id' => $this->bank_id,
+            'type_id' => $this->type_id,
+            'created' => $this->created,
+            'updated' => $this->updated,
+        ]);
+
+        $query->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'inn', $this->inn])
+            ->andFilterWhere(['like', 'address', $this->address])
+            ->andFilterWhere(['like', 'oked', $this->oked])
+            ->andFilterWhere(['like', 'account', $this->account])
+            ->andFilterWhere(['like', 'director', $this->director])
+            ->andFilterWhere(['like', 'director_phone', $this->director_phone])
+            ->andFilterWhere(['like', 'bux', $this->bux])
+            ->andFilterWhere(['like', 'bux_phone', $this->bux_phone])
+            ->andFilterWhere(['like', 'phone', $this->phone])
+            ->andFilterWhere(['like', 'phone_name', $this->phone_name]);
+
+        return $dataProvider;
+    }
 }
