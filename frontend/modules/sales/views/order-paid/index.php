@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var common\models\search\OrderPaidSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Order Paids';
+$this->title = 'Тўловлар';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="order-paid-index">
@@ -29,26 +29,51 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute'=>'order_id',
                 'value'=>function($model){
                     $url = Yii::$app->urlManager->createUrl(['/sales/order/view','id'=>$model->order_id]);
-                    return $model->order->code;
+                    $order = $model->order;
+                    return Html::a($order->code.'('.date('d.m.Y',strtotime($order->date)).')',$url);
                 },
+                'format'=>'raw',
                 'filter'=>false,
             ],
             'name',
-            'user_id',
-            'note:ntext',
-            //'file',
-            //'price',
-            //'date',
-            //'consept_id',
-            //'created',
-            //'updated',
-            //'status_id',
-            //'payment_id',
+//            'user_id',
             [
-                'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, OrderPaid $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'id' => $model->id, 'order_id' => $model->order_id]);
-                 }
+                'attribute'=>'user_id',
+                'value'=>function($model){
+                    return $model->user->name;
+                },
+                'filter'=>false,
+            ],
+            'note:ntext',
+            'price',
+            'date',
+            [
+                'attribute'=>'consept_id',
+                'value'=>function($model){
+                    return @$model->consept->name ? $model->consept->name : 'Тасдиқланмаган';
+                },
+                'filter'=>false,
+            ],
+            [
+                'attribute'=>'status_id',
+                'value'=>function($model){
+                    return $model->status->name;
+                },
+                'filter'=>false,
+            ],
+            [
+                'attribute'=>'payment_id',
+                'value'=>function($model){
+                    return $model->payment->name;
+                },
+                'filter'=>false,
+            ],
+            [
+                'attribute'=>'file',
+                'value'=>function($model){
+                    return $model->file ? Html::a('Чек файли',['/uploads/'.$model->file],['target'=>'_blank']) : 'Мавжуд эмас';
+                },
+                'format'=>'raw',
             ],
         ],
     ]); ?>

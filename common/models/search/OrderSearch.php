@@ -82,4 +82,50 @@ class OrderSearch extends order
 
         return $dataProvider;
     }
+
+    public function searchMonth($params,$month,$year)
+    {
+        $query = Order::find()
+            ->where(['MONTH(created)'=>$month,'YEAR(created)'=>$year])
+            ->orderBy(['id'=>SORT_DESC]);
+
+        // add conditions that should always apply here
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
+
+        // grid filtering conditions
+        $query->andFilterWhere([
+            'id' => $this->id,
+            'client_id' => $this->client_id,
+            'user_id' => $this->user_id,
+            'plan_id' => $this->plan_id,
+            'code_id' => $this->code_id,
+            'price' => $this->price,
+            'discount' => $this->discount,
+            'qqs' => $this->qqs,
+            'debt' => $this->debt,
+            'type_id' => $this->type_id,
+            'date' => $this->date,
+            'is_delivery' => $this->is_delivery,
+            'status_id' => $this->status_id,
+            'created' => $this->created,
+            'updated' => $this->updated,
+        ]);
+
+        $query->andFilterWhere(['like', 'code', $this->code])
+            ->andFilterWhere(['like', 'address', $this->address])
+            ->andFilterWhere(['like', 'localtion', $this->localtion]);
+
+        return $dataProvider;
+    }
 }

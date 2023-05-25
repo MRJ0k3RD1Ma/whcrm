@@ -31,9 +31,6 @@ $this->params['breadcrumbs'][] = $this->title;
                         'filterModel' => $searchModel,
                         'columns' => [
                             ['class' => 'yii\grid\SerialColumn'],
-
-//            'id',
-//            'client_id',
                             [
                                 'attribute'=>'code',
                                 'format'=>'raw',
@@ -72,10 +69,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'filter' => \yii\helpers\ArrayHelper::map(\common\models\PaymentPlan::find()->all(), 'id', 'name')
                             ],
                             //'code_id',
-                            'price',
+                            'price:integer',
                             //'discount',
                             //'qqs',
-                            'debt',
+                            'debt:integer',
                             //'type_id',
                             //
 //            'is_delivery',
@@ -100,6 +97,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             //'updated',
                         ],
                     ]); ?>
+
                 </div>
             </div>
         </div>

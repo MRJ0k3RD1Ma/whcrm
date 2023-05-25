@@ -3,6 +3,8 @@
 namespace frontend\modules\sales\controllers;
 
 use common\models\Order;
+use common\models\OrderPaid;
+use common\models\search\OrderSearch;
 use yii\web\Controller;
 
 /**
@@ -27,12 +29,19 @@ class SaleController extends Controller
         if($month < 10){
             $month = '0'.$month;
         }
+        $searchModel = new OrderSearch();
+        $dataProvider = $searchModel->searchMonth($this->request->queryParams,$month,$year);
 
         $model = Order::find()->where(['MONTH(created)'=>$month,'YEAR(created)'=>$year])->all();
-
+        $tushim = OrderPaid::find()->where(['MONTH(date)'=>$month,'YEAR(date)'=>$year])->sum('price');
+        $qarz = Order::find()->where(['MONTH(created)'=>$month,'YEAR(created)'=>$year])->sum('debt');
         return $this->render('index',[
             'month'=>$month,
-            'year'=>$year
+            'year'=>$year,
+            'qarz'=>$qarz,
+            'tushim'=>$tushim,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
 }
