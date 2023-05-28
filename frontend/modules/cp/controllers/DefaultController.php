@@ -2,6 +2,7 @@
 
 namespace frontend\modules\cp\controllers;
 
+use common\models\search\CLegalSearch;
 use yii\web\Controller;
 
 /**
@@ -16,5 +17,18 @@ class DefaultController extends Controller
     public function actionIndex()
     {
         return $this->render('index');
+    }
+
+    public function actionDebt()
+    {
+
+        $searchModel = new CLegalSearch();
+        $dataProvider = $searchModel->searchDebt($this->request->queryParams);
+
+        return $this->render('debt', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+
     }
 }

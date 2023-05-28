@@ -42,9 +42,9 @@
                     <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#">
                             <i data-feather="shopping-cart"></i><span class="lan-6">Буюртмалар</span></a>
                         <ul class="sidebar-submenu">
-                            <li><a href="#">Буюртмалар</a></li>
-                            <li><a href="#">Қарздорлик</a></li>
-                            <li><a href="#">Тўловлар</a></li>
+                            <li><a href="<?= Yii::$app->urlManager->createUrl(['/cp/order'])?>">Буюртмалар</a></li>
+                            <li><a href="<?= Yii::$app->urlManager->createUrl(['/cp/default/debt'])?>">Қарздорлик</a></li>
+                            <li><a href="<?= Yii::$app->urlManager->createUrl(['/cp/order-paid'])?>">Тўловлар</a></li>
                         </ul>
                     </li>
 
