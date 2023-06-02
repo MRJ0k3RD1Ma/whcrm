@@ -310,6 +310,22 @@ class OrderController extends Controller
         if(!$price){
             $price = 0;
         }
+        if(!(Price::find()->where(['product_id'=>$product_id])->orderBy(['id'=>SORT_DESC])->one())){
+            $pr = new Price();
+            $pr->product_id = $product_id;
+            $pr->retail_price = $model->retail_price;
+            $pr->base_price = $model->basic_price;
+            $pr->wholesale_price = $model->wholesale_price;
+            $pr->date = date('Y-m-d');
+            $pr->user_id = Yii::$app->user->id;
+            $iid = Price::find()->where(['product_id'=>$product_id])->max('id');
+            if(!$iid){
+                $iid = 0;
+            }
+            $iid++;
+            $pr->id = $iid;
+            $pr->save();
+        }
         $full_price = $model->retail_price * $cnt + $box * $model->box * $model->retail_price;
         return $full_price;
     }

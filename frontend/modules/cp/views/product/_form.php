@@ -23,10 +23,6 @@ use yii\widgets\ActiveForm;
 
             <?= $form->field($model, 'retail_price')->textInput() ?>
 
-            <?= $form->field($model, 'wholesale_price')->textInput() ?>
-
-            <?= $form->field($model, 'box')->textInput() ?>
-
         </div>
         <div class="col-md-6">
 
@@ -36,14 +32,14 @@ use yii\widgets\ActiveForm;
 
             <?= $form->field($model, 'cat_id')->dropDownList(\yii\helpers\ArrayHelper::map(\common\models\Category::find()->all(),'id','name'),['prompt'=>'']) ?>
 
-            <?= $form->field($model, 'note')->textInput(['maxlength' => true]) ?>
 
-            <?= $form->field($model, 'expiry_month')->textInput() ?>
 
             <?= $form->field($model, 'unit_id')->dropDownList(\yii\helpers\ArrayHelper::map(\common\models\Unit::find()->all(),'id','name'),['prompt'=>'']) ?>
         </div>
         <div class="col-md-12">
             <br>
+            <?= $form->field($model, 'note')->textInput(['maxlength' => true]) ?>
+
             <?= $form->field($model, 'image')->fileInput(['maxlength' => true]) ?>
 
             <?= $form->field($model, 'bio')->textarea(['rows' => 6]) ?>

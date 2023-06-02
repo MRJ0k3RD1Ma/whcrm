@@ -6,6 +6,7 @@ use common\models\Price;
 use common\models\Product;
 use common\models\ProductMade;
 use common\models\search\ProductSearch;
+use common\models\WhProduct;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -95,7 +96,8 @@ class ProductController extends Controller
     public function actionCreate()
     {
         $model = new Product();
-
+        $model->box = 0;
+        $model->wholesale_price = 0;
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
                 $code = Yii::$app->security->generateRandomString(10);
@@ -109,7 +111,7 @@ class ProductController extends Controller
                         $ser = 0;
                     }
                     $model->serial_num = $ser + 1;
-                    $model->serial = $model->serial_num;
+                    $model->serial = "$model->serial_num";
                 }
                 if($model->image = UploadedFile::getInstance($model, 'image')){
                     $name = time().$model->image->baseName.'.'.$model->image->extension;
@@ -143,6 +145,7 @@ class ProductController extends Controller
 
                     return $this->redirect(['view', 'id' => $model->id]);
                 }else{
+
                     Yii::$app->session->setFlash('error', 'Mahsulotni saqlashda xatolik');
                 }
             }
@@ -165,6 +168,9 @@ class ProductController extends Controller
         $model = $this->findModel($id);
         $serial = $model->serial;
         $image = $model->image;
+
+        $model->box = 0;
+        $model->wholesale_price = 0;
         if ($this->request->isPost && $model->load($this->request->post())) {
 
             if(!$model->serial){
@@ -248,7 +254,7 @@ class ProductController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $this->findModel($id)->delete(false);
 
         return $this->redirect(['index']);
     }
