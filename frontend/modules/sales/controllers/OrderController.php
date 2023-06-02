@@ -12,6 +12,7 @@ use common\models\search\OrderSearch;
 use common\models\Supplier;
 use common\models\Warehouse;
 use common\models\WhProduct;
+use http\Client;
 use Mpdf\Mpdf;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
 use yii\web\Controller;
@@ -98,14 +99,18 @@ class OrderController extends Controller
                 if($model->c_id != -1){
                     $model->client_id = $model->c_id;
                 }else{
-                    $client = new CLegal();
-                    $client->name = $model->c_name;
-                    $client->phone = $model->c_phone;
-                    $client->type_id = $model->c_type;
-                    if($client->save()){
-                        $model->client_id = $client->id;
+                    if($cl = CLegal::findOne(['name'=>$model->c_name,'phone'=>$model->c_phone])){
+                        $model->client_id = $cl->id;
                     }else{
-                        Yii::$app->session->setFlash('error', 'Мижоз маълумотларини сақлашда хатолик');
+                        $client = new CLegal();
+                        $client->name = $model->c_name;
+                        $client->phone = $model->c_phone;
+                        $client->type_id = $model->c_type;
+                        if($client->save()){
+                            $model->client_id = $client->id;
+                        }else{
+                            Yii::$app->session->setFlash('error', 'Мижоз маълумотларини сақлашда хатолик');
+                        }
                     }
                 }
                 if($model->is_delivery != 1){

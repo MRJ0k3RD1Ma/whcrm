@@ -72,15 +72,15 @@ FrontAsset::register($this);
                                         </ul>
                                     </li>
                                     <li>
-                                        <a href="#!">Qilingan ishlar</a>
+                                        <a href="#">Qilingan ishlar</a>
                                     </li>
                                     <li>
-                                        <a href="#!">Yangiliklar</a>
+                                        <a href="#">Yangiliklar</a>
                                     </li>
                                 </ul>
                             </div>
                             <div class="right-part">
-                                <a href="#" class="button-style">Bog'lanish <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="<?= Yii::$app->urlManager->createUrl(['/site/login'])?>" class="button-style">Kirish <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </nav>
                     </div>
