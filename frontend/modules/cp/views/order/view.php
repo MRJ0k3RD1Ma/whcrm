@@ -52,7 +52,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                             return Html::a($model->user->name, Url::toRoute(['user/view', 'id' => $model->user_id]));
                                         }
                                     ],
-//            'plan_id',
                                     [
                                         'attribute' => 'plan_id',
                                         'value' => function($model){
@@ -60,52 +59,36 @@ $this->params['breadcrumbs'][] = $this->title;
                                         },
                                     ],
                                     'code',
-                                    'price',
-                                    'discount',
-                                    'qqs',
-                                    'debt',
-//            'type_id',
+                                    'price:integer',
+                                    'discount:integer',
+                                    'qqs:integer',
+                                    'debt:integer',
                                     [
                                         'attribute'=>'type_id',
                                         'value'=>function($model){
                                             return $model->type->name;
                                         },
                                     ],
-                                    //
-//            'is_delivery',
+
                                     [
                                         'attribute'=>'is_delivery',
                                         'value'=>function($model){
                                             return Yii::$app->params['is_delivery'][$model->is_delivery];
                                         },
                                     ],
-                                    //'address',
-                                    //'localtion:ntext',
-                                    //'status_id',
                                     [
                                         'attribute' => 'status_id',
                                         'value' => function($model){
                                             return $model->status->name;
                                         },
                                     ],
-                                    //'created',
-                                    //'updated',
-//            'plan_id',
+
                                     [
                                         'attribute'=>'plan_id',
                                         'value'=>function($model){
                                             return $model->plan->name;
                                         },
                                     ],
-//            'code',
-//            'code_id',
-//            'price',
-//            'discount',
-//            'qqs',
-//            'debt',
-//            'type_id',
-//            'date',
-//            'is_delivery',
                                     'address',
                                     'localtion:ntext',
 //            'status_id',
@@ -117,8 +100,6 @@ $this->params['breadcrumbs'][] = $this->title;
                         <div class="col-md-6">
 
                             <?= $this->render('_paid_his',['model'=>$model->paid])?>
-
-
 
                         </div>
                     </div>

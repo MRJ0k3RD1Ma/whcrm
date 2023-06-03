@@ -58,7 +58,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'format'=>'raw',
                                 'value' => function($model){
                                     return Html::a($model->user->name, Url::toRoute(['user/view', 'id' => $model->user_id]));
-                                }
+                                },
+                                'filter'=>\yii\helpers\ArrayHelper::map(\common\models\CLegal::find()->all(),'id','name'),
                             ],
 //            'plan_id',
                             [

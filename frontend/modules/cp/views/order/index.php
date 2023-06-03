@@ -50,7 +50,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'format'=>'raw',
                                 'value' => function($model){
                                     return Html::a($model->client->name, Url::toRoute(['c-legal/view', 'id' => $model->client_id]));
-                                }
+                                },
+                                'filter'=>\yii\helpers\ArrayHelper::map(\common\models\CLegal::find()->all(),'id','name'),
                             ],
 //            'user_id',
                             [

@@ -50,8 +50,7 @@ class SaleController extends Controller
 
         $searchModel = new OrderPaidSearch();
         $dataProvider = $searchModel->searchKassa($this->request->queryParams);
-        $total = OrderPaid::find()->where(['between','date',$searchModel->to,$searchModel->do])->sum('price');
-
+        $total = $searchModel->searchKassa($this->request->queryParams)->query->sum('price');
         return $this->render('kassa', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

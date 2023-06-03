@@ -14,6 +14,7 @@
                 <th>Тўловчи</th>
                 <th>Тўлов тури</th>
                 <th>Изоҳ</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -32,7 +33,7 @@
                 <td><?=$item->name?></td>
                 <td><?=$item->payment->name?>(<?= $item->user->name?>)</td>
                 <td><?=$item->note?></td>
-
+                <td><a data-confirm="Сиз ростдан хам ушбу тўловни ўчирмоқчимисиз?" href="<?= Yii::$app->urlManager->createUrl(['/cp/order/delete-paid','id'=>$item->id,'order_id'=>$item->order_id])?>" class="btn btn-danger"><span class="fa fa-trash"></span></a></td>
             </tr>
             <?php endforeach;?>
         </tbody>

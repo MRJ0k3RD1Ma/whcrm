@@ -34,6 +34,7 @@ use yii\widgets\ActiveForm;
         <div class="col-md-2">
             <div class="form-group" style="padding-top:29px;">
                 <?= Html::submitButton('Қидирув', ['class' => 'btn btn-primary']) ?>
+                <?= Html::a('Тозалаш','/cp/sale/kassa', ['class' => 'btn btn-danger']) ?>
             </div>
         </div>
     </div>

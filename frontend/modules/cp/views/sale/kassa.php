@@ -16,52 +16,54 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="order-paid-index">
     <div class="card">
         <div class="card-body">
-        <h4><?= $searchModel->to .' дан '.$searchModel->do .' гача умумий тушум: '.$total?></h4>
-    <?php  echo $this->render('_search_kassa', ['model' => $searchModel]); ?>
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-//        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            <?php  echo $this->render('_search_kassa', ['model' => $searchModel]); ?>
+            <hr>
+            <h4><?= 'Қидирув бўйича умумий тушум: '.intval($total). ' сўм'?></h4>
 
-            [
-                'attribute'=>'order_id',
-                'value'=>function($model){
-                    $url = Yii::$app->urlManager->createUrl(['/cp/order/view','id'=>$model->order_id]);
-                    $order = $model->order;
-                    return Html::a($order->code.'('.date('d.m.Y',strtotime($order->date)).')',$url);
-                },
-                'format'=>'raw',
-                'filter'=>false,
-            ],
-            'name',
-            [
-                'attribute'=>'user_id',
-                'value'=>function($model){
-                    return $model->user->name;
-                },
-                'filter'=>false,
-            ],
-            'note:ntext',
-            'price',
-            'date',
-            [
-                'attribute'=>'payment_id',
-                'value'=>function($model){
-                    return $model->payment->name;
-                },
-                'filter'=>false,
-            ],
-            [
-                'attribute'=>'file',
-                'value'=>function($model){
-                    return $model->file ? Html::a('Чек файли',['/uploads/'.$model->file],['target'=>'_blank']) : 'Мавжуд эмас';
-                },
-                'format'=>'raw',
-            ],
-        ],
-    ]); ?>
+            <?= GridView::widget([
+                'dataProvider' => $dataProvider,
+        //        'filterModel' => $searchModel,
+                'columns' => [
+                    ['class' => 'yii\grid\SerialColumn'],
+
+                    [
+                        'attribute'=>'order_id',
+                        'value'=>function($model){
+                            $url = Yii::$app->urlManager->createUrl(['/cp/order/view','id'=>$model->order_id]);
+                            $order = $model->order;
+                            return Html::a($order->code.'('.date('d.m.Y',strtotime($order->date)).')',$url);
+                        },
+                        'format'=>'raw',
+                        'filter'=>false,
+                    ],
+                    'name',
+                    [
+                        'attribute'=>'user_id',
+                        'value'=>function($model){
+                            return $model->user->name;
+                        },
+                        'filter'=>false,
+                    ],
+                    'note:ntext',
+                    'price:integer',
+                    'date',
+                    [
+                        'attribute'=>'payment_id',
+                        'value'=>function($model){
+                            return $model->payment->name;
+                        },
+                        'filter'=>false,
+                    ],
+                    [
+                        'attribute'=>'file',
+                        'value'=>function($model){
+                            return $model->file ? Html::a('Чек файли',['/uploads/'.$model->file],['target'=>'_blank']) : 'Мавжуд эмас';
+                        },
+                        'format'=>'raw',
+                    ],
+                ],
+            ]); ?>
 
 
         </div>
