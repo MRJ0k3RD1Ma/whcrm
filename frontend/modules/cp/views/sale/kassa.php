@@ -9,15 +9,15 @@ use yii\grid\GridView;
 /** @var yii\web\View $this */
 /** @var common\models\search\OrderPaidSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
-
+/** @var integer $total*/
 $this->title = 'Тўловлар';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="order-paid-index">
     <div class="card">
         <div class="card-body">
-
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+        <h4><?= $searchModel->to .' дан '.$searchModel->do .' гача умумий тушум: '.$total?></h4>
+    <?php  echo $this->render('_search_kassa', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -36,7 +36,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filter'=>false,
             ],
             'name',
-//            'user_id',
             [
                 'attribute'=>'user_id',
                 'value'=>function($model){
@@ -47,7 +46,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'note:ntext',
             'price',
             'date',
-
             [
                 'attribute'=>'payment_id',
                 'value'=>function($model){

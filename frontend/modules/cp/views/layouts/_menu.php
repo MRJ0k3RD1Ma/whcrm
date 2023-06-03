@@ -14,6 +14,9 @@
                         <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2" aria-hidden="true"></i></div>
                     </li>
                     <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="<?= Yii::$app->urlManager->createUrl(['/cp/made'])?>"><i class="fa fa-bar-chart"> </i><span>Ишлаб чиқариш</span></a></li>
+
+                    <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="<?= Yii::$app->urlManager->createUrl(['/cp/sale/kassa'])?>"><i class="fa fa-money"> </i><span>Касса</span></a></li>
+
                     <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#">
                             <i data-feather="box"></i><span class="lan-6">Маҳсулотлар</span></a>
                         <ul class="sidebar-submenu">

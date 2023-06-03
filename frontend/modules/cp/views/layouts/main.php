@@ -22,9 +22,8 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body>
+<body class="dark-only">
 <?php $this->beginBody() ?>
-
 
 <div class="loader-wrapper">
     <div class="loader-index"><span></span></div>
