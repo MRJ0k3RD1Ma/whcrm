@@ -20,9 +20,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="card-body">
                     <p>
                         <?= Html::a('Ўзгартириш', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-                        <button value="<?= Yii::$app->urlManager->createUrl(['/sales/order/paid','id'=>$model->id])?>" class="btn btn-success paid">Тўловни киритиш</button>
-                        <button value="<?= Yii::$app->urlManager->createUrl(['/sales/order/send','id'=>$model->id])?>" class="btn btn-info send">Буюртмани жўнатиш</button>
-                        <a href="<?= Yii::$app->urlManager->createUrl(['/sales/order/check','id'=>$model->id])?>" target="_blank" class="btn btn-secondary">Чекни кўриш</a>
+                        <button value="<?= Yii::$app->urlManager->createUrl(['/cp/order/paid','id'=>$model->id])?>" class="btn btn-success paid">Тўловни киритиш</button>
+                        <button value="<?= Yii::$app->urlManager->createUrl(['/cp/order/send','id'=>$model->id])?>" class="btn btn-info send">Буюртмани жўнатиш</button>
+                        <a href="<?= Yii::$app->urlManager->createUrl(['/cp/order/check','id'=>$model->id])?>" target="_blank" class="btn btn-secondary">Чекни кўриш</a>
                     </p>
 
                     <div class="row">

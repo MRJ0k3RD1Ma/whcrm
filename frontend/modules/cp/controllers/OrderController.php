@@ -12,6 +12,7 @@ use common\models\search\OrderSearch;
 use common\models\Supplier;
 use common\models\Warehouse;
 use common\models\WhProduct;
+use http\Client;
 use Mpdf\Mpdf;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
 use yii\web\Controller;
@@ -88,7 +89,7 @@ class OrderController extends Controller
         $model->delivery_price = 0;
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
-                $code = Order::find()->where(['like','date','%'.date('Y').'%'])->max('code_id');
+                $code = Order::find()->where(['like','date',date('Y')])->max('code_id');
                 if(!$code){
                     $code = 0;
                 }
@@ -142,10 +143,6 @@ class OrderController extends Controller
                     $model->price = OrderProduct::find()->where(['order_id'=>$model->id])->sum('total_price') + $model->delivery_price - $model->discount;
                     $model->price = $model->price - $model->qqs * $model->price / 100;
                     $model->debt = $model->price;
-
-                    // to'lovni qabul qilish va to'lovlarni shakllantirish
-
-
 
                     $model->save();
 
@@ -308,6 +305,22 @@ class OrderController extends Controller
         }
         if(!$price){
             $price = 0;
+        }
+        if(!(Price::find()->where(['product_id'=>$product_id])->orderBy(['id'=>SORT_DESC])->one())){
+            $pr = new Price();
+            $pr->product_id = $product_id;
+            $pr->retail_price = $model->retail_price;
+            $pr->base_price = $model->basic_price;
+            $pr->wholesale_price = $model->wholesale_price;
+            $pr->date = date('Y-m-d');
+            $pr->user_id = Yii::$app->user->id;
+            $iid = Price::find()->where(['product_id'=>$product_id])->max('id');
+            if(!$iid){
+                $iid = 0;
+            }
+            $iid++;
+            $pr->id = $iid;
+            $pr->save();
         }
         $full_price = $model->retail_price * $cnt + $box * $model->box * $model->retail_price;
         return $full_price;

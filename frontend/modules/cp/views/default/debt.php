@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute'=>'debtor',
                 'value'=>function($d){
-                    $url = Yii::$app->urlManager->createUrl(['/sales/order/index','OrderSearch[client_id]'=>$d->id]);
+                    $url = Yii::$app->urlManager->createUrl(['/cp/order/index','OrderSearch[client_id]'=>$d->id]);
                     $debt = intval($d->debtor);
                     return "<a href='$url'>{$debt}</a>";
                 },

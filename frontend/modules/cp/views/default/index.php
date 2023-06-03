@@ -82,7 +82,7 @@
                                     <h5>90%</h5>
                                     <p class="font-roboto">Режага энришилганлик фоизи</p>
                                 </div>
-                                <div class="col-xl-12 p-0 left-btn"><a class="btn btn-gradient" href="<?= Yii::$app->urlManager->createUrl(['/sales/sale'])?>">Батафсил</a></div>
+                                <div class="col-xl-12 p-0 left-btn"><a class="btn btn-gradient" href="<?= Yii::$app->urlManager->createUrl(['/cp/sale'])?>">Батафсил</a></div>
                             </div>
                         </div>
                         <div class="col-xl-9 p-0">

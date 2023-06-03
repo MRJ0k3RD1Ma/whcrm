@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute'=>'order_id',
                 'value'=>function($model){
-                    $url = Yii::$app->urlManager->createUrl(['/sales/order/view','id'=>$model->order_id]);
+                    $url = Yii::$app->urlManager->createUrl(['/cp/order/view','id'=>$model->order_id]);
                     $order = $model->order;
                     return Html::a($order->code.'('.date('d.m.Y',strtotime($order->date)).')',$url);
                 },

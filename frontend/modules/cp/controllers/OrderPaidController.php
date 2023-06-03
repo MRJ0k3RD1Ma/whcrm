@@ -47,6 +47,10 @@ class OrderPaidController extends Controller
         ]);
     }
 
+    public function actionAccept($id,$order_id){
+
+    }
+
     /**
      * Displays a single OrderPaid model.
      * @param int $id ID

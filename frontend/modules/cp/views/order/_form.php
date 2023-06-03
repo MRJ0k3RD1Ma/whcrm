@@ -6,6 +6,10 @@ use yii\widgets\ActiveForm;
 /** @var yii\web\View $this */
 /** @var common\models\order $model */
 /** @var yii\widgets\ActiveForm $form */
+$model->price = intval($model->price);
+$model->discount = intval($model->discount);
+$model->qqs = intval($model->qqs);
+$model->delivery_price = intval($model->delivery_price);
 ?>
 
 <div class="order-form">
@@ -48,26 +52,7 @@ use yii\widgets\ActiveForm;
 
             <?= $form->field($model, 'plan_id')->dropDownList(\yii\helpers\ArrayHelper::map(\common\models\PaymentPlan::find()->all(),'id','name')) ?>
 
-            <div id="plan1" style="display:<?= ($model->plan_id == 1 or $model->plan_id == 2)? 'block' : 'none'?>">
-                <div class="row">
-                    <div class="col-md-6">
-                        <?= $form->field($model,'pay_price')->textInput()?>
-                    </div>
-                    <div class="col-md-6">
-                        <?= $form->field($model,'pay_type')->dropDownList(\yii\helpers\ArrayHelper::map(\common\models\Payment::find()->all(),'id','name'))?>
-                    </div>
-                </div>
-            </div>
-
             <div id="plan3" style="display:<?= $model->plan_id == 3 ? 'block' : 'none'?>">
-                <div class="row">
-                    <div class="col-md-6">
-                        <?= $form->field($model,'pay_price')->textInput()?>
-                    </div>
-                    <div class="col-md-6">
-                        <?= $form->field($model,'pay_type')->dropDownList(\yii\helpers\ArrayHelper::map(\common\models\Payment::find()->all(),'id','name'))?>
-                    </div>
-                </div>
                 <?= $form->field($model,'month')->textInput(['value'=>1])?>
             </div>
 
@@ -195,7 +180,7 @@ $this->registerJs("
         var str = '<div class=\"row\"><div style=\"display: none\"><div class=\"form-group field-order-pro-'+key+'-id\"><label class=\"control-label\" for=\"order-pro-'+key+'-id\">Pro</label><input type=\"text\" id=\"order-pro-'+key+'-id\" class=\"form-control\" name=\"Order[pro]['+key+'][id]\"></div></div><div class=\"col-md-4\"><div class=\"form-group field-order-pro-'+key+'-product_id\"><label class=\"control-label\" for=\"order-pro-'+key+'-product_id\">Маҳсулот</label><select id=\"order-pro-'+key+'-product_id\" class=\"form-control productid\" name=\"Order[pro]['+key+'][product_id]\" onchange=\"productchanger('+key+')\" data-key=\"'+key+'\"></select></div></div><div class=\"col-md-3\"><div class=\"form-group field-order-pro-'+key+'-cnt\"><label class=\"control-label\" for=\"order-pro-'+key+'-cnt\">Умумий сони</label><input type=\"text\" id=\"order-pro-'+key+'-cnt\" class=\"form-control\" name=\"Order[pro]['+key+'][cnt]\" onkeyup=\"pricecalc('+key+')\"></div>                        </div><div class=\"col-md-2\"><div class=\"form-group field-order-pro-'+key+'-price\"><label class=\"control-label\" for=\"order-pro-'+key+'-price\">Нархи</label><input type=\"text\" id=\"order-pro-'+key+'-price\" class=\"form-control\" name=\"Order[pro]['+key+'][price]\" disabled=\"\" onkeyup=\"pricecalc('+key+')\"></div>                        </div><div class=\"col-md-2\"><div class=\"form-group field-order-pro-'+key+'-cnt_price\"><label class=\"control-label\" for=\"order-pro-'+key+'-cnt_price\">Умумий нархи</label><input type=\"text\" id=\"order-pro-'+key+'-cnt_price\" class=\"form-control\" name=\"Order[pro]['+key+'][cnt_price]\" disabled=\"\"></div></div><div class=\"col-md-1\"><button onclick=\"remover('+key+')\" type=\"button\" class=\"btn btn-danger remover\"><span class=\"fa fa-trash\"></span></button></div></div>';        
         $('#products').append(str);
         $.ajax({
-            url: '/sales/order/get-product',
+            url: '/cp/order/get-product',
             type: 'POST',
             success: function(data){
                 $('#order-pro-'+key+'-product_id').html(data);
@@ -214,7 +199,7 @@ $this->registerJs("
 //        });
         
         $.ajax({
-            url: '/sales/order/get-price',
+            url: '/cp/order/get-price',
             type: 'POST',
             data: {product_id:product_id},
             success: function(data){
@@ -231,7 +216,7 @@ $this->registerJs("
             var box = $('#order-pro-'+key+'-box').val();
             var price = $('#order-pro-'+key+'-price').val();
             
-            $.get('/sales/order/get-fullprice',{
+            $.get('/cp/order/get-fullprice',{
                 product_id:$('#order-pro-'+key+'-product_id').val(),
                 box:box,
                 cnt:cnt,

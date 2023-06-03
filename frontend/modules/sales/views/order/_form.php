@@ -6,6 +6,10 @@ use yii\widgets\ActiveForm;
 /** @var yii\web\View $this */
 /** @var common\models\order $model */
 /** @var yii\widgets\ActiveForm $form */
+$model->price = intval($model->price);
+$model->discount = intval($model->discount);
+$model->qqs = intval($model->qqs);
+$model->delivery_price = intval($model->delivery_price);
 ?>
 
 <div class="order-form">
@@ -48,26 +52,7 @@ use yii\widgets\ActiveForm;
 
             <?= $form->field($model, 'plan_id')->dropDownList(\yii\helpers\ArrayHelper::map(\common\models\PaymentPlan::find()->all(),'id','name')) ?>
 
-            <div id="plan1" style="display:<?= ($model->plan_id == 1 or $model->plan_id == 2)? 'block' : 'none'?>">
-                <div class="row">
-                    <div class="col-md-6">
-                        <?= $form->field($model,'pay_price')->textInput()?>
-                    </div>
-                    <div class="col-md-6">
-                        <?= $form->field($model,'pay_type')->dropDownList(\yii\helpers\ArrayHelper::map(\common\models\Payment::find()->all(),'id','name'))?>
-                    </div>
-                </div>
-            </div>
-
             <div id="plan3" style="display:<?= $model->plan_id == 3 ? 'block' : 'none'?>">
-                <div class="row">
-                    <div class="col-md-6">
-                        <?= $form->field($model,'pay_price')->textInput()?>
-                    </div>
-                    <div class="col-md-6">
-                        <?= $form->field($model,'pay_type')->dropDownList(\yii\helpers\ArrayHelper::map(\common\models\Payment::find()->all(),'id','name'))?>
-                    </div>
-                </div>
                 <?= $form->field($model,'month')->textInput(['value'=>1])?>
             </div>
 

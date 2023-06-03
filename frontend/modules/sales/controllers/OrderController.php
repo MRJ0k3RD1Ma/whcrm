@@ -89,7 +89,7 @@ class OrderController extends Controller
         $model->delivery_price = 0;
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
-                $code = Order::find()->where(['like','date','%'.date('Y').'%'])->max('code_id');
+                $code = Order::find()->where(['like','date',date('Y')])->max('code_id');
                 if(!$code){
                     $code = 0;
                 }
@@ -143,10 +143,6 @@ class OrderController extends Controller
                     $model->price = OrderProduct::find()->where(['order_id'=>$model->id])->sum('total_price') + $model->delivery_price - $model->discount;
                     $model->price = $model->price - $model->qqs * $model->price / 100;
                     $model->debt = $model->price;
-
-                    // to'lovni qabul qilish va to'lovlarni shakllantirish
-
-
 
                     $model->save();
 
