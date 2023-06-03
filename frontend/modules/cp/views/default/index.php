@@ -86,60 +86,160 @@
                             </div>
                         </div>
                         <div class="col-xl-9 p-0">
-                            <div class="chart-right">
-                                <div class="row m-0 p-tb">
-                                    <div class="col-xl-12 col-md-12 col-sm-12 col-12 p-0">
-                                        <div class="inner-top-left">
-                                            <ul class="d-flex list-unstyled">
-                                                <li class="disabled"><a href="#">Бугун</a></li>
-                                                <li><a href="#">Ҳафталик</a></li>
-                                                <li><a href="#">Ойлик</a></li>
-                                                <li><a href="#">Йиллик</a></li>
-                                            </ul>
+
+
+                            <ul class="nav nav-tabs border-tab nav-primary" id="info-tab" role="tablist">
+                                <li class="nav-item"><a class="nav-link active" id="info-home-tab" data-bs-toggle="tab" href="#today" role="tab" aria-controls="info-home" aria-selected="true" data-bs-original-title="" title=""><i class="icofont icofont-ui-home"></i>Бугун</a></li>
+                                <li class="nav-item"><a class="nav-link" id="profile-info-tab" data-bs-toggle="tab" href="#week" role="tab" aria-controls="info-profile" aria-selected="false" data-bs-original-title="" title=""><i class="icofont icofont-man-in-glasses"></i>Ҳафталик</a></li>
+                                <li class="nav-item"><a class="nav-link" id="contact-info-tab" data-bs-toggle="tab" href="#month" role="tab" aria-controls="info-contact" aria-selected="false" data-bs-original-title="" title=""><i class="icofont icofont-contacts"></i>Ойлик</a></li>
+                                <li class="nav-item"><a class="nav-link" id="contact-info-tab" data-bs-toggle="tab" href="#year" role="tab" aria-controls="info-contact" aria-selected="false" data-bs-original-title="" title=""><i class="icofont icofont-contacts"></i>Ойлик</a></li>
+                            </ul>
+
+                            <div class="tab-content" id="info-tabContent">
+                                <div class="tab-pane fade active show" id="today" role="tabpanel" aria-labelledby="info-home-tab">
+                                    <div class="row border-top m-0">
+                                        <div class="col-xl-6 ps-0 col-md-6 col-sm-6">
+                                            <div class="media p-0">
+                                                <div class="media-left bg-success"><i class="icofont icofont-check-alt"></i></div>
+                                                <div class="media-body">
+                                                    <h6>Тўловлар</h6>
+                                                    <p><?= intval(\common\models\OrderPaid::find()->where('date like "%'.date('Y-m-').'%"')->sum('price'))?> сўм</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-md-6 col-sm-6">
+                                            <div class="media p-0">
+                                                <div class="media-left bg-warning"><i class="icofont icofont-credit-card text-dark"></i></div>
+                                                <div class="media-body">
+                                                    <h6>Харажатлар</h6>
+                                                    <p>0 сўм</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row border-top m-0">
+
+                                        <div class="col-xl-6 col-md-12 pe-0">
+                                            <div class="media p-0">
+                                                <div class="media-left bg-danger"><i class="icofont icofont-warning"></i></div>
+                                                <div class="media-body">
+                                                    <h6>Муддати ўтган тўловлар</h6>
+                                                    <p>0 сўм</p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="tab-pane fade" id="week" role="tabpanel" aria-labelledby="info-home-tab">
+                                    <div class="row border-top m-0">
+                                        <div class="col-xl-6 ps-0 col-md-6 col-sm-6">
+                                            <div class="media p-0">
+                                                <div class="media-left bg-success"><i class="icofont icofont-check-alt"></i></div>
+                                                <div class="media-body">
+                                                    <h6>Тўловлар</h6>
+                                                    <p><?= intval(\common\models\OrderPaid::find()->where('DATE(date) > (NOW() - INTERVAL 7 DAY)')->sum('price'))?> сўм</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-md-6 col-sm-6">
+                                            <div class="media p-0">
+                                                <div class="media-left bg-warning"><i class="icofont icofont-credit-card text-dark"></i></div>
+                                                <div class="media-body">
+                                                    <h6>Харажатлар</h6>
+                                                    <p>0 сўм</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row border-top m-0">
+
+                                        <div class="col-xl-6 col-md-12 pe-0">
+                                            <div class="media p-0">
+                                                <div class="media-left bg-danger"><i class="icofont icofont-warning"></i></div>
+                                                <div class="media-body">
+                                                    <h6>Муддати ўтган тўловлар</h6>
+                                                    <p>0 сўм</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane fade" id="month" role="tabpanel" aria-labelledby="info-home-tab">
+                                    <div class="row border-top m-0">
+                                        <div class="col-xl-6 ps-0 col-md-6 col-sm-6">
+                                            <div class="media p-0">
+                                                <div class="media-left bg-success"><i class="icofont icofont-check-alt"></i></div>
+                                                <div class="media-body">
+                                                    <h6>Тўловлар</h6>
+                                                    <p><?= intval(\common\models\OrderPaid::find()->where('DATE(date) > (NOW() - INTERVAL 1 MONTH)')->sum('price'))?> сўм</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-md-6 col-sm-6">
+                                            <div class="media p-0">
+                                                <div class="media-left bg-warning"><i class="icofont icofont-credit-card text-dark"></i></div>
+                                                <div class="media-body">
+                                                    <h6>Харажатлар</h6>
+                                                    <p>0 сўм</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row border-top m-0">
+
+                                        <div class="col-xl-6 col-md-12 pe-0">
+                                            <div class="media p-0">
+                                                <div class="media-left bg-danger"><i class="icofont icofont-warning"></i></div>
+                                                <div class="media-body">
+                                                    <h6>Муддати ўтган тўловлар</h6>
+                                                    <p>0 сўм</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane fade" id="year" role="tabpanel" aria-labelledby="info-home-tab">
+                                    <div class="row border-top m-0">
+                                        <div class="col-xl-6 ps-0 col-md-6 col-sm-6">
+                                            <div class="media p-0">
+                                                <div class="media-left bg-success"><i class="icofont icofont-check-alt"></i></div>
+                                                <div class="media-body">
+                                                    <h6>Тўловлар</h6>
+                                                    <p><?= intval(\common\models\OrderPaid::find()->where('DATE(date) > (NOW() - INTERVAL 1 YEAR)')->sum('price'))?> сўм</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-md-6 col-sm-6">
+                                            <div class="media p-0">
+                                                <div class="media-left bg-warning"><i class="icofont icofont-credit-card text-dark"></i></div>
+                                                <div class="media-body">
+                                                    <h6>Харажатлар</h6>
+                                                    <p>0 сўм</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row border-top m-0">
+
+                                        <div class="col-xl-6 col-md-12 pe-0">
+                                            <div class="media p-0">
+                                                <div class="media-left bg-danger"><i class="icofont icofont-warning"></i></div>
+                                                <div class="media-body">
+                                                    <h6>Муддати ўтган тўловлар</h6>
+                                                    <p>0 сўм</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
                             </div>
-                            <div class="row border-top m-0">
-                                <div class="col-xl-6 ps-0 col-md-6 col-sm-6">
-                                    <div class="media p-0">
-                                        <div class="media-left bg-success"><i class="icofont icofont-check-alt"></i></div>
-                                        <div class="media-body">
-                                            <h6>Тасдиқланган тўловлар</h6>
-                                            <p><?= intval(\common\models\OrderPaid::find()->where('date like "%'.date('Y-m-').'%"')->andWhere(['status_id'=>3])->sum('price'))?> сўм</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-6 col-md-6 col-sm-6">
-                                    <div class="media p-0">
-                                        <div class="media-left bg-warning"><i class="icofont icofont-credit-card text-dark"></i></div>
-                                        <div class="media-body">
-                                            <h6>Тасдиқланмаган тўловлар</h6>
-                                            <p><?= intval(\common\models\OrderPaid::find()->where('date like "%'.date('Y-m-').'%"')->andWhere('status_id in (1,2)')->sum('price'))?> сўм</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row border-top m-0" style="border-top:0 solid !important;">
-                                <div class="col-xl-6 col-md-12 pe-0">
-                                    <div class="media p-0">
-                                        <div class="media-left"><i class="icofont icofont-cur-dollar-plus"></i></div>
-                                        <div class="media-body">
-                                            <h6>Кутилаётган тўловлар</h6>
-                                            <p>0 сўм</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-6 col-md-12 pe-0">
-                                    <div class="media p-0">
-                                        <div class="media-left bg-danger"><i class="icofont icofont-warning"></i></div>
-                                        <div class="media-body">
-                                            <h6>Муддати ўтган тўловлар</h6>
-                                            <p>0 сўм</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -388,8 +488,8 @@
 
 $this->registerJsFile('/cuba/assets/js/chart/chartist/chartist.js');
 $this->registerJsFile('/cuba/assets/js/chart/chartist/chartist-plugin-tooltip.js');
-$this->registerJsFile('/cuba/assets/js/chart/knob/knob.min.js');
-$this->registerJsFile('/cuba/assets/js/chart/knob/knob-chart.js');
+//$this->registerJsFile('/cuba/assets/js/chart/knob/knob.min.js');
+//$this->registerJsFile('/cuba/assets/js/chart/knob/knob-chart.js');
 $this->registerJsFile('/cuba/assets/js/chart/apex-chart/apex-chart.js');
 
 $this->registerJsFile('/cuba/assets/js/chart/apex-chart/stock-prices.js');

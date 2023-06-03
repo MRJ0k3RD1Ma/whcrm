@@ -1,9 +1,10 @@
 <?php
 
-namespace frontend\modules\sales\controllers;
+namespace frontend\modules\sale\controllers;
 
 use common\models\Order;
 use common\models\OrderPaid;
+use common\models\search\OrderPaidSearch;
 use common\models\search\OrderSearch;
 use yii\web\Controller;
 
@@ -43,5 +44,18 @@ class SaleController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+    public function actionKassa(){
+
+        $searchModel = new OrderPaidSearch();
+        $dataProvider = $searchModel->searchKassa($this->request->queryParams);
+        $total = $searchModel->searchKassa($this->request->queryParams)->query->sum('price');
+        return $this->render('kassa', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'total'=>$total
+        ]);
+
     }
 }

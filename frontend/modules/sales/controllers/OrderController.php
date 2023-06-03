@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\modules\sales\controllers;
+namespace frontend\modules\sale\controllers;
 
 use common\models\CLegal;
 use common\models\Order;
@@ -242,7 +242,7 @@ class OrderController extends Controller
     public function actionPaid($id){
         $model = new OrderPaid();
         $model->order_id = $id;
-        $model->status_id = 1;
+        $model->status_id = 3;
         $model->user_id = Yii::$app->user->id;
         $model->date = date('Y-m-d');
         $ii = OrderPaid::find()->where(['order_id'=>$id])->max('id');
@@ -252,9 +252,12 @@ class OrderController extends Controller
         $ii++;
         $model->id = $ii;
 
-
         if($model->load($this->request->post())){
             if($model->save()){
+                $order = Order::findOne($id);
+                $order->debt -= $model->price;
+                $order->save();
+
                 Yii::$app->session->setFlash('success','Тўлов муваффақиятли сақланди');
             }else{
                 Yii::$app->session->setFlash('error','Тўловнинг майдонлари тўлиқ тўлдирилмаган');
@@ -293,6 +296,18 @@ class OrderController extends Controller
             $res .= "<option value='{$item->id}'>{$item->name}</option>";
         }
         return $res;
+    }
+
+    public function actionDeletePaid($id,$order_id){
+        if($model = OrderPaid::findOne(['id'=>$id,'order_id'=>$order_id])){
+            $order = Order::findOne($order_id);
+            $order->debt += $model->price;
+            $order->save();
+            $model->delete();
+        }else{
+            Yii::$app->session->setFlash('error','Тўлов маълумотлари топилмади');
+        }
+        return $this->redirect(['view','id'=>$order_id]);
     }
 
     public function actionGetFullprice($product_id,$cnt=0,$box=0,$price=0){

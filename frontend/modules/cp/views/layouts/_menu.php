@@ -55,10 +55,9 @@
                     <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#">
                             <i data-feather="dollar-sign"></i><span class="lan-6">Харажатлар</span></a>
                         <ul class="sidebar-submenu">
-                            <li><a href="#">Маҳсулот харажатномаси</a></li>
+                            <li><a href="#">Маҳсулот харажатлари</a></li>
                             <li><a href="#">Ойлик маошлар</a></li>
                             <li><a href="#">Бошқа харажатлар</a></li>
-                            <li><a href="#">Кирим/чиқим статистикаси</a></li>
                         </ul>
                     </li>
 
