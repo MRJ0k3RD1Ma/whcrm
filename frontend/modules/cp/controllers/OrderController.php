@@ -308,9 +308,7 @@ class OrderController extends Controller
             Yii::$app->session->setFlash('error','Тўлов маълумотлари топилмади');
         }
         return $this->redirect(['view','id'=>$order_id]);
-
     }
-
 
     public function actionGetFullprice($product_id,$cnt=0,$box=0,$price=0){
         $model = Product::findOne($product_id);
