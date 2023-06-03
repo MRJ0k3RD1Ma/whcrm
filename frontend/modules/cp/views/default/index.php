@@ -89,10 +89,10 @@
 
 
                             <ul class="nav nav-tabs border-tab nav-primary" id="info-tab" role="tablist">
-                                <li class="nav-item"><a class="nav-link active" id="info-home-tab" data-bs-toggle="tab" href="#today" role="tab" aria-controls="info-home" aria-selected="true" data-bs-original-title="" title=""><i class="icofont icofont-ui-home"></i>Бугун</a></li>
-                                <li class="nav-item"><a class="nav-link" id="profile-info-tab" data-bs-toggle="tab" href="#week" role="tab" aria-controls="info-profile" aria-selected="false" data-bs-original-title="" title=""><i class="icofont icofont-man-in-glasses"></i>Ҳафталик</a></li>
-                                <li class="nav-item"><a class="nav-link" id="contact-info-tab" data-bs-toggle="tab" href="#month" role="tab" aria-controls="info-contact" aria-selected="false" data-bs-original-title="" title=""><i class="icofont icofont-contacts"></i>Ойлик</a></li>
-                                <li class="nav-item"><a class="nav-link" id="contact-info-tab" data-bs-toggle="tab" href="#year" role="tab" aria-controls="info-contact" aria-selected="false" data-bs-original-title="" title=""><i class="icofont icofont-contacts"></i>Ойлик</a></li>
+                                <li class="nav-item"><a class="nav-link active" id="info-home-tab" data-bs-toggle="tab" href="#today" role="tab" aria-controls="info-home" aria-selected="true" data-bs-original-title="" title=""><i class="fa fa-calendar"></i>Бугун</a></li>
+                                <li class="nav-item"><a class="nav-link" id="profile-info-tab" data-bs-toggle="tab" href="#week" role="tab" aria-controls="info-profile" aria-selected="false" data-bs-original-title="" title=""><i class="fa fa-calendar"></i>Ҳафталик</a></li>
+                                <li class="nav-item"><a class="nav-link" id="contact-info-tab" data-bs-toggle="tab" href="#month" role="tab" aria-controls="info-contact" aria-selected="false" data-bs-original-title="" title=""><i class="fa fa-calendar"></i>Ойлик</a></li>
+                                <li class="nav-item"><a class="nav-link" id="contact-info-tab" data-bs-toggle="tab" href="#year" role="tab" aria-controls="info-contact" aria-selected="false" data-bs-original-title="" title=""><i class="fa fa-calendar"></i>Ойлик</a></li>
                             </ul>
 
                             <div class="tab-content" id="info-tabContent">
