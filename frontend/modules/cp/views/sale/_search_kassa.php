@@ -33,8 +33,8 @@ use yii\widgets\ActiveForm;
         </div>
         <div class="col-md-2">
             <div class="form-group" style="padding-top:29px;">
-                <?= Html::submitButton('Қидирув', ['class' => 'btn btn-primary']) ?>
-                <?= Html::a('Тозалаш','/cp/sale/kassa', ['class' => 'btn btn-danger']) ?>
+                <?= Html::submitButton('<span class="fa fa-search"></span>', ['class' => 'btn btn-primary']) ?>
+                <?= Html::a('<span class="fa fa-paint-brush"></span>','/cp/sale/kassa', ['class' => 'btn btn-danger']) ?>
             </div>
         </div>
     </div>
