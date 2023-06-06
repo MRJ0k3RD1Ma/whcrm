@@ -15,7 +15,16 @@
                     </li>
                     <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="<?= Yii::$app->urlManager->createUrl(['/cp/made'])?>"><i class="fa fa-bar-chart"> </i><span>Ишлаб чиқариш</span></a></li>
 
-                    <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="<?= Yii::$app->urlManager->createUrl(['/cp/sale/kassa'])?>"><i class="fa fa-money"> </i><span>Касса</span></a></li>
+
+                    <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#">
+                            <i class="fa fa-money"></i><span class="lan-6">Касса</span></a>
+                        <ul class="sidebar-submenu">
+                            <li><a href="<?= Yii::$app->urlManager->createUrl(['/cp/sale/kassa'])?>">Тўловлар</a></li>
+                            <li><a href="#">Етказиб берувчиларга</a></li>
+                            <li><a href="<?= Yii::$app->urlManager->createUrl(['/cp/expense'])?>">Харажатлар</a></li>
+                        </ul>
+                    </li>
+
 
                     <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#">
                             <i data-feather="box"></i><span class="lan-6">Маҳсулотлар</span></a>
@@ -70,7 +79,13 @@
                         </ul>
                     </li>
 
-                    <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="<?= Yii::$app->urlManager->createUrl(['/cp/bank'])?>"><i class="fa fa-bank"> </i><span>Банклар</span></a></li>
+                    <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#">
+                            <i data-feather="grid"></i><span class="lan-6">Маълумотнома</span></a>
+                        <ul class="sidebar-submenu">
+                            <li><a href="<?= Yii::$app->urlManager->createUrl(['/cp/bank'])?>">Банклар</a></li>
+                            <li><a href="<?= Yii::$app->urlManager->createUrl(['/cp/expense-type'])?>">Бошқа харажат турлари</a></li>
+                        </ul>
+                    </li>
 
                     <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="<?= Yii::$app->urlManager->createUrl(['/cp/user'])?>"><i data-feather="users"> </i><span>Фойдаланувчилар</span></a></li>
 
