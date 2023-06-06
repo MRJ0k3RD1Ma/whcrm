@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 03, 2023 at 08:32 PM
+-- Generation Time: Jun 06, 2023 at 10:05 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 7.4.30
 
@@ -1325,6 +1325,42 @@ INSERT INTO `deliverable` (`product_id`, `supplier_id`, `retail_price`, `wholesa
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `expense`
+--
+
+CREATE TABLE `expense` (
+  `id` int(11) NOT NULL,
+  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `type_id` int(11) DEFAULT NULL,
+  `payment_id` int(11) DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  `price` decimal(50,5) DEFAULT NULL,
+  `note` text DEFAULT NULL,
+  `created` datetime DEFAULT current_timestamp(),
+  `updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `expense_type`
+--
+
+CREATE TABLE `expense_type` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `expense_type`
+--
+
+INSERT INTO `expense_type` (`id`, `name`) VALUES
+(1, 'Ойлик');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `made`
 --
 
@@ -2033,6 +2069,21 @@ ALTER TABLE `deliverable`
   ADD KEY `FK_deliverable_product_id` (`product_id`);
 
 --
+-- Indexes for table `expense`
+--
+ALTER TABLE `expense`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_expense_user_id` (`user_id`),
+  ADD KEY `FK_expense_type_id` (`type_id`),
+  ADD KEY `FK_expense_payment_id` (`payment_id`);
+
+--
+-- Indexes for table `expense_type`
+--
+ALTER TABLE `expense_type`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `made`
 --
 ALTER TABLE `made`
@@ -2250,6 +2301,18 @@ ALTER TABLE `c_type`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `expense`
+--
+ALTER TABLE `expense`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `expense_type`
+--
+ALTER TABLE `expense_type`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `order`
 --
 ALTER TABLE `order`
@@ -2375,6 +2438,14 @@ ALTER TABLE `c_legal`
 ALTER TABLE `deliverable`
   ADD CONSTRAINT `FK_deliverable_product_id` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `FK_deliverable_supplier_id` FOREIGN KEY (`supplier_id`) REFERENCES `supplier` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `expense`
+--
+ALTER TABLE `expense`
+  ADD CONSTRAINT `FK_expense_payment_id` FOREIGN KEY (`payment_id`) REFERENCES `payment` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `FK_expense_type_id` FOREIGN KEY (`type_id`) REFERENCES `expense_type` (`id`) ON DELETE NO ACTION,
+  ADD CONSTRAINT `FK_expense_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `made`
